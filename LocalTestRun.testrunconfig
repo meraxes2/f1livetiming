@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRunConfiguration name="Local Test Run" id="2ba0edca-c3e0-49bd-8382-a036c6ec5ba1" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <Description>This is a default test run configuration for a local test run.</Description>
+  <CodeCoverage enabled="true">
+    <Regular>
+      <CodeCoverageItem binaryFile="F1\bin\Debug\F1.dll" pdbFile="F1\bin\Debug\F1.pdb" instrumentInPlace="true" />
+    </Regular>
+  </CodeCoverage>
+  <Deployment>
+    <DeploymentItem filename="Test\bin\Debug\logging.config" />
+  </Deployment>
+  <TestTypeSpecific />
+</TestRunConfiguration>

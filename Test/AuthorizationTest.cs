@@ -28,8 +28,8 @@ namespace Test
         [TestMethod]
         public void TestGetAuthKey()
         {
-            const string username = "liam@turnitin.co.uk";
-            const string password = "fu3zz1bb1dx8";
+            const string username = "Enter your username here";
+            const string password = "Enter your password here";
 
             AuthorizationKey authKey = new AuthorizationKey(username, password);
 

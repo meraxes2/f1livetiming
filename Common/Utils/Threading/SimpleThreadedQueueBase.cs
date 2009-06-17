@@ -85,7 +85,7 @@ namespace Common.Utils.Threading
         /// Reference to the internal command queue for adding new commands to for
         /// be processed by this thread.
         /// </summary>
-        public CommandQueue CmdQueue { get { return _cmdQueue;  } }
+        protected CommandQueue CmdQueue { get { return _cmdQueue;  } }
 
 
         /// <summary>

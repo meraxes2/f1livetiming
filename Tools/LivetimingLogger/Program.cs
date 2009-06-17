@@ -20,6 +20,7 @@
 using System;
 using System.Configuration;
 using F1;
+using F1.Configuration;
 using F1.Messages;
 using F1.Exceptions;
 using log4net;
@@ -54,21 +55,24 @@ namespace LivetimingLogger
             {
                 Log.Error("Failed to connect to live timing server. Exiting.");
             }
+            catch(ConfigurationErrorsException e)
+            {
+               Log.Error("There was an reading the config file: " + e.Message);
+            }
         }
 
         public Program()
         {
             Console.CancelKeyPress += ConsoleCancelKeyPress;
 
-            string username = ConfigurationManager.AppSettings["Username"];
-            string password = ConfigurationManager.AppSettings["Password"];
+            AuthSection auth = ConfigurationManager.GetSection("authSection") as AuthSection;
 
-            if( username.ToLower().Contains("blank for source control") || password.ToLower().Contains("blank for source control") )
+            if( auth == null || String.IsNullOrEmpty(auth.UserName) || String.IsNullOrEmpty(auth.Password) )
             {
-                Log.Error("You have not configured the application with a username and or password.");
+                throw new AuthorizationException("Invalid authSection in configuration file", null);
             }
 
-            _lt = new LiveTiming(username, password, false);
+            _lt = new LiveTiming(auth.UserName, auth.Password, false);
 
             _lt.CarMessageHandler += MessageHandler;
             _lt.SystemMessageHandler += MessageHandler;

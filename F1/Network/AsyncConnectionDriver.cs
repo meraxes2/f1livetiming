@@ -149,10 +149,13 @@ namespace F1.Network
                 _memStream.Seek(0, SeekOrigin.End);
             }
 
+
+            //  Push new data onto the end of our stream.
             _memStream.Write(blob, 0, dataLength);
 
 
-            //  Restore the read head position after the write.
+            //  Restore the read head position after the write so that the reads
+            // start from the correct position.
             _memStream.Seek(oldPosition, SeekOrigin.Begin);
 
 
@@ -178,19 +181,18 @@ namespace F1.Network
         {
             int data = _incoming.EndReceive(res);
 
+            byte[] blob = res.AsyncState as byte[];
+
             if (data > 0)
             {
-                //  Queue up next read with new blob
-                CmdQueue.Push(CommandFactory.MakeCommand(DoNextRead, new byte[BLOB_SIZE]));
-
                 //  We received data so push it back onto the queue for processing
-                CmdQueue.Push(CommandFactory.MakeCommand(DoProcessData, res.AsyncState as byte[], data));
+                CmdQueue.Push(CommandFactory.MakeCommand(DoProcessData, blob, data));
             }
-            else
-            {
-                //  Queue up next read using existing blob (helps memory fragmentation).
-                CmdQueue.Push(CommandFactory.MakeCommand(DoNextRead, res.AsyncState as byte[]));
-            }
+            
+
+            //  Queue up next read with new blob (assume that processing of data happens
+            // prior to queueing the next read so we can recycle the blob).
+            CmdQueue.Push(CommandFactory.MakeCommand(DoNextRead, blob));
         }
 
         #endregion
@@ -215,7 +217,10 @@ namespace F1.Network
         public void Terminate()
         {
             _log.Warn("Terminate() - Exiting AsyncConnection.");
-            Stop(JoinMethod.DontJoin, true); // don't join because we maybe calling back from our own thread.
+
+            // don't join because we maybe calling back from our own thread.
+            // discard messages so we don't queue new socket requests after calling Dispose.
+            Stop(JoinMethod.DontJoin, true); 
         }
 
         public void UpdateCurrentFrame(int currentFrame)

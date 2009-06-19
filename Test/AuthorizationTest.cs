@@ -17,6 +17,9 @@
  *  limitations under the License. 
  */
 
+using System;
+using System.Configuration;
+using F1.Configuration;
 using F1.Protocol;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,13 +28,35 @@ namespace Test
     [TestClass]
     public class AuthorizationTest : UnitTestBase
     {
+        private string Username { get; set; }
+        private string Password { get; set; }
+
+
+        public override void OnSetup()
+        {
+            // This unit test relies on the user configuration
+            AuthData d = AuthData.Load("..\\..\\..\\auth.config");
+
+            if( d != null )
+            {
+                Username = d.Username;
+                Password = d.Password;
+            }
+        }
+
+        
+
         [TestMethod]
         public void TestGetAuthKey()
         {
-            const string username = "Enter your username here";
-            const string password = "Enter your password here";
+            if(String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(Password))
+            {
+                Assert.Fail("You must configure the auth.config file in sandbox root for this unit test.");
+                return;
+            }
 
-            AuthorizationKey authKey = new AuthorizationKey(username, password);
+
+            AuthorizationKey authKey = new AuthorizationKey(Username, Password);
 
             {
                 const string session = "6630"; // 0xF3C3476F

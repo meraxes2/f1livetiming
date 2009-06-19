@@ -19,6 +19,7 @@
 
 using System;
 using System.Configuration;
+using System.IO;
 using F1;
 using F1.Configuration;
 using F1.Messages;
@@ -65,14 +66,36 @@ namespace LivetimingLogger
         {
             Console.CancelKeyPress += ConsoleCancelKeyPress;
 
+            string username = string.Empty, password = string.Empty;
+
             AuthSection auth = ConfigurationManager.GetSection("authSection") as AuthSection;
 
             if( auth == null || String.IsNullOrEmpty(auth.UserName) || String.IsNullOrEmpty(auth.Password) )
             {
-                throw new AuthorizationException("Invalid authSection in configuration file", null);
+                const string AUTHPATH = "..\\..\\..\\..\\auth.config";
+
+                // Try the user auth.config file in the sandbox root (this tool is obviously incorrect if not running near the source code)
+                if( File.Exists(AUTHPATH) )
+                {
+                    AuthData d = AuthData.Load(AUTHPATH);
+                    if( d != null )
+                    {
+                        username = d.Username;
+                        password = d.Password;
+                    }
+                }
+                else
+                {
+                    throw new AuthorizationException("Invalid authSection in configuration file", null);    
+                }
+            }
+            else
+            {
+                username = auth.UserName;
+                password = auth.Password;
             }
 
-            _lt = new LiveTiming(auth.UserName, auth.Password, false);
+            _lt = new LiveTiming(username, password, false);
 
             _lt.CarMessageHandler += MessageHandler;
             _lt.SystemMessageHandler += MessageHandler;

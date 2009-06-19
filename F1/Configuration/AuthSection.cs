@@ -14,7 +14,6 @@ namespace F1.Configuration
         }
 
         [ConfigurationProperty("userName", IsRequired=true)]
-        //[RegexStringValidator(@".+@.+\..+")] // simple email validation
         public string UserName
         {
             get
@@ -25,7 +24,6 @@ namespace F1.Configuration
 
 
         [ConfigurationProperty("password", IsRequired=true)]
-        //[StringValidator(MinLength=4)]
         public string Password
         {
             get

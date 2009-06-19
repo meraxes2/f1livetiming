@@ -1,0 +1,4 @@
+Unit Tests
+----------
+
+Copy file "Copy me to auth.config" to "auth.config" in the sandbox root, and populate the username and password fields with your LiveTiming accounts from formula1.com

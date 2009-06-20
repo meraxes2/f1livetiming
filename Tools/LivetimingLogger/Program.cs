@@ -37,7 +37,7 @@ namespace LivetimingLogger
     /// </summary>
     class Program
     {
-        private readonly LiveTiming  _lt;
+        private readonly ILiveTimingApp _lt;
         private static readonly ILog Log = LogManager.GetLogger("Program");
 
         static void Main()
@@ -66,39 +66,57 @@ namespace LivetimingLogger
         {
             Console.CancelKeyPress += ConsoleCancelKeyPress;
 
-            string username = string.Empty, password = string.Empty;
+            bool runLive = !bool.Parse(ConfigurationManager.AppSettings["RunSimulator"]);
+
+            if (runLive)
+            {
+                AuthData conf = GetConfig();
+
+                _lt = new LiveTiming(conf.Username, conf.Password, false);
+            }
+            else
+            {
+                _lt = new LiveTimingSimulator(ConfigurationManager.AppSettings["SimKeyFramePath"],
+                                              ConfigurationManager.AppSettings["SimLiveCap"],
+                                              string.Empty, // don't want to use live server
+                                              string.Empty,
+                                              ConfigurationManager.AppSettings["SimAuthFile"],
+                                              false);
+            }
+
+            _lt.CarMessageHandler += MessageHandler;
+            _lt.SystemMessageHandler += MessageHandler;
+        }
+
+
+        private static AuthData GetConfig()
+        {
+            AuthData conf;
 
             AuthSection auth = ConfigurationManager.GetSection("authSection") as AuthSection;
 
-            if( auth == null || String.IsNullOrEmpty(auth.UserName) || String.IsNullOrEmpty(auth.Password) )
+            if (auth == null || String.IsNullOrEmpty(auth.UserName) || String.IsNullOrEmpty(auth.Password))
             {
-                const string AUTHPATH = "..\\..\\..\\..\\auth.config";
-
                 // Try the user auth.config file in the sandbox root (this tool is obviously incorrect if not running near the source code)
-                if( File.Exists(AUTHPATH) )
+                if (File.Exists(ConfigurationManager.AppSettings["AlternativeAuthConf"]))
                 {
-                    AuthData d = AuthData.Load(AUTHPATH);
-                    if( d != null )
-                    {
-                        username = d.Username;
-                        password = d.Password;
-                    }
+                    conf = AuthData.Load(ConfigurationManager.AppSettings["AlternativeAuthConf"]);
                 }
                 else
                 {
-                    throw new AuthorizationException("Invalid authSection in configuration file", null);    
+                    throw new AuthorizationException("Invalid authSection in configuration file", null);
                 }
             }
             else
             {
-                username = auth.UserName;
-                password = auth.Password;
+                conf = new AuthData()
+                           {
+                               Username = auth.UserName,
+                               Password = auth.Password
+                           };
             }
 
-            _lt = new LiveTiming(username, password, false);
-
-            _lt.CarMessageHandler += MessageHandler;
-            _lt.SystemMessageHandler += MessageHandler;
+            return conf;
         }
 
 

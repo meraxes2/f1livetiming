@@ -24,7 +24,7 @@ namespace F1
 {
     public delegate void LiveTimingMessageHandlerDelegate(IMessage msg);
 
-    interface ILiveTimingApp : IDisposable
+    public interface ILiveTimingApp : IDisposable
     {
         event LiveTimingMessageHandlerDelegate SystemMessageHandler;
         event LiveTimingMessageHandlerDelegate CarMessageHandler;

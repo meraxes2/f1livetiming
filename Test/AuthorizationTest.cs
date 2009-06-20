@@ -18,9 +18,9 @@
  */
 
 using System;
-using System.Configuration;
 using F1.Configuration;
 using F1.Protocol;
+using F1.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test
@@ -56,8 +56,23 @@ namespace Test
             }
 
 
-            AuthorizationKey authKey = new AuthorizationKey(Username, Password);
+            var authKey = new F1.Protocol.AuthorizationKey(Username, Password);
 
+            DoTests(authKey);
+        }
+
+
+        [TestMethod]
+        public void TestSimGetAuthKey()
+        {
+            var authKey = new F1.Simulator.AuthorizationKey("..\\..\\..\\Session Keys.txt");
+
+            DoTests(authKey);
+        }
+
+
+        private void DoTests(IAuthKey authKey)
+        {
             {
                 const string session = "6630"; // 0xF3C3476F
 

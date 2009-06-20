@@ -17,22 +17,56 @@
  *  limitations under the License. 
  */
 
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using F1.Runtime;
 
 namespace F1.Simulator
 {
     public class AuthorizationKey : IAuthKey
     {
+        private readonly Dictionary<string, uint> _keyLookup = new Dictionary<string, uint>();
         private readonly uint _key;
+
+        public AuthorizationKey(string keyPath)
+        {
+            ParseFile(keyPath);
+        }
+
 
         public AuthorizationKey(uint key)
         {
             _key = key;
         }
 
+
         public uint GetKey(string session)
         {
+            if( _keyLookup.ContainsKey(session) )
+            {
+                return _keyLookup[session];
+            }
             return _key;
+        }
+
+
+        private void ParseFile(string keyPath)
+        {
+            using( FileStream s = File.OpenRead(keyPath))
+            {
+                using(TextReader t = new StreamReader(s))
+                {
+                    for( string nextLine = t.ReadLine(); !string.IsNullOrEmpty(nextLine); nextLine = t.ReadLine())
+                    {
+                        string[] split = nextLine.Split('=');
+                        string[] value = split[1].Split('x');
+
+                        
+                        _keyLookup[split[0].Trim()] = uint.Parse(value[1], NumberStyles.HexNumber);
+                    }
+                }
+            }
         }
     }
 }

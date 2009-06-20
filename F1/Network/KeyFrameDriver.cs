@@ -34,7 +34,7 @@ namespace F1.Network
         
         private readonly IKeyFrame _provider;
         private readonly Runtime.Runtime _runtime;
-        private int _currentFrameNumber = 0;
+        private int _currentFrameNumber;
         private readonly object _frameNumberLock = new object();
 
 
@@ -45,7 +45,7 @@ namespace F1.Network
             _runtime.Driver = this;
             _provider = provider;
 
-            base.Start();
+            Start();
         }
 
 

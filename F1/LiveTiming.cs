@@ -77,7 +77,7 @@ namespace F1
         }
 
 
-        public void  Dispose()
+        public void Dispose()
         {
             Stop(JoinMethod.Join, false);
             _connection.Dispose();

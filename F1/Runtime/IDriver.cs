@@ -41,9 +41,9 @@ namespace F1.Runtime
         void Terminate();
         
         /// <summary>
-        /// Updates the driver with the latest known frame number.
+        /// Updates the driver with the latest known keyframe number.
         /// </summary>
         /// <param name="currentFrame"></param>
-        void UpdateCurrentFrame(int currentFrame);
+        void UpdateCurrentKeyFrame(int currentFrame);
     }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  f1livetiming - Part of the Live Timing Library for .NET
  *  Copyright (C) 2009 Liam Lowey
  *  
@@ -78,7 +78,7 @@ namespace Test
             {
             }
 
-            public void UpdateCurrentFrame(int k)
+            public void UpdateCurrentKeyFrame(int k)
             {
             }
 

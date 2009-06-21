@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  f1livetiming - Part of the Live Timing Library for .NET
  *  Copyright (C) 2009 Liam Lowey
  *  
@@ -94,7 +94,7 @@ namespace F1.Network
             }
         }
 
-        public void UpdateCurrentFrame(int currentFrame)
+        public void UpdateCurrentKeyFrame(int currentFrame)
         {
             lock(_frameNumberLock)
             {

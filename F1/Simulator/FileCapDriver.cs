@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using Common.Utils.Threading;
@@ -105,7 +105,7 @@ namespace F1.Simulator
             Stop(JoinMethod.DontJoin);
         }
 
-        public void UpdateCurrentFrame(int currentFrame)
+        public void UpdateCurrentKeyFrame(int currentFrame)
         {
 
         }

@@ -101,7 +101,7 @@ namespace F1.Runtime
             switch(msg.Type)
             {
                 case SystemPacketType.EventId:
-                    InitStreamDecryptor(msg as EventId);
+                    InitNewEvent(msg as EventId);
                     break;
                 case SystemPacketType.KeyFrame:
                     dispatch = false;
@@ -129,13 +129,16 @@ namespace F1.Runtime
         }
 
 
-        private void InitStreamDecryptor(EventId e)
+        private void InitNewEvent(EventId e)
         {
             _logger.Info("Retrieving decryption key for session: " + e.SessionId);
 
             _decryptor.Key = _authKeyService.GetKey(e.SessionId);
 
             _logger.Info("Decryption key retrieved: 0x" + _decryptor.Key.ToString("X"));
+
+            //  It's a new event, so get the new KeyFrame for the event.
+            _keyFrameReceived = false;
         }
 
 
@@ -145,13 +148,13 @@ namespace F1.Runtime
             {
                 //  We're not already processing a key frame, so dispatch
                 // a call to process the data for this keyframe.
-                RetrieveAndProcessKeyFrame(msg as KeyFrame);
+                RetrieveAndProcessKeyFrame(msg);
 
                 // Only need the first keyframe, then rely on live data.
                 _keyFrameReceived = true;
             }
 
-            Driver.UpdateCurrentFrame(msg.FrameNumber);
+            Driver.UpdateCurrentKeyFrame(msg.FrameNumber);
 
             _decryptor.Reset();
         }

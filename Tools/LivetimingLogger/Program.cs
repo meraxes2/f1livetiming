@@ -97,19 +97,21 @@ namespace LivetimingLogger
 
             if (auth == null || String.IsNullOrEmpty(auth.UserName) || String.IsNullOrEmpty(auth.Password))
             {
+#if DEBUG
                 // Try the user auth.config file in the sandbox root (this tool is obviously incorrect if not running near the source code)
                 if (File.Exists(ConfigurationManager.AppSettings["AlternativeAuthConf"]))
                 {
                     conf = AuthData.Load(ConfigurationManager.AppSettings["AlternativeAuthConf"]);
                 }
                 else
+#endif
                 {
                     throw new AuthorizationException("Invalid authSection in configuration file", null);
                 }
             }
             else
             {
-                conf = new AuthData()
+                conf = new AuthData
                            {
                                Username = auth.UserName,
                                Password = auth.Password

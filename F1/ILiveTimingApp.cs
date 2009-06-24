@@ -22,10 +22,100 @@ using F1.Messages;
 
 namespace F1
 {
+    /// <summary>
+    /// Define a function pattern for receiving live timing messages. <see cref="IMessage"/>
+    /// </summary>
+    /// 
+    /// <example>
+    /// Following is an example of how to use the messages you're interested in.
+    /// <code>
+    /// //TODO
+    /// </code> 
+    /// </example>
+    /// 
+    /// <param name="msg">Will contain the base message type</param>
     public delegate void LiveTimingMessageHandlerDelegate(IMessage msg);
 
+    /// <summary>
+    /// This interface represents the Live Timing application functionality and 
+    /// is implemented in the library by two concrete types, one for connecting
+    /// to the real live timing servers, and the other to simulate a live timing
+    /// server.
+    /// 
+    /// In both cases the usage of this object will be the same.
+    /// 
+    /// <example>
+    /// The following a simple example demonstrating being called from a console
+    /// application where the main thread is used to drive the <c>Run()</c>
+    /// method.
+    /// 
+    /// <code>
+    /// class Program
+    /// {
+    /// private readonly ILiveTimingApp _lt;
+    /// private static readonly ILog Log = LogManager.GetLogger("Program");
+    ///
+    /// static void Main()
+    /// {
+    ///     log4net.Config.XmlConfigurator.Configure(); // use app.config
+    ///     try
+    ///     {
+    ///         Program p = new Program();
+    ///         p.Run();
+    ///     }
+    ///     catch (AuthorizationException)
+    ///     {
+    ///         Log.Error("Failed to authenticate credentials. Exiting.");
+    ///     }
+    ///     catch (ConnectionException)
+    ///     {
+    ///         Log.Error("Failed to connect to live timing server. Exiting.");
+    ///     }
+    /// }
+    /// 
+    /// public Program()
+    /// {
+    ///     Console.CancelKeyPress += ConsoleCancelKeyPress;
+    ///     
+    ///     // We say false to starting a thread because we will call the Run method
+    ///     // for this. If however we could not have a blocking call, specifying true
+    ///     // here would create a new thread to run the live timing component on.
+    ///     _lt = new LiveTiming("your@username.com", "Your password", false);
+    ///     _lt.CarMessageHandler += MessageHandler;
+    ///     _lt.SystemMessageHandler += MessageHandler;
+    /// }
+    /// 
+    /// private static void MessageHandler(IMessage msg)
+    /// {
+    ///     //  Log incoming messages
+    ///     Log.Info(msg.ToString());
+    /// }
+    /// 
+    /// private void Run()
+    /// {
+    ///     try {
+    ///         // block on the main thread until CTRL+C or EOS message.
+    ///         _lt.Run();
+    ///     }
+    ///     finally {
+    ///         // When the thread stops, we clean up.
+    ///         _lt.Dispose();
+    ///     }
+    /// }
+    /// 
+    /// private void ConsoleCancelKeyPress(object sender, ConsoleCancelEventArgs e)
+    /// {
+    ///     Log.Info("Caught ctrl+c, exiting application.");
+    ///     _lt.Stop(false);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
     public interface ILiveTimingApp : IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
         event LiveTimingMessageHandlerDelegate SystemMessageHandler;
         event LiveTimingMessageHandlerDelegate CarMessageHandler;
 

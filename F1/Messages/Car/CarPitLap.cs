@@ -19,7 +19,10 @@
 
 namespace F1.Messages.Car
 {
-    public abstract class CarPitLap : CarMessage
+    /// <summary>
+    /// One which lap the pit will/has occur/occured for the pit number, of which there can be only 3.
+    /// </summary>
+    public abstract class CarPitLap : CarBaseMessage
     {
         public string PitLap { get; private set; }
         public int PitLapNumber { get; private set; }
@@ -31,7 +34,7 @@ namespace F1.Messages.Car
 
         public override string ToString()
         {
-            return "CarMessage: CarPitLap - CarId: " + CarId + ", Colour: " + Colour + ", Number: " + PitLapNumber + ", PitLap: " + PitLap;
+            return "CarBaseMessage: CarPitLap - CarId: " + CarId + ", Colour: " + Colour + ", Number: " + PitLapNumber + ", PitLap: " + PitLap;
         }
 
         protected override void OnDeserialiseComplete()
@@ -41,6 +44,9 @@ namespace F1.Messages.Car
     }
 
 
+    /// <summary>
+    /// The lap on which the first pit will/has happen.
+    /// </summary>
     public class CarPitLap1 : CarPitLap
     {
         public CarPitLap1()
@@ -49,7 +55,9 @@ namespace F1.Messages.Car
         }
     }
 
-
+    /// <summary>
+    /// The lap on which the second pit will/has happen.
+    /// </summary>
     public class CarPitLap2 : CarPitLap
     {
         public CarPitLap2()
@@ -58,7 +66,9 @@ namespace F1.Messages.Car
         }
     }
 
-
+    /// <summary>
+    /// The lap on which the third pit will/has happen.
+    /// </summary>
     public class CarPitLap3 : CarPitLap
     {
         public CarPitLap3()

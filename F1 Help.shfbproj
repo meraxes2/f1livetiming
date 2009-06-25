@@ -18,9 +18,9 @@
     <HtmlHelpName>Documentation</HtmlHelpName>
     <BuildLogFile>helpfilebuilder.log</BuildLogFile>
     <FrameworkVersion>2.0.50727</FrameworkVersion>
-    <HelpFileFormat>Website</HelpFileFormat>
+    <HelpFileFormat>HtmlHelp1x</HelpFileFormat>
     <CopyrightHref>http://livetiming.turnitin.co.uk/legal</CopyrightHref>
-    <CopyrightText>Copyright %28C%29 2009 Liam Lowey %28http://livetiming.turnitin.co.uk%29</CopyrightText>
+    <CopyrightText>Copyright %28C%29 2009 Liam Lowey</CopyrightText>
     <HeaderText>F1.Net Live Timing Library</HeaderText>
     <HelpTitle>F1.Net Live Timing Library</HelpTitle>
     <IndentHtml>True</IndentHtml>
@@ -36,18 +36,28 @@
           <colorizer syntaxFile="{@SHFBFolder}Colorizer\highlight.xml" styleFile="{@SHFBFolder}Colorizer\highlight.xsl" copyImageUrl="../icons/CopyCode.gif" language="cs" tabSize="2" numberLines="false" outlining="true" keepSeeTags="false" defaultTitle="true" />
         </component>
       </ComponentConfig>
-<ComponentConfig id="Post-transform Component" enabled="True"><component id="Post-transform Component" type="SandcastleBuilder.Components.PostTransformComponent" assembly="{@SHFBFolder}SandcastleBuilder.Components.dll"><!-- Code colorizer files (required).
+      <ComponentConfig id="Post-transform Component" enabled="True">
+        <component id="Post-transform Component" type="SandcastleBuilder.Components.PostTransformComponent" assembly="{@SHFBFolder}SandcastleBuilder.Components.dll">
+          <!-- Code colorizer files (required).
                  Attributes:
                     Stylesheet file (required)
                     Script file (required)
-                    "Copy" image file (required) --><colorizer stylesheet="{@SHFBFolder}Colorizer\highlight.css" scriptFile="{@SHFBFolder}Colorizer\highlight.js" copyImage="{@SHFBFolder}Colorizer\CopyCode.gif" /><!-- Base output path for the files (required).  This should match
+                    "Copy" image file (required) -->
+          <colorizer stylesheet="{@SHFBFolder}Colorizer\highlight.css" scriptFile="{@SHFBFolder}Colorizer\highlight.js" copyImage="{@SHFBFolder}Colorizer\CopyCode.gif" />
+          <!-- Base output path for the files (required).  This should match
                  the parent folder of the output path of the HTML files (see
-                 SaveComponent). --><outputPath value="Output\" /><!-- Logo image file (optional).  Filename is required. The height,
+                 SaveComponent). -->
+          <outputPath value="Output\" />
+          <!-- Logo image file (optional).  Filename is required. The height,
                  width, altText, placement, and alignment attributes are
-                 optional. --><logoFile filename="C:\LiveTiming.Trunk\Resources\logo.gif" height="0" width="0" altText="" placement="right" alignment="left" /></component></ComponentConfig></ComponentConfigurations>
+                 optional. -->
+          <logoFile filename="C:\LiveTiming.Trunk\Resources\logo.gif" height="0" width="0" altText="" placement="right" alignment="left" />
+        </component>
+      </ComponentConfig>
+    </ComponentConfigurations>
     <DocumentationSources>
-      <DocumentationSource sourceFile="F1\bin\Debug\F1.dll" />
-<DocumentationSource sourceFile="F1\bin\Debug\F1.XML" /></DocumentationSources>
+      <DocumentationSource sourceFile="F1\bin\Release\F1.dll" />
+<DocumentationSource sourceFile="F1\bin\Release\F1.XML" /></DocumentationSources>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->

@@ -19,14 +19,24 @@
 
 namespace F1.Messages.Car
 {
-    public class PracticeBestLapTime : CarMessage
+    /// <summary>
+    /// The best time set during a practice lap.
+    /// </summary>
+    public class PracticeBestLapTime : CarBaseMessage
     {
+        /// <summary>
+        /// Time in seconds of the best lap.
+        /// </summary>
         public double BestLap { get; private set; }
+
+        /// <summary>
+        /// Defines the behaviour of BestLap, see <see cref="CarBaseMessage.TimeType"/>
+        /// </summary>
         public TimeType BestLapType { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: PracticeBestLap - CarId: " + CarId + ", Colour: " + Colour + ", BestLap: " + PrintTimeValue(BestLap, BestLapType);
+            return "CarBaseMessage: PracticeBestLap - CarId: " + CarId + ", Colour: " + Colour + ", BestLap: " + PrintTimeValue(BestLap, BestLapType);
         }
 
         protected override void OnDeserialiseComplete()

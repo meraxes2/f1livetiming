@@ -19,14 +19,24 @@
 
 namespace F1.Messages.Car
 {
-    public class CarLapTime : CarMessage
+    /// <summary>
+    /// Latest time for the last complete lap.
+    /// </summary>
+    public class CarLapTime : CarBaseMessage
     {
+        /// <summary>
+        /// Latest time for the last complete lap.
+        /// </summary>
         public double LapTime { get; private set; }
+
+        /// <summary>
+        /// Defines how to interpret the LapTime value, see <see cref="CarBaseMessage.TimeType"/>
+        /// </summary>
         public TimeType LapTimeType { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: CarLapTime - CarId: " + CarId + ", Colour: " + Colour + ", LapTime: " + PrintTimeValue(LapTime, LapTimeType);
+            return "CarBaseMessage: CarLapTime - CarId: " + CarId + ", Colour: " + Colour + ", LapTime: " + PrintTimeValue(LapTime, LapTimeType);
         }
 
         protected override void OnDeserialiseComplete()

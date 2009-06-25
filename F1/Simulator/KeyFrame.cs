@@ -24,6 +24,9 @@ using F1.Runtime;
 
 namespace F1.Simulator
 {
+    /// <summary>
+    /// Reads keyframes from a directory path
+    /// </summary>
     public class KeyFrame : IKeyFrame
     {
         private readonly string _rootDirectory;

@@ -28,6 +28,11 @@ using log4net;
 
 namespace F1.Runtime
 {
+    /// <summary>
+    /// Defines the business logic of livetiming. This is designed to respond to certain conditions
+    /// and events to ensure a smooth pipeline. It will deal with requests for Keyframes, Authentication
+    /// and Session tracking.
+    /// </summary>
     public class Runtime
     {
         #region State variables
@@ -43,6 +48,13 @@ namespace F1.Runtime
         private readonly ILog _logger = LogManager.GetLogger("Runtime");
 
 
+        /// <summary>
+        /// Create the Runtime object to combine all the various components of the livetiming.
+        /// </summary>
+        /// <param name="liveStream">A stream used to represent the incoming data of the live stream.</param>
+        /// <param name="authKeyService">Provider for authorization key requests.</param>
+        /// <param name="keyFrameService">Provider for keyframes.</param>
+        /// <param name="messageDispatch">A receiver for messages.</param>
         public Runtime(Stream liveStream, IAuthKey authKeyService, IKeyFrame keyFrameService, IMessageDispatch messageDispatch)
         {
             _decryptor = new DataDecryptor();
@@ -53,9 +65,19 @@ namespace F1.Runtime
         }
 
 
+        /// <summary>
+        /// IDriver implementations can call this from their constructor to 'take control' of this runtime.
+        /// I.e. become the driving force to processing messages for the runtime. Only one IDriver can exist.
+        /// </summary>
         public IDriver Driver { get; set; }
 
 
+        /// <summary>
+        /// Call this from your IDriver to process more data available on the liveStream.
+        /// </summary>
+        /// <returns>true indicates there may be more data on the stream so call it again. false
+        /// means that it has exhausted its current supply and your IDriver should go about sourcing
+        /// more.</returns>
         public bool HandleRead()
         {
             bool read = _packetReader.ReadNext();
@@ -69,6 +91,11 @@ namespace F1.Runtime
         }
 
 
+        /// <summary>
+        /// Call this from your IDriver if you have an entire frames worth of data to process. This useful only
+        /// when processing keyframe data as it disregards any stateful information associated with the live stream.
+        /// </summary>
+        /// <param name="keyFrameData">The stream must contain complete data for a keyframe.</param>
         public void HandleReadAdHoc(Stream keyFrameData)
         {
             PacketReader keyFrameReader = new PacketReader(keyFrameData, new DecryptStreamDecorator(keyFrameData, _decryptor));
@@ -184,7 +211,7 @@ namespace F1.Runtime
 
         private void UpdateLapCount( CarInterval msg )
         {
-            if (CarMessage.TimeType.NLaps == msg.IntervalType && msg.Interval > _currentLap )
+            if (CarBaseMessage.TimeType.NLaps == msg.IntervalType && msg.Interval > _currentLap )
             {
                 _currentLap = (int) msg.Interval;
 

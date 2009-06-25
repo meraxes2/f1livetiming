@@ -28,6 +28,9 @@ using F1.Exceptions;
 
 namespace F1.Protocol
 {
+    /// <summary>
+    /// Connects to the formula1.com secure servers to authenticate the username and password.
+    /// </summary>
     public class AuthorizationKey : IAuthKey
     {
         public const uint INVALID_KEY = 0xFFFFFFFF;

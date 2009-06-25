@@ -21,6 +21,9 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// You have provided incorrect log in credentials for the live timing server.
+    /// </summary>
     public class AuthorizationException : Exception
     {
         public AuthorizationException(string msg, Exception inner)

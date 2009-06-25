@@ -19,8 +19,14 @@
 
 namespace F1.Enums
 {
+    /// <summary>
+    /// Defines the type of a message.
+    /// </summary>
     public enum SystemPacketType
     {
+        /// <summary>
+        /// Car type, see <see cref="CarType"/>
+        /// </summary>
         CarType = 0,
         EventId = 1,
         KeyFrame = 2,

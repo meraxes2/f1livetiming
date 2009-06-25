@@ -24,8 +24,15 @@ using F1.Enums;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// Free text message delivered from the server to provide commentary to the event.
+    /// </summary>
     public class Commentary : IMessage
     {
+        /// <summary>
+        /// The next line of commentary. Words and sentances are often split between
+        /// commentary which make their usage limited unless you just print the values.
+        /// </summary>
         public string Message { get; private set; }
 
         #region IMessage Members

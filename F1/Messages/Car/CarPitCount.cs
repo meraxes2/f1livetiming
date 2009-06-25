@@ -19,8 +19,14 @@
 
 namespace F1.Messages.Car
 {
-    public class CarPitCount : CarMessage
+    /// <summary>
+    /// The number of times this car has been in the Pit.
+    /// </summary>
+    public class CarPitCount : CarBaseMessage
     {
+        /// <summary>
+        /// Pit count.
+        /// </summary>
         public int Count { get; private set; }
 
         public override string ToString()

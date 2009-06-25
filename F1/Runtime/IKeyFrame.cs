@@ -21,9 +21,22 @@ using System.IO;
 
 namespace F1.Runtime
 {
+    /// <summary>
+    /// Key frame provider.
+    /// </summary>
     public interface IKeyFrame
     {
+        /// <summary>
+        /// Return the default keyframe, ususally keyframe.bin
+        /// </summary>
+        /// <returns>A readable stream for the entire frame.</returns>
         Stream GetKeyFrame();
+
+        /// <summary>
+        /// Returns a specific keyframe
+        /// </summary>
+        /// <param name="frameNumber">The keyframe number to return.</param>
+        /// <returns>A readable stream for the entire frame.</returns>
         Stream GetKeyFrame(int frameNumber);
     }
 }

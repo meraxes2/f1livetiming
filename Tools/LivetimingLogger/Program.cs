@@ -76,10 +76,9 @@ namespace LivetimingLogger
             }
             else
             {
+                // Create simulator using authentication file.
                 _lt = new LiveTimingSimulator(ConfigurationManager.AppSettings["SimKeyFramePath"],
                                               ConfigurationManager.AppSettings["SimLiveCap"],
-                                              string.Empty, // don't want to use live server
-                                              string.Empty,
                                               ConfigurationManager.AppSettings["SimAuthFile"],
                                               false);
             }

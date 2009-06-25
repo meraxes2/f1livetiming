@@ -8,11 +8,6 @@ namespace F1.Configuration
     /// </summary>
     public sealed class AuthSection : ConfigurationSection
     {
-        public AuthSection()
-        {
-             
-        }
-
         [ConfigurationProperty("userName", IsRequired=true)]
         public string UserName
         {

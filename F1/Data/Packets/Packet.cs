@@ -22,6 +22,11 @@ using F1.Exceptions;
 
 namespace F1.Data.Packets
 {
+    /// <summary>
+    /// This primitive type is a helper for tracking and receiving complete
+    /// 'packets' of data. It must be implemented. This packet must do
+    /// a ContinueDataRead() until it IsComplete.
+    /// </summary>
     public abstract class Packet
     {
         private int _dataReadSoFar;
@@ -32,6 +37,10 @@ namespace F1.Data.Packets
             _input = input;
         }
 
+        /// <summary>
+        /// Called from a constructor to begin the download process.
+        /// </summary>
+        /// <param name="dataSize">The amount of data required for this Packet.</param>
         protected void AcquirePayload(int dataSize)
         {
             try
@@ -49,6 +58,11 @@ namespace F1.Data.Packets
         }
 
 
+        /// <summary>
+        /// If after calling AcquirePayload this Packet is not complete this
+        /// method should be called when there is more data available in an
+        /// attempt to try and retrieve a completed packet.
+        /// </summary>
         public void ContinueDataRead()
         {
             try
@@ -66,9 +80,21 @@ namespace F1.Data.Packets
         }
         
       
+        /// <summary>
+        /// The implementing class can use this to retrieve the data received.
+        /// </summary>
         protected byte[] Payload { get; private set; }
 
+
+        /// <summary>
+        /// Indicates that we have received all of the requested bytes.
+        /// </summary>
         public bool IsComplete { get { return null == Payload || _dataReadSoFar == Payload.Length;  } }
+
+
+        /// <summary>
+        /// Indicates that the data we have received is garbage.
+        /// </summary>
         public bool IsGarbage { get; private set; }
     }
 }

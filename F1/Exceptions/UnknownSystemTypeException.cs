@@ -21,6 +21,11 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// A type not seen before has been described in a packet header and therefore
+    /// the live timing does not know how to continue with the stream. This is game
+    /// over I'm afraid.
+    /// </summary>
     class UnknownSystemTypeException : Exception
     {
         public UnknownSystemTypeException(int rawType, int carId, int datum)

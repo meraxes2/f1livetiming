@@ -19,13 +19,19 @@
 
 namespace F1.Messages.Car
 {
-    public class CarNumber : CarMessage
+    /// <summary>
+    /// Specifies the FIA assigned car number for a given car.
+    /// </summary>
+    public class CarNumber : CarBaseMessage
     {
+        /// <summary>
+        /// It's FIA car number.
+        /// </summary>
         public int Number { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: CarNumber - CarId: " + CarId + ", Colour: " + Colour + ", Number: " + Number;
+            return "CarBaseMessage: CarNumber - CarId: " + CarId + ", Colour: " + Colour + ", Number: " + Number;
         }
 
         protected override void OnDeserialiseComplete()

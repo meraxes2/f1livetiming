@@ -19,11 +19,18 @@
 
 namespace F1.Data.Encryption
 {
+    /// <summary>
+    /// The encryption method defined by livetiming is a simple rolling
+    /// salt method. Thanks to Scott James Remnant for this.
+    /// </summary>
     public class DataDecryptor
     {
         private const uint SEED_INIT = 0x55555555;
         private uint _salt;
 
+        /// <summary>
+        /// The decryption key
+        /// </summary>
         public uint Key { get; set; }
 
         public DataDecryptor()
@@ -32,12 +39,18 @@ namespace F1.Data.Encryption
         }
 
         
+        /// <summary>
+        /// Reset the salt
+        /// </summary>
         public void Reset()
         {
             _salt = SEED_INIT;
         }
 
 
+        /// <summary>
+        /// Decrypt some bytes and track the salt.
+        /// </summary>
         public void DecryptData(byte[] buffer, int offset, int count)
         {
             if (0 == Key)

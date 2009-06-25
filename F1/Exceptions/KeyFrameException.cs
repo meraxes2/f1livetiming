@@ -21,6 +21,10 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// IKeyFrame providers may generate this exception if there is an
+    /// error fulfilling a request.
+    /// </summary>
     class KeyFrameException : Exception
     {
         public KeyFrameException(string message, Exception innerException)

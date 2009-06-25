@@ -24,6 +24,9 @@ using F1.Enums;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// Weather data, not yet completed, do not use.
+    /// </summary>
     public class Weather : IMessage
     {
         private byte[] _unkData;

@@ -24,7 +24,7 @@ using F1.Messages.System;
 
 namespace F1.Messages
 {
-    class MessageFactory
+    internal class MessageFactory
     {
         #region Lookup Tables for Car Messages
         private static readonly Type[] PracticeLookup =

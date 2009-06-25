@@ -4,6 +4,9 @@ using System.Xml.Serialization;
 
 namespace F1.Configuration
 {
+    /// <summary>
+    /// A serializable type for storing and reading auth data from a file.
+    /// </summary>
     [Serializable]
     [XmlRoot(ElementName ="AuthData", IsNullable = false, Namespace="")]
     public class AuthData

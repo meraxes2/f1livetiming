@@ -26,9 +26,10 @@ using F1.Enums;
 namespace F1.Messages.System
 {
     /// <summary>
-    /// Not sure how to represent this type as it serves two purposes. The first
-    /// is to provide a list of fastest 6 drivers and speeds in given sectors.
-    /// The second is to provide some other 'fastest' information for a Race.
+    /// This type as it serves two purposes. The first is to provide a list 
+    /// of fastest 6 drivers and speeds in given sectors. The second is to 
+    /// provide some other 'fastest' information for a Race.
+    /// These values are as displayed on the second page on the java applet. 
     /// </summary>
     public class Speed : IMessage
     {
@@ -93,8 +94,19 @@ namespace F1.Messages.System
             }
         }
 
+        /// <summary>
+        /// Defines what is meant by the FastestSectors and MetaData properties.
+        /// </summary>
         public ColumnType Column { get; private set; }
+
+        /// <summary>
+        /// A pair of values of drivers and their speed values.
+        /// </summary>
         public SpeedPair[] FastestSectors { get; private set; }
+
+        /// <summary>
+        /// Other data associated with this message, see <see cref="Column"/> property.
+        /// </summary>
         public string MetaData { get; private set; }
 
         #region IMessage Members

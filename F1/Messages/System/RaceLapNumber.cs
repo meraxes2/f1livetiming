@@ -24,8 +24,15 @@ using F1.Data.Packets;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// The current lap count of the leader of the race, i.e. the number of laps
+    /// elapsed in a race.
+    /// </summary>
     class RaceLapNumber : IMessage
     {
+        /// <summary>
+        /// Lap count of the leader of the race.
+        /// </summary>
         public int LapCount { get; private set; }
 
         public RaceLapNumber( int lapCount )

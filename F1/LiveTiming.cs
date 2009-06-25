@@ -33,11 +33,20 @@ using KeyFrame=F1.Protocol.KeyFrame;
 namespace F1
 {
     /// <summary>
-    /// This simple object is the API into the live timing library. You should create one which either
+    /// <para>This simple object is the API into the live timing library. You should create one which either
     /// creates its own internal thread to deliver messages on, or you should call the blocking Run()
     /// method. All events are delivered by the thread calling Run() and is seperate from the network
     /// threads, so feel free to use the event handlers' context as you need all it will do is block
-    /// other messages' arival until your call exits.
+    /// other messages' arival until your call exits.</para>
+    /// <para>
+    /// It is important to know that when establishing a connection it will attempt to connect to
+    /// the live server on port 4321 however this often blocked (by firewalls). When it can not
+    /// perform the connection it will 'fall back' to a keyframe method, where by a new frame
+    /// is requested every 15 seconds. However this means data will only be delivered in bursts and
+    /// not adhoc as in live streams. Application provider should make users aware of this.</para>
+    /// <example>
+    /// For an example see <see cref="ILiveTimingApp"/>.
+    /// </example>
     /// </summary>
     public class LiveTiming : SimpleThreadedQueueBase, ILiveTimingApp
     {
@@ -57,7 +66,13 @@ namespace F1
         private readonly ILog _log = LogManager.GetLogger("LiveTiming");
         #endregion
 
-
+        /// <summary>
+        /// To create a live timing application you must have already registered at formula1.com for a username
+        /// and password to access their live timing feed.
+        /// </summary>
+        /// <param name="username">Genuine formula1.com username for receiving authentication.</param>
+        /// <param name="password">Genuine formula1.com password for receiving authentication.</param>
+        /// <param name="createThread">After construction a child thread will be created, and Run will execute.</param>
         public LiveTiming( string username, string password, bool createThread )
             : base(false)
         {
@@ -85,11 +100,10 @@ namespace F1
             _runtime = null;
         }
 
+        #region ILiveTimingApp Members
 
         /// <summary>
-        /// Expose Run method for outside to call. If when constructed createThread was
-        /// set to true, then this method will already be called by a new thread and 
-        /// so shouldn't be called by the application.
+        /// See <see cref="ILiveTimingApp.Run"/>
         /// </summary>
         public new void Run()
         {
@@ -99,11 +113,15 @@ namespace F1
             }
         }
 
-
+        /// <summary>
+        /// See <see cref="ILiveTimingApp.Stop"/>
+        /// </summary>
         public void Stop(bool discard)
         {
             Stop(JoinMethod.DontJoin, discard);
         }
+
+        #endregion
 
 
         #region Internal message handling

@@ -24,6 +24,11 @@ using F1.Data.Packets;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// The Runtime uses this message to drive when a keyframe is requested. Keyframe
+    /// retrieval is performed on behalf of the application, and so it is not
+    /// necessary for the Application to act on this message in any way.
+    /// </summary>
     public class KeyFrame : IMessage
     {
         public int FrameNumber { get; private set; }

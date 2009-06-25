@@ -21,6 +21,12 @@ using System.IO;
 
 namespace F1.Data.Packets
 {
+    /// <summary>
+    /// A Packet type which has two data portions. One is decoded
+    /// from the Datum member of the Header and the other is downloaded.
+    /// This means we have a maximum data size of 2^4 bytes. The short
+    /// datum can contain a value between 0 and 2^3.
+    /// </summary>
     public class ShortPacket : Packet
     {
         private const int NO_DATA = 0x0f;
@@ -44,8 +50,14 @@ namespace F1.Data.Packets
             ShortDatum = (header.Datum & 0x07);
         }
 
+        /// <summary>
+        /// Long datum
+        /// </summary>
         public byte[] Data { get { return Payload; } }
 
+        /// <summary>
+        /// Short datum.
+        /// </summary>
         public int ShortDatum { get; private set; }
     }
 }

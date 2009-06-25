@@ -22,7 +22,8 @@ using F1.Messages;
 namespace F1.Runtime
 {
     /// <summary>
-    /// Imnplemented by clients of the Runtime to receive messages.
+    /// Clients of this runtime (i.e. ILiveTimingApp implementations) should implement
+    /// this interface if they wish to receive messages from the Runtime.
     /// </summary>
     public interface IMessageDispatch
     {

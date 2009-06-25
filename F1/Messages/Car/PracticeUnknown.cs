@@ -19,11 +19,15 @@
 
 namespace F1.Messages.Car
 {
-    public class PracticeUnknown : CarMessage
+    /// <summary>
+    /// Not sure what this means. I think it's likely to indicate some state of
+    /// the car. For example the car has gone back into the pit.
+    /// </summary>
+    public class PracticeUnknown : CarBaseMessage
     {
         public override string ToString()
         {
-            return "CarMessage: PracticeUnknown - CarId: " + CarId + ", Colour: " + Colour + ", Unknown: " + BaseData;
+            return "CarBaseMessage: PracticeUnknown - CarId: " + CarId + ", Colour: " + Colour + ", Unknown: " + BaseData;
         }
     }
 }

@@ -24,10 +24,23 @@ using F1.Data.Packets;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// Generally received at the beginning of a session to indicate it's type (Race, Qualifying,
+    /// Practice or None). As well as a unique identifier for this race. You will notice that this
+    /// SessionId is used by authentication (see <see cref="F1.Simulator.AuthorizationKey"/>) to
+    /// request a relevant decryption key. For none events, encryption is switched off, and this
+    /// string therefore contains another undefined value.
+    /// </summary>
     public class EventId : IMessage
     {
+        /// <summary>
+        /// 4 digit session Id or undefined value for none events.
+        /// </summary>
         public string SessionId { get; private set; }
 
+        /// <summary>
+        /// The type of event (Race, Qualy, Practice or None). See <see cref="EventType"/>.
+        /// </summary>
         public EventType EventType { get; private set; }
         
         #region IMessage Members

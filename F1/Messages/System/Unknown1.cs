@@ -23,6 +23,9 @@ using F1.Enums;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// Dunno yet.
+    /// </summary>
     public class Unknown1 : IMessage
     {
         private int _unkDatum;

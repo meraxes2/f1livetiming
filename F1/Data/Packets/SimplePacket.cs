@@ -21,6 +21,10 @@ using System.IO;
 
 namespace F1.Data.Packets
 {
+    /// <summary>
+    /// This packet allows the calling message type decide how much data to receive as
+    /// it is not included in the Header.
+    /// </summary>
     public class SimplePacket : Packet
     {
         public SimplePacket(int readSize, Stream input)

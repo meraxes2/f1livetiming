@@ -70,7 +70,7 @@ namespace F1.Messages.Car
 
         public override string ToString()
         {
-            return "CarMessage: CarPositionHistory - CarId: " + CarId + ", Car Position History: " + Common.Utils.Strings.HexString.CommaSeperateArray(PositionHistory);
+            return "CarBaseMessage: CarPositionHistory - CarId: " + CarId + ", Car Position History: " + Common.Utils.Strings.HexString.CommaSeperateArray(PositionHistory);
         }
     }
 }

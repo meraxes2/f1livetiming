@@ -23,6 +23,11 @@ using F1.Exceptions;
 
 namespace F1.Data.Encryption
 {
+    /// <summary>
+    /// Provide a Stream type which decorates other stream types with the
+    /// functionality for decrypting the data. This is used so that knowledge
+    /// of encryption is not required outside of this domain.
+    /// </summary>
     public class DecryptStreamDecorator : Stream
     {
         private readonly Stream _source;

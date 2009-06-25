@@ -24,8 +24,14 @@ using F1.Enums;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// Copyright information for this stream returned by the server.
+    /// </summary>
     public class Copyright : IMessage
     {
+        /// <summary>
+        /// Copyright information for this stream returned by the server.
+        /// </summary>
         public string Message { get; private set; }
 
         #region IMessage Members

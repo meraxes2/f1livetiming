@@ -19,13 +19,19 @@
 
 namespace F1.Messages.Car
 {
-    public class CarPosition : CarMessage
+    /// <summary>
+    /// The current race position of the car.
+    /// </summary>
+    public class CarPosition : CarBaseMessage
     {
+        /// <summary>
+        /// Retrieve the current running order/position of this CarId.
+        /// </summary>
         public int Position { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: CarPosition - CarId: " + CarId + ", Colour: " + Colour + ", Position: " + Position;
+            return "CarBaseMessage: CarPosition - CarId: " + CarId + ", Colour: " + Colour + ", Position: " + Position;
         }
 
         protected override void OnDeserialiseComplete()

@@ -24,8 +24,7 @@ using F1.Data.Packets;
 namespace F1.Messages.System
 {
     /// <summary>
-    /// This is an artificial message used to communicate when the session is over, and the
-    /// internal components will exit.
+    /// Indicates that the current session is over. There is no data associated with this type.
     /// </summary>
     class EndOfSession : IMessage
     {

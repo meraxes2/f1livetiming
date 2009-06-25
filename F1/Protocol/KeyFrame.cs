@@ -24,6 +24,9 @@ using F1.Runtime;
 
 namespace F1.Protocol
 {
+    /// <summary>
+    /// Provides keyframes downloaded from a webserver that is present during a live session.
+    /// </summary>
     public class KeyFrame : IKeyFrame
     {
         private const string NUMBERED_URL = "http://live-timing.formula1.com/keyframe_{0}.bin";

@@ -21,6 +21,11 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// Indicates that even though we've received the expected data, we
+    /// have no hope of reading it because we haven't decrypted it correctly
+    /// therefore it will only contain garbage.
+    /// </summary>
     class PacketGarbageException : Exception
     {
         public int AmountRead { get; private set; }

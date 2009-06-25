@@ -21,6 +21,9 @@ using F1.Enums;
 
 namespace F1.Messages
 {
+    /// <summary>
+    /// Todo - document each of the colour meaning.
+    /// </summary>
     public enum CarColours
     {
         Unknown = -1,
@@ -34,10 +37,26 @@ namespace F1.Messages
         Grey = 7
     }
 
+    /// <summary>
+    /// This is a specialisation of the IMessage type to further define
+    /// car specific parameters.
+    /// </summary>
     public interface ICarMessage : IMessage
     {
+        /// <summary>
+        /// The unique identifier of a car as references by this livetiming library.
+        /// </summary>
         int CarId { get; }
+
+        /// <summary>
+        /// Specifies the type of car message.
+        /// </summary>
         CarType CarType { get; }
+
+        /// <summary>
+        /// Different colours mean different things, if you have a look at the genuine
+        /// applet you'll see what.
+        /// </summary>
         CarColours Colour { get; }
     }
 }

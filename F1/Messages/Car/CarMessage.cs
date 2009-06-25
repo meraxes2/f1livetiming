@@ -25,54 +25,79 @@ using F1.Enums;
 
 namespace F1.Messages.Car
 {
-    public class CarMessage : ICarMessage
+    /// <summary>
+    /// Defines common behaviour, and base type, to all ICarMessage implementations. It
+    /// contains the methods common to all including CarId and Colour. see <see cref="ICarMessage"/>.
+    /// </summary>
+    public class CarBaseMessage : ICarMessage
     {
         /// <summary>
-        /// Timing data occasionally contains string information, which we can
-        /// parse instead. These are the different things we expect.
+        /// Specifies how to interpret the accompanying data.
         /// </summary>
         public enum TimeType
         {
             /// <summary>
-            /// Means that the message contained no valid data.
+            /// Means that the message contained no valid data, hence the value will not contain
+            /// a valid value.
             /// </summary>
             NoData,
             /// <summary>
-            /// The value is a time quantity, and should be interpreted as such
+            /// The value is a time quantity in seconds and fractions.
             /// </summary>
             Time,
             /// <summary>
-            /// The car is a lap behind
+            /// The car is a lap behind.
             /// </summary>
             Lapped,
             /// <summary>
-            /// The car has stopped.
+            /// The car has stopped. 
             /// </summary>
             Stop,
             /// <summary>
-            /// The car is in the pits.
+            /// The car is in the pit.
             /// </summary>
             InPit,
             /// <summary>
-            /// The car hass exited the pits.
+            /// The car hass exited the pit.
             /// </summary>
             Out,
             /// <summary>
-            /// Ther car chalks up another DNF.
+            /// The car chalks up another DNF.
             /// </summary>
             Retired,
             /// <summary>
-            /// The number of laps completed by the front runner.
+            /// The number of laps completed by the front runner. Or the number
+            /// of lapse the driver is behind. This is dependant on the message type.
             /// </summary>
             NLaps
         }
 
+        /// <summary>
+        /// Internal use.
+        /// </summary>
         protected string BaseData { get; private set; }
+
+        /// <summary>
+        /// Internal use.
+        /// </summary>
         protected int BaseShort { get; private set; }
 
+
         #region ICarMessage Members
+
+        /// <summary>
+        /// See <see cref="ICarMessage.CarId"/>
+        /// </summary>
         public int CarId { get; private set; }
+
+        /// <summary>
+        /// See <see cref="ICarMessage.CarType"/>
+        /// </summary>
         public CarType CarType { get; private set; }
+
+        /// <summary>
+        /// See <see cref="ICarMessage.Colour"/>
+        /// </summary>
         public CarColours Colour
         {
             get
@@ -82,6 +107,7 @@ namespace F1.Messages.Car
             }
         }
         #endregion
+
 
         #region IMessage Members
 
@@ -112,7 +138,7 @@ namespace F1.Messages.Car
 
         public override string ToString()
         {
-            return "CarMessage: Unknown - CarId: " + CarId + ", CarType: " + CarType + ", Colour: " + Colour + ", Unknown data: " + BaseData;
+            return "CarBaseMessage: Unknown - CarId: " + CarId + ", CarType: " + CarType + ", Colour: " + Colour + ", Unknown data: " + BaseData;
         }
 
 

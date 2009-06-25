@@ -7,6 +7,9 @@ using log4net;
 
 namespace F1.Simulator
 {
+    /// <summary>
+    /// A driver implementation used to simulator the live stream from a file capture.
+    /// </summary>
     class FileCapDriver : SimpleThreadBase, IDriver, IDisposable
     {
         private const int CHUNK_SIZE = 128; // completely arbitary

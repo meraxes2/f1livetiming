@@ -21,6 +21,9 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// Indicates a message we do not support.
+    /// </summary>
     public class MessageMethodException : Exception
     {
         public MessageMethodException(string method)

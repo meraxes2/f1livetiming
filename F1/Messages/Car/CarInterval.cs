@@ -19,14 +19,17 @@
 
 namespace F1.Messages.Car
 {
-    public class CarInterval : CarMessage
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CarInterval : CarBaseMessage
     {
         public double Interval { get; private set; }
         public TimeType IntervalType { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: CarInterval - CarId: " + CarId + ", Colour: " + Colour + ", Interval: " + PrintTimeValue(Interval, IntervalType);
+            return "CarBaseMessage: CarInterval - CarId: " + CarId + ", Colour: " + Colour + ", Interval: " + PrintTimeValue(Interval, IntervalType);
         }
 
         protected override void OnDeserialiseComplete()

@@ -19,6 +19,9 @@
 
 namespace F1.Enums
 {
+    /// <summary>
+    /// Car specific message types
+    /// </summary>
     public enum CarType
     {
         Position = 0,
@@ -26,6 +29,9 @@ namespace F1.Enums
     }
 
 
+    /// <summary>
+    /// Car message types during a race.
+    /// </summary>
     public enum RaceCarType
     {
         RacePosition = 1,
@@ -44,6 +50,9 @@ namespace F1.Enums
     }
 
 
+    /// <summary>
+    /// Car message types during a practice session.
+    /// </summary>
     public enum PracticeCarType
     {
         PracticePosition = 1,
@@ -59,6 +68,9 @@ namespace F1.Enums
     }
 
 
+    /// <summary>
+    /// Car message type during a qualifying session.
+    /// </summary>
     public enum QualifyCarType
     {
         QualifyingPosition = 1,

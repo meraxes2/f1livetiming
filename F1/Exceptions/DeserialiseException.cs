@@ -21,6 +21,9 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// This can happen if there has been an error recognising the data.
+    /// </summary>
     class DeserialiseException : Exception
     {
         public DeserialiseException(string message)

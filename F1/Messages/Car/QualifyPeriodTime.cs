@@ -19,10 +19,25 @@
 
 namespace F1.Messages.Car
 {
-    public abstract class QualifyPeriodTime : CarMessage
+    /// <summary>
+    /// The time set during a qualifying period. There are 3 qualifying sessions, 
+    /// and this defines the time for each.
+    /// </summary>
+    public abstract class QualifyPeriodTime : CarBaseMessage
     {
+        /// <summary>
+        /// The qualifying session.
+        /// </summary>
         public int Period { get; private set; }
+
+        /// <summary>
+        /// The time for this session.
+        /// </summary>
         public double PeriodTime { get; private set; }
+
+        /// <summary>
+        /// Defines the behaviour of PeriodTime, see <see cref="CarBaseMessage.TimeType"/>
+        /// </summary>
         public TimeType PeriodTimeType { get; private set; }
 
 
@@ -33,7 +48,7 @@ namespace F1.Messages.Car
 
         public override string ToString()
         {
-            return "CarMessage: QualifyPeriodTime - CarId: " + CarId + ", Colour: " + Colour + ", Period: " + Period + ", PeriodTime: " + PrintTimeValue(PeriodTime, PeriodTimeType);
+            return "CarBaseMessage: QualifyPeriodTime - CarId: " + CarId + ", Colour: " + Colour + ", Period: " + Period + ", PeriodTime: " + PrintTimeValue(PeriodTime, PeriodTimeType);
         }
 
         protected override void OnDeserialiseComplete()

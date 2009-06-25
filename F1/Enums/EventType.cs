@@ -19,7 +19,10 @@
 
 namespace F1.Enums
 {
-    public enum EventType : int
+    /// <summary>
+    /// Specifies the type of event we have connected to
+    /// </summary>
+    public enum EventType
     {
         NoEvent = 0,
         Race = 1,

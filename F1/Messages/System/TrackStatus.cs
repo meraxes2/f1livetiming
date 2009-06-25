@@ -25,16 +25,40 @@ using F1.Exceptions;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// The current status (represented by a Colour) of this event.
+    /// </summary>
     public class TrackStatus : IMessage
     {
+        /// <summary>
+        /// The current status
+        /// </summary>
         public enum Colour
         {
+            /// <summary>
+            /// All good.
+            /// </summary>
             Green = 0,
+            
+            /// <summary>
+            /// Yellow flag.
+            /// </summary>
             Yellow = 1,
+
+            /// <summary>
+            /// Red flagged.
+            /// </summary>
             Red = 2
         } ;
 
+        /// <summary>
+        /// The current status of this event.
+        /// </summary>
         public Colour Status { get; private set; }
+
+        /// <summary>
+        /// Associated message with the current status of this event. Usefulness = unknown.
+        /// </summary>
         public string Message { get; private set; }
 
         #region IMessage Members

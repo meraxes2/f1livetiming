@@ -23,6 +23,9 @@ using F1.Enums;
 
 namespace F1.Messages.Car
 {
+    /// <summary>
+    /// Unsure how this differs from CarPosition, but it does.
+    /// </summary>
     public class CarPositionUpdate : ICarMessage
     {
         /// <summary>
@@ -59,7 +62,7 @@ namespace F1.Messages.Car
 
         public override string ToString()
         {
-            return "CarMessage: CarPositionUpdate - CarId: " + CarId + ", Position: " + Position;
+            return "CarBaseMessage: CarPositionUpdate - CarId: " + CarId + ", Position: " + Position;
         }
     }
 }

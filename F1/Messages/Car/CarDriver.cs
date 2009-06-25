@@ -19,13 +19,16 @@
 
 namespace F1.Messages.Car
 {
-    class CarDriver : CarMessage
+    /// <summary>
+    /// Implements ICarMessage to indicates which driver is driving for a given CarId.
+    /// </summary>
+    class CarDriver : CarBaseMessage
     {
         public string Name { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: CarDriver - CarId: " + CarId + ", Colour: " + Colour + ", Name: " + Name;
+            return "CarBaseMessage: CarDriver - CarId: " + CarId + ", Colour: " + Colour + ", Name: " + Name;
         }
 
         protected override void OnDeserialiseComplete()

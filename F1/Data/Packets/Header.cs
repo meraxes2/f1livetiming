@@ -23,16 +23,27 @@ using F1.Enums;
 
 namespace F1.Data.Packets
 {
+    /// <summary>
+    /// <para>Defines the basic header information type for every message received
+    /// in the streams. These two bytes will always preceed and sometimes be
+    /// a complete message.</para>
+    /// <para>
+    /// Messages have the following format:
+    /// <c>
+    /// _byte2           _byte1
+    /// [0|1|2|3|4|5|6|7][0|1|2|3|4|5|6|7]
+    ///  +-data------+ +-type-+ +-carid-+
+    /// </c></para>
+    /// </summary>
     public class Header : Packet
     {
         private const ushort SYSTEM_MESSAGE_CARID = 0;
 
-        /*
-        _b2              _b1
-        [ | | | | | | | ][ | | | | | | | ]
-         +-data------+ +-type-+ +-carid-+
-        */
 
+        /// <summary>
+        /// Construct from a stream to read 2 bytes. See <see cref="Packet.IsComplete"/> for
+        /// true before interrogating the properties of this Packet.
+        /// </summary>
         public Header( Stream input )
             : base(input)
         {
@@ -40,6 +51,9 @@ namespace F1.Data.Packets
         }
 
 
+        /// <summary>
+        /// This is a car message if this value is not 0
+        /// </summary>
         public int CarId
         {
             get
@@ -49,6 +63,9 @@ namespace F1.Data.Packets
         }
 
         
+        /// <summary>
+        /// Returns the bits an integer form used to represent the message or car type.
+        /// </summary>
         public int RawType
         {
             get
@@ -58,6 +75,10 @@ namespace F1.Data.Packets
         }
 
 
+        /// <summary>
+        /// Returns the datum portion of the header which has a number of meanings depending
+        /// on the packet type.
+        /// </summary>
         public int Datum
         {
             get
@@ -67,6 +88,9 @@ namespace F1.Data.Packets
         }
 
 
+        /// <summary>
+        /// Utility property to detect for System messages
+        /// </summary>
         public bool IsSystemMessage
         {
             get
@@ -75,7 +99,9 @@ namespace F1.Data.Packets
             }
         }
 
-
+        /// <summary>
+        /// Opposite of IsSystemMessage.
+        /// </summary>
         public bool IsCarMessage
         {
             get
@@ -85,6 +111,9 @@ namespace F1.Data.Packets
         }
 
 
+        /// <summary>
+        /// Helper to convert the RawType into a SystemPacketType enumeration.
+        /// </summary>
         public SystemPacketType SystemType
         {
             get
@@ -99,6 +128,9 @@ namespace F1.Data.Packets
         }
 
 
+        /// <summary>
+        /// Helper to convert the RawType into a CarType enumeraiton.
+        /// </summary>
         public CarType CarType
         {
             get

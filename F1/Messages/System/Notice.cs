@@ -24,8 +24,14 @@ using F1.Enums;
 
 namespace F1.Messages.System
 {
+    /// <summary>
+    /// A free text notice field which allows for instructional information to the viewer.
+    /// </summary>
     public class Notice : IMessage
     {
+        /// <summary>
+        /// A free text notice field which allows for instructional information to the viewer.
+        /// </summary>
         public string Message { get; private set; }
 
         #region IMessage Members

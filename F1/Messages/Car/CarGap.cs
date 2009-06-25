@@ -19,14 +19,17 @@
 
 namespace F1.Messages.Car
 {
-    public class CarGap : CarMessage
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CarGap : CarBaseMessage
     {
         public double Gap { get; private set; }
         public TimeType GapType { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: CarGap - CarId: " + CarId + ", Colour: " + Colour + ", Gap: " + PrintTimeValue(Gap, GapType);
+            return "CarBaseMessage: CarGap - CarId: " + CarId + ", Colour: " + Colour + ", Gap: " + PrintTimeValue(Gap, GapType);
         }
 
         protected override void OnDeserialiseComplete()

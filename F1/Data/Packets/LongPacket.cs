@@ -21,6 +21,11 @@ using System.IO;
 
 namespace F1.Data.Packets
 {
+    /// <summary>
+    /// This defines the 'long packet' types, where we can receive up to 128
+    /// bytes of data after our header which represents the message. The
+    /// <see cref="Header.Datum"/> property contains this value.
+    /// </summary>
     public class LongPacket : Packet
     {
         public LongPacket(Header header, Stream input)
@@ -34,6 +39,9 @@ namespace F1.Data.Packets
             }
         }
 
+        /// <summary>
+        /// The data received in this Packet, up to 128 bytes. See <see cref="Packet.IsComplete"/>.
+        /// </summary>
         public byte[] Data { get { return Payload; } }
     }
 }

@@ -21,6 +21,9 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// There was a problem establishing any kind of a connection to the live timing servers.
+    /// </summary>
     public class ConnectionException : Exception
     {
         public ConnectionException(Exception innerEx)

@@ -19,30 +19,43 @@
 
 using System;
 using F1.Messages;
+using F1.Messages.System;
 
 namespace F1
 {
     /// <summary>
     /// Define a function pattern for receiving live timing messages. <see cref="IMessage"/>
     /// </summary>
-    /// 
-    /// <example>
-    /// Following is an example of how to use the messages you're interested in.
-    /// <code>
-    /// //TODO
-    /// </code> 
-    /// </example>
-    /// 
-    /// <param name="msg">Will contain the base message type</param>
+    /// <param name="msg">Will contain a message implementation which can be queried by reflection or
+    /// by inspecting the <see cref="IMessage.Type"/> property</param>
     public delegate void LiveTimingMessageHandlerDelegate(IMessage msg);
 
     /// <summary>
-    /// This interface represents the Live Timing application functionality and 
+    /// <para>This interface represents the Live Timing application functionality and 
     /// is implemented in the library by two concrete types, one for connecting
     /// to the real live timing servers, and the other to simulate a live timing
-    /// server.
+    /// server.</para>
     /// 
-    /// In both cases the usage of this object will be the same.
+    /// <h1>Usage</h1>
+    /// <para>In both cases the usage of this object will be similar.</para>
+    /// 
+    /// <h2>Console Application</h2>
+    /// <para>For a Console application it is quite likely that you will use the <see cref="Run"/> method
+    /// as your application's runtime loop. Hence you should construct your concreate type
+    /// without a new thread and then call <see cref="Run"/> at the point your application should block.
+    /// A suitable keypress handler, for example CTRL+C, will allow you to interact with your
+    /// application. See the example below.</para>
+    /// 
+    /// <h2>WinForms Application</h2>
+    /// <para>When creating a forms based application it may not be suitable to block any calling thread
+    /// with a call to <see cref="Run"/> as this will prevent any interaction with the GUI. The correct
+    /// behaviour then is to indicate that a thread should be created on which to execute Run. Be aware 
+    /// therefore that any event handlers will be called by this new thread, and not by applications main
+    /// thread, hence you should take caution to protect your data from thread conditions. </para>
+    /// 
+    /// <h2>Notice</h2>
+    /// <para>This library uses the log4net library of components and it is therefore the application's
+    /// responsibility to ensure these are correct initialised. See http://logging.apache.org/log4net/</para>
     /// 
     /// <example>
     /// The following a simple example demonstrating being called from a console
@@ -114,19 +127,30 @@ namespace F1
     public interface ILiveTimingApp : IDisposable
     {
         /// <summary>
-        /// 
+        /// Handle this event to receive System IMessage types. <see cref="LiveTimingMessageHandlerDelegate"/>
         /// </summary>
         event LiveTimingMessageHandlerDelegate SystemMessageHandler;
+
+        /// <summary>
+        /// Handle this event to receive Car IMessage types. <see cref="LiveTimingMessageHandlerDelegate"/>
+        /// </summary>
         event LiveTimingMessageHandlerDelegate CarMessageHandler;
 
         /// <summary>
-        /// Body method to be called by parent process.
+        /// This function implements the 'Runtime' of this library, and hence the calling
+        /// thread is responsible for invoking the associated message handlers. Calling this method
+        /// will block until one of either <see cref="Stop"/> is called or an End of session
+        /// message is generated <see cref="EndOfSession"/>.
         /// </summary>
         void Run();
 
         /// <summary>
-        /// Instruct Run method to exit
+        /// For use by the owning application to 'Stop' the livetiming application. This will
+        /// result in the <see cref="Run"/> method exiting, and hence unblocking the calling
+        /// thread.
         /// </summary>
+        /// <param name="discard">true will cause the thread to exit abondoning any processing and messages that may
+        /// remain. Use false to complete the current task before exiting.</param>
         void Stop( bool discard );
     }
 }

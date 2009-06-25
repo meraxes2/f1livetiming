@@ -28,6 +28,8 @@ namespace F1.Messages.System
     /// default is 1 second, and this will typically reflect that with a value of 1. However
     /// occasionally we get 60, presumably to reduce the traffic to the server in quiet
     /// times. Also 0 indicates the end of the stream and we can disconnect.
+    /// 
+    /// The application does not need to react to this message, it is provided for completeness.
     /// </summary>
     public class RefreshRate : IMessage
     {

@@ -22,8 +22,17 @@ using System;
 namespace F1.Runtime
 {
     /// <summary>
-    /// Implement this interface when driving the Runtime if you want
-    /// receive callbacks from the Runtime.
+    /// <para>
+    /// Implement this interface when driving the Runtime if you want to
+    /// receive callbacks from the Runtime. Tell the Runtime during
+    /// construction of your implementation, see <see cref="Runtime.Driver"/>
+    /// </para>
+    /// <para>
+    /// Your implementation should probably provide its own thread to run this
+    /// method as the <see cref="ILiveTimingApp.Run"/> method will have blocked.
+    /// However you could potentially use an event driven model for this to hang
+    /// off of an application loop as processing time is quite low latency.
+    /// </para>
     /// </summary>
     public interface IDriver
     {
@@ -31,7 +40,7 @@ namespace F1.Runtime
         /// The runtime will tell us how often we need to be polling for
         /// new data to the live timing server.
         /// </summary>
-        /// <param name="refreshRate">The inteval in seconds</param>
+        /// <param name="refreshRate">The interval in seconds</param>
         void SetRefresh(int refreshRate);
 
         /// <summary>

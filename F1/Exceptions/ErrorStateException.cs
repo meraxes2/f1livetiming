@@ -21,6 +21,10 @@ using System;
 
 namespace F1.Exceptions
 {
+    /// <summary>
+    /// This exception indicates a call was made into a state machine after
+    /// it had reached an error condition.
+    /// </summary>
     class ErrorStateException : Exception
     {
         public ErrorStateException()

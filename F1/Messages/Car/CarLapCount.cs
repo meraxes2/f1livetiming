@@ -19,13 +19,19 @@
 
 namespace F1.Messages.Car
 {
-    public class CarLapCount : CarMessage
+    /// <summary>
+    /// Number of laps completed by this car.
+    /// </summary>
+    public class CarLapCount : CarBaseMessage
     {
+        /// <summary>
+        /// Number of laps completed by this car.
+        /// </summary>
         public int LapCount { get; private set; }
 
         public override string ToString()
         {
-            return "CarMessage: CarLapCount - CarId: " + CarId + ", Colour: " + Colour + ", LapCount: " + LapCount;
+            return "CarBaseMessage: CarLapCount - CarId: " + CarId + ", Colour: " + Colour + ", LapCount: " + LapCount;
         }
 
         protected override void OnDeserialiseComplete()

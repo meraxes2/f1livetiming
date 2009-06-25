@@ -19,10 +19,24 @@
 
 namespace F1.Messages.Car
 {
-    public abstract class CarSectorTime : CarMessage
+    /// <summary>
+    /// Defines the time for a given sector during a race or qualifying.
+    /// </summary>
+    public abstract class CarSectorTime : CarBaseMessage
     {
+        /// <summary>
+        /// The sector for which this time was set.
+        /// </summary>
         public int Sector { get; private set; }
+
+        /// <summary>
+        /// The sector time in seconds, or Nan.
+        /// </summary>
         public double SectorTime { get; private set; }
+
+        /// <summary>
+        /// Defines the behaviour of SectorTime, see <see cref="CarBaseMessage.TimeType"/>
+        /// </summary>
         public TimeType SectorTimeType { get; private set; }
 
 
@@ -33,7 +47,7 @@ namespace F1.Messages.Car
 
         public override string ToString()
         {
-            return "CarMessage: CarSectorTime - CarId: " + CarId + ", Colour: " + Colour + ", Sector: " + Sector + ", SectorTime: " + PrintTimeValue(SectorTime, SectorTimeType);
+            return "CarBaseMessage: CarSectorTime - CarId: " + CarId + ", Colour: " + Colour + ", Sector: " + Sector + ", SectorTime: " + PrintTimeValue(SectorTime, SectorTimeType);
         }
 
         protected override void OnDeserialiseComplete()
@@ -45,6 +59,9 @@ namespace F1.Messages.Car
     }
 
 
+    /// <summary>
+    /// Time for sector 1, see <see cref="CarSectorTime"/>
+    /// </summary>
     public class CarSectorTime1 : CarSectorTime
     {
         public CarSectorTime1()
@@ -54,6 +71,9 @@ namespace F1.Messages.Car
     }
 
 
+    /// <summary>
+    /// Time for sector 2,  see <see cref="CarSectorTime"/>
+    /// </summary>
     public class CarSectorTime2 : CarSectorTime
     {
         public CarSectorTime2()
@@ -62,7 +82,9 @@ namespace F1.Messages.Car
         }
     }
 
-
+    /// <summary>
+    /// Time for sector 3,  see <see cref="CarSectorTime"/>
+    /// </summary>
     public class CarSectorTime3 : CarSectorTime
     {
         public CarSectorTime3()

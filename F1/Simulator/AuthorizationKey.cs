@@ -24,6 +24,21 @@ using F1.Runtime;
 
 namespace F1.Simulator
 {
+    /// <summary>
+    /// <para>
+    /// Decodes a file which has the following format:
+    /// </para>
+    /// <c>
+    /// 6645 = 0xAC701BAE
+    /// 6644 = 0xBF941139
+    /// 6642 = 0xC1AD82A5
+    /// 6638 = 0x9BA5B44C
+    /// 6635 = 0x9DF36FD0
+    /// </c>
+    /// <para>
+    /// Return a decryption key from the mapping loaded in the session file.
+    /// </para>
+    /// </summary>
     public class AuthorizationKey : IAuthKey
     {
         private readonly Dictionary<string, uint> _keyLookup = new Dictionary<string, uint>();

@@ -17,10 +17,21 @@
  *  limitations under the License. 
  */
 
+using F1.Messages.System;
+
 namespace F1.Runtime
 {
+    /// <summary>
+    /// Authorization key services implement this.
+    /// </summary>
     public interface IAuthKey
     {
+        /// <summary>
+        /// Based on the specified session, ask for a key used to decrypt the
+        /// stream.
+        /// </summary>
+        /// <param name="session">The session indicator, see <see cref="EventId.SessionId"/></param>
+        /// <returns>The decryption key or 0.</returns>
         uint GetKey(string session);
     }
 }

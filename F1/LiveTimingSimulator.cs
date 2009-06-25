@@ -30,6 +30,20 @@ using log4net;
 
 namespace F1
 {
+    /// <summary>
+    /// <para>This concrete ILiveTimingApp type should be used to simulate a live timing application
+    /// when no F1 event is live.</para>
+    /// <para>There are three ways to construct this simulator:
+    /// <list type="number">
+    ///     <item>To perform a full simulation, live streaming and keyframe data.</item>
+    ///     <item>To perform a full simulation + authentication. As above but authenticates with the live server</item>
+    ///     <item>To perform a fallback simulation, key frames only.</item>
+    /// </list>
+    /// </para>
+    /// <example>
+    /// For an example see <see cref="ILiveTimingApp"/>.
+    /// </example>
+    /// </summary>
     public class LiveTimingSimulator : SimpleThreadedQueueBase, ILiveTimingApp
     {
         public event LiveTimingMessageHandlerDelegate SystemMessageHandler;
@@ -48,21 +62,56 @@ namespace F1
         #endregion
 
 
-        public LiveTimingSimulator( string keyFramePath, string liveDataFile, string username, string password, string authKeyFile, bool createThread )
+        /// <summary>
+        /// Create the live timing simulator, and behave as if it can not connect to the streaming
+        /// server. This means it will deliver keyframe data in bursts. You must provide an auth file
+        /// for this.
+        /// </summary>
+        /// <param name="keyFramePath">Path which contains the files matching keyframe pattern: keyframe_00nnn.bin</param>
+        /// <param name="authKeyFile">A valid authkey file containing event id and decryption key pairs. See <see cref="F1.Simulator.AuthorizationKey"/> for more information regarding this file type.</param>
+        /// <param name="createThread">After construction a child thread will be created, and Run will execute.</param>
+        public LiveTimingSimulator(string keyFramePath, string authKeyFile, bool createThread)
             : base(false)
         {
-            _log.Info("Building live timing simulator...");
+            BuildSimulator(keyFramePath, null, null, null, authKeyFile, createThread);
+        }
 
-            BuildSimulator(keyFramePath, liveDataFile, username, password, authKeyFile);
+        
+        /// <summary>
+        /// Create the live timing simulator with a genuine authentication server. This is useful if
+        /// you have some archived data, but do not have the decrytpion key for it.
+        /// </summary>
+        /// <param name="keyFramePath">Path which contains the files matching keyframe pattern: keyframe_00nnn.bin</param>
+        /// <param name="liveDataFile">Optional filepath of a live feed capture of data.</param>
+        /// <param name="username">Genuine formula1.com username for receiving authentication.</param>
+        /// <param name="password">Genuine formula1.com password for receiving authentication.</param>
+        /// <param name="createThread">After construction a child thread will be created, and Run will execute.</param>
+        public LiveTimingSimulator(string keyFramePath, string liveDataFile, string username, string password, bool createThread )
+            : base(false)
+        {
+            BuildSimulator(keyFramePath, liveDataFile, username, password, null, createThread);
+        }
 
-            if(createThread)
-            {
-                Start();
-            }
+
+        /// <summary>
+        /// Create the live timing simulator with an auth key file. Use this if you have already retrieved
+        /// the authentication key and have written it to a file.
+        /// </summary>
+        /// <param name="keyFramePath">Path which contains the files matching keyframe pattern: keyframe_00nnn.bin</param>
+        /// <param name="liveDataFile">Optional filepath of a live feed capture of data.</param>
+        /// <param name="authKeyFile">A valid authkey file containing event id and decryption key pairs. See <see cref="F1.Simulator.AuthorizationKey"/> for more information regarding this file type.</param>
+        /// <param name="createThread">After construction a child thread will be created, and Run will execute.</param>
+        public LiveTimingSimulator( string keyFramePath, string liveDataFile, string authKeyFile, bool createThread )
+            : base(false)
+        {
+            BuildSimulator(keyFramePath, liveDataFile, null, null, authKeyFile, createThread);
         }
 
         #region ILiveTimingApp Members
 
+        /// <summary>
+        /// See <see cref="ILiveTimingApp.Run"/>
+        /// </summary>
         public new void Run()
         {
             lock(_onceOnlyLock)
@@ -71,9 +120,12 @@ namespace F1
             }
         }
 
+        /// <summary>
+        /// See <see cref="ILiveTimingApp.Stop"/>
+        /// </summary>
         public void Stop( bool discard )
         {
-            base.Stop( JoinMethod.DontJoin, discard );
+            Stop( JoinMethod.DontJoin, discard );
         }
 
         #endregion
@@ -135,8 +187,10 @@ namespace F1
 
         #region Simulator builder
 
-        private void BuildSimulator(string keyFramePath, string liveDataFile, string username, string password, string authKeyFile)
+        private void BuildSimulator(string keyFramePath, string liveDataFile, string username, string password, string authKeyFile, bool createThread)
         {
+            _log.Info("Building live timing simulator...");
+
             IKeyFrame kf = new Simulator.KeyFrame(keyFramePath);
             
             IAuthKey ak;
@@ -148,7 +202,7 @@ namespace F1
             else
             {
                 //  We can still use this in the sim, albeit a bit cheeky :)
-                ak = new F1.Protocol.AuthorizationKey(username, password);
+                ak = new Protocol.AuthorizationKey(username, password);
             }
 
             _handler = new MessageDispatcherImpl(this);
@@ -159,6 +213,12 @@ namespace F1
 
             //  Create network component that drives the Runtime with data.
             CreateDriver(liveDataFile, kf, memStream);
+
+            if (createThread)
+            {
+                _log.Info("Creating child thread to Run simulator");
+                Start();
+            }
         }
 
 

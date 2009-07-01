@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compact Common", "Common\Compact Common.csproj", "{E22605D7-E94E-4135-8021-6BB91D3B806B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compact F1", "F1\Compact F1.csproj", "{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E22605D7-E94E-4135-8021-6BB91D3B806B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E22605D7-E94E-4135-8021-6BB91D3B806B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E22605D7-E94E-4135-8021-6BB91D3B806B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E22605D7-E94E-4135-8021-6BB91D3B806B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

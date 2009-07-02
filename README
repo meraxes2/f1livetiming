@@ -1,3 +1,11 @@
+Requirements
+------------
+
+Visual Studio 2008 + .NET Framework 3.5
+Sandcastle (for help file creation).
+NAnt-Gui 1.4 or above (for build file support and deployment).
+
+
 Unit Tests
 ----------
 

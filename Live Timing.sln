@@ -16,10 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivetimingLogger", "Tools\LivetimingLogger\LivetimingLogger.csproj", "{F39B82DA-DCF2-4EF9-8050-66533AE6E02C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Live data capture", "Tools\Live data capture\Live data capture.csproj", "{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Live Timing1.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -41,6 +40,10 @@ Global
 		{F39B82DA-DCF2-4EF9-8050-66533AE6E02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F39B82DA-DCF2-4EF9-8050-66533AE6E02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F39B82DA-DCF2-4EF9-8050-66533AE6E02C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

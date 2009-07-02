@@ -14,7 +14,7 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>.\Help\</OutputPath>
+    <OutputPath>.\bin\Help\</OutputPath>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <BuildLogFile>helpfilebuilder.log</BuildLogFile>
     <FrameworkVersion>2.0.50727</FrameworkVersion>
@@ -51,13 +51,14 @@
           <!-- Logo image file (optional).  Filename is required. The height,
                  width, altText, placement, and alignment attributes are
                  optional. -->
-          <logoFile filename="C:\LiveTiming.Trunk\Resources\logo.gif" height="0" width="0" altText="" placement="right" alignment="left" />
+          <logoFile filename="c:\LiveTiming.Trunk\Resources\logo.gif" height="0" width="0" altText="" placement="right" alignment="left" />
         </component>
       </ComponentConfig>
     </ComponentConfigurations>
     <DocumentationSources>
       <DocumentationSource sourceFile="F1\bin\Release\F1.dll" />
-<DocumentationSource sourceFile="F1\bin\Release\F1.XML" /></DocumentationSources>
+      <DocumentationSource sourceFile="F1\bin\Release\F1.XML" />
+    </DocumentationSources>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->

@@ -12,8 +12,13 @@
 	<property name="Version.Filename" value="version.xml" readonly="true" />
 	
 	<!-- Delete the output from previous builds -->
-	<target name="clean" description="Remove all generated files.">
+	<target name="clean" description="Remove all generated files." failonerror="false">
 		<delete dir="${Build.Dir}" />
+	</target>
+	
+	<!-- Delete all bin/obj directories from previous builds -->
+	<target name="cleanall" description="Remove all generated files." failonerror="false">
+		
 	</target>
 	
 	<!-- Build the release version of F1 solution -->
@@ -39,11 +44,44 @@
 		</msbuild>
 	</target>
 	
-	<!-- Update version numbers in all the assemblys -->
-	<target name="upver" description="Update version numbering in assembly files">
-		
+	<!-- Retrieve the current version number -->
+	<target name="getver" description="Update version numbering in assembly files">
+		<xmlpeek file="${Version.Filename}" 
+		         property="Version.Current" 
+		         xpath="/LiveTiming/Version"
+		         verbose="false" />
 	</target>
 	
+	<!-- Update version number in assemblys -->
+	<target name="upass" description="Update the version number in all AssemblyFiles" depends="getver">
+		<foreach item="File" property="nextFilename">
+			<in>
+				<items>
+					<include name="**\AssemblyInfo.cs" />
+				</items>
+			</in>
+			<do>
+				<echo message="${nextFilename}"/>
+				<exec program="Thirdparty\UpdateVersion.exe"
+				      commandline="-p ${Version.Current} -i ${nextFilename}"/>				    
+			</do>
+		</foreach>
+	</target>
+	
+	
 	<!-- Multiple targets and then zips up the output to create a release -->
-	<target name="deploy" description="Build and create deployment package." depends="clean,build,help" />
+	<target name="deploy" description="Build and create deployment package." depends="getver,clean,build,help">
+		<copy todir="${Build.Dir}" overwrite="true" file="README" />
+		<copy todir="${Build.Dir}" overwrite="true" file="NOTICE" />
+		<copy todir="${Build.Dir}" overwrite="true" file="Session Keys.txt" />
+		<copy todir="${Build.Dir}" overwrite="true" file="COPYING" />
+		<copy todir="${Build.Dir}" overwrite="true" file="COPYRIGHT" />
+		<copy todir="${Build.Dir}" overwrite="true" file="Copy me to auth.config" />
+		<copy todir="${Build.Dir}" overwrite="true" file="version.xml" />
+		<zip zipfile="release ${Version.Current}.zip" ziplevel="9">
+			<fileset basedir="${Build.Dir}" defaultexcludes="false">
+				<include name="**/*"/>
+			</fileset>
+		</zip>
+	</target>
 </project>

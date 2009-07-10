@@ -10,3 +10,32 @@ Unit Tests
 ----------
 
 Copy file "Copy me to auth.config" to "auth.config" in the sandbox root, and populate the username and password fields with your LiveTiming accounts from formula1.com
+
+
+Getting Started
+---------------
+
+Add references to the F1 and Common assemblies, and see the help file for an example for creating your first program harnessing the library.
+
+
+Using the LivetimingLogger.exe
+------------------------------
+
+The live timing logger will connect to the servers on a race day and dump all the data it receives to a log file and to the stdout. 
+
+To use it:
+
+1) Copy "Copy me to auth.config" to "auth.config"
+2) Modify the file to include your username and password for the formula1.com website
+3) Run the exe in its current directory
+
+
+Using the Live data capture.exe
+-------------------------------
+
+This application will connect to the live server and pull the data, storing it to a file which can then be used in your application for playback of an event.
+
+To use it:
+
+> Live data capture.exe capfile.dat
+

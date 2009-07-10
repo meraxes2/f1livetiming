@@ -121,7 +121,7 @@
 		<copy todir="${Build.Dir}" overwrite="true" file="COPYING" />
 		<copy todir="${Build.Dir}" overwrite="true" file="COPYRIGHT" />
 		<copy todir="${Build.Dir}" overwrite="true" file="Copy me to auth.config" />
-		<copy todir="${Build.Dir}" overwrite="true" file="version.xml" />
+		<copy todir="${Build.Dir}" overwrite="true" file="build.number" />
 		<zip zipfile="release ${Version.Current}.zip" ziplevel="9">
 			<fileset basedir="${Build.Dir}" defaultexcludes="false">
 				<include name="**/*"/>

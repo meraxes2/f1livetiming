@@ -12,8 +12,12 @@
 	<property name="Version.Filename" value="version.xml" readonly="true" />
 	
 	<!-- Delete the output from previous builds -->
-	<target name="clean" description="Remove all generated files." failonerror="false">
-		<delete dir="${Build.Dir}" />
+	<target name="clean" description="Remove all generated files.">
+		<delete failonerror="false">
+			<fileset>
+				<include name="${Build.Dir}\*"/>
+			</fileset>
+		</delete>
 	</target>
 	
 	
@@ -110,7 +114,7 @@
 	
 	
 	<!-- Multiple targets and then zips up the output to create a release -->
-	<target name="deploy" description="Build and create deployment package." depends="upass,clean,build,help">
+	<target name="deploy" description="Build and create deployment package." depends="clean,upass,build,help">
 		<copy todir="${Build.Dir}" overwrite="true" file="README" />
 		<copy todir="${Build.Dir}" overwrite="true" file="NOTICE" />
 		<copy todir="${Build.Dir}" overwrite="true" file="Session Keys.txt" />

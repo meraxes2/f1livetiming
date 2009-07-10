@@ -16,10 +16,6 @@
 		<delete dir="${Build.Dir}" />
 	</target>
 	
-	<!-- Delete all bin/obj directories from previous builds -->
-	<target name="cleanall" description="Remove all generated files." failonerror="false">
-		
-	</target>
 	
 	<!-- Build the release version of F1 solution -->
 	<target name="buildrel" description="Build all library and executables in Release">
@@ -46,22 +42,34 @@
 	
 	<!-- Retrieve the current version number -->
 	<target name="getver" description="Update version numbering in assembly files">
-		<xmlpeek file="${Version.Filename}" 
+		<!-- With an XML file 
+		<xmlpeek file="${Version.Filename}"
 		         property="Version.Current" 
 		         xpath="/LiveTiming/Version"
 		         verbose="false" />
+		-->
+		<loadfile file="build.number" property="Version.Current" />
+		<property name="Version.Current" value="${string::trim(Version.Current)}" overwrite="true" readonly="false" />
+		<echo message="Retrieved version number: ${Version.Current}" />
+	</target>
+	
+	<!-- Increment the current build number -->
+	<target name="incbuildver" description="Increment version number to next value" depends="getver">
+	    <version startdate="01 June 2009"/>
+	    <property name="Version.Current" value="${buildnumber.version}" overwrite="true" readonly="false" />
+	    <echo message="New version number: ${Version.Current}" />
 	</target>
 	
 	<!-- Update version number in assemblys -->
-	<target name="upass" description="Update the version number in all AssemblyFiles" depends="getver">
+	<target name="upass" description="Update the version number in all AssemblyFiles" depends="incbuildver">
+		<echo message="Updating all AssemblyInfo.cs to version ${Version.Current}"/>
 		<foreach item="File" property="nextFilename">
 			<in>
 				<items>
 					<include name="**\AssemblyInfo.cs" />
 				</items>
 			</in>
-			<do>
-				<echo message="Next file = ${path::get-full-path(nextFilename)}"/>
+			<do>				
 				<exec program="Thirdparty\UpdateVersion.exe">
 					<arg value="-p" />
 					<arg value="${Version.Current}" />
@@ -77,6 +85,24 @@
 							<pathelement path="${path::get-full-path(nextFilename)}" />
 						</path>
 					</arg>
+				</exec>
+				<exec program="Thirdparty\UpdateVersion.exe">
+					<arg value="-p" />
+					<arg value="${Version.Current}" />
+					<arg value="-i" />
+					<arg>
+						<path>
+							<pathelement path="${path::get-full-path(nextFilename)}" />
+						</path>
+					</arg>
+					<arg value="-o" />
+					<arg>
+						<path>
+							<pathelement path="${path::get-full-path(nextFilename)}" />
+						</path>
+					</arg>
+					<arg value="-v" />
+					<arg value="File" />
 				</exec>
 			</do>
 		</foreach>

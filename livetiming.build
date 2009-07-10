@@ -61,16 +61,30 @@
 				</items>
 			</in>
 			<do>
-				<echo message="${nextFilename}"/>
-				<exec program="Thirdparty\UpdateVersion.exe"
-				      commandline="-p ${Version.Current} -i ${nextFilename}"/>				    
+				<echo message="Next file = ${path::get-full-path(nextFilename)}"/>
+				<exec program="Thirdparty\UpdateVersion.exe">
+					<arg value="-p" />
+					<arg value="${Version.Current}" />
+					<arg value="-i" />
+					<arg>
+						<path>
+							<pathelement path="${path::get-full-path(nextFilename)}" />
+						</path>
+					</arg>
+					<arg value="-o" />
+					<arg>
+						<path>
+							<pathelement path="${path::get-full-path(nextFilename)}" />
+						</path>
+					</arg>
+				</exec>
 			</do>
 		</foreach>
 	</target>
 	
 	
 	<!-- Multiple targets and then zips up the output to create a release -->
-	<target name="deploy" description="Build and create deployment package." depends="getver,clean,build,help">
+	<target name="deploy" description="Build and create deployment package." depends="upass,clean,build,help">
 		<copy todir="${Build.Dir}" overwrite="true" file="README" />
 		<copy todir="${Build.Dir}" overwrite="true" file="NOTICE" />
 		<copy todir="${Build.Dir}" overwrite="true" file="Session Keys.txt" />

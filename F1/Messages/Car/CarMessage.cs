@@ -19,7 +19,7 @@
 
 using System;
 using System.IO;
-using System.Text;
+using Common.Utils.Strings;
 using F1.Data.Packets;
 using F1.Enums;
 
@@ -123,7 +123,7 @@ namespace F1.Messages.Car
             CarId = header.CarId;
             CarType = header.CarType;
             BaseShort = p.ShortDatum;
-            BaseData = (p.Data == null) ? String.Empty : Encoding.ASCII.GetString(p.Data);
+            BaseData = (p.Data == null) ? String.Empty : StringUtils.ASCIIBytesToString(p.Data);
 
             OnDeserialiseComplete();
         }

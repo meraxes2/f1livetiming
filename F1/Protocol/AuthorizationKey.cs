@@ -21,8 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Globalization;
+using Common.Utils.Strings;
 using F1.Runtime;
 using F1.Exceptions;
 
@@ -87,7 +87,7 @@ namespace F1.Protocol
         private static string TryGetCookie(string user, string pass, string host)
         {
             string body = string.Format("email={0}&password={1}", user, pass);
-            byte[] bodyData = Encoding.ASCII.GetBytes(body);
+            byte[] bodyData = StringUtils.StringToASCIIBytes(body);
 
             HttpWebRequest req = WebRequest.Create("http://" + host + "/reg/login.asp") as HttpWebRequest;
 

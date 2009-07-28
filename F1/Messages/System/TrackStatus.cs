@@ -18,7 +18,7 @@
  */
 
 using System.IO;
-using System.Text;
+using Common.Utils.Strings;
 using F1.Data.Packets;
 using F1.Enums;
 using F1.Exceptions;
@@ -74,7 +74,7 @@ namespace F1.Messages.System
 
             if (sp.ShortDatum == 1)
             {
-                int status = int.Parse(Encoding.ASCII.GetString(sp.Data));
+                int status = int.Parse(StringUtils.ASCIIBytesToString(sp.Data));
                 switch (status)
                 {
                     case 1:

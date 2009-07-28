@@ -72,25 +72,5 @@ namespace Common.Utils.Strings
             }
             return builder.ToString();
         }
-
-
-        public static string CommaSeperateArray<T>(IEnumerable<T> input)
-        {
-            bool first = true;
-            StringBuilder builder = new StringBuilder();
-            foreach (T b in input)
-            {
-                if (first)
-                {
-                    first = false;
-                    builder.Append(b.ToString());
-                }
-                else
-                {
-                    builder.Append("," + b);
-                }
-            }
-            return builder.ToString();
-        }
     }
 }

@@ -17,8 +17,8 @@
  *  limitations under the License. 
  */
 
-using System;
 using System.IO;
+using Common.Utils.Strings;
 using F1.Data.Packets;
 using F1.Enums;
 
@@ -70,7 +70,7 @@ namespace F1.Messages.Car
 
         public override string ToString()
         {
-            return "CarBaseMessage: CarPositionHistory - CarId: " + CarId + ", Car Position History: " + Common.Utils.Strings.HexString.CommaSeperateArray(PositionHistory);
+            return "CarBaseMessage: CarPositionHistory - CarId: " + CarId + ", Car Position History: " + StringUtils.CommaSeperateArray(PositionHistory);
         }
     }
 }

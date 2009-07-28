@@ -218,7 +218,7 @@ namespace F1.Runtime
                 IMessage newMsg = new RaceLapNumber(_currentLap);
 
                 if( _logger.IsDebugEnabled )
-                    _logger.Debug(newMsg);
+                    _logger.Debug(newMsg.ToString());
 
                 // We use the front runner's lap count to artificially generate
                 // a lap count for general display.

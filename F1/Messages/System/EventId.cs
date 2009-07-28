@@ -18,7 +18,7 @@
  */
 
 using System.IO;
-using System.Text;
+using Common.Utils.Strings;
 using F1.Enums;
 using F1.Data.Packets;
 
@@ -54,7 +54,7 @@ namespace F1.Messages.System
         {
             ShortPacket sp = (ShortPacket)payload;
 
-            SessionId = Encoding.ASCII.GetString(sp.Data, 1, sp.Data.Length - 1);
+            SessionId = StringUtils.ASCIIBytesToString(sp.Data, 1, sp.Data.Length - 1);
             EventType = (EventType)sp.ShortDatum;
         }
 

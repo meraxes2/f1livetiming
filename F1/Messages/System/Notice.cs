@@ -19,6 +19,7 @@
 
 using System.IO;
 using System.Text;
+using Common.Utils.Strings;
 using F1.Data.Packets;
 using F1.Enums;
 
@@ -45,7 +46,7 @@ namespace F1.Messages.System
         {
             LongPacket lp = (LongPacket)payload;
 
-            Message = Encoding.ASCII.GetString(lp.Data, 0, lp.Data.Length);
+            Message = StringUtils.ASCIIBytesToString(lp.Data);
         }
 
         public SystemPacketType Type

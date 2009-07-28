@@ -50,7 +50,7 @@ namespace F1.Messages.System
             {
                 // old style commentary message (i.e. no magic 2 bytes)
                 Encoding oldEncoding = Encoding.GetEncoding("ISO-8859-1");
-                Message = oldEncoding.GetString(sp.Data);
+                Message = oldEncoding.GetString(sp.Data, 0, sp.Data.Length);
             }
             else if( (sp.Data[1] & 0x02) == 0x02 )
             {

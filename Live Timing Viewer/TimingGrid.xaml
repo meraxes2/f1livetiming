@@ -1,0 +1,46 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
+	xmlns:ac="clr-namespace:AppCore;assembly=AppCore"
+	mc:Ignorable="d"
+	x:Class="Live_Timing_Viewer.TimingGrid"
+	x:Name="timingGrid"
+	d:DesignWidth="523" d:DesignHeight="367"
+	Background="Black">
+	
+	<!-- Define a data provider to construct and retrieve the default view from the live timing data provider class -->
+	<UserControl.Resources>
+		<!-- Create an instance -->
+		<ObjectDataProvider x:Key="liveTimingData" ObjectType="{x:Type ac:LiveTimingDataProvider}"/>
+		
+		<!-- define the method which is invoked to obtain our data -->
+        <ObjectDataProvider x:Key="liveTimingDefaultView" ObjectInstance="{StaticResource liveTimingData}" MethodName="get_DefaultView"/>
+		
+		
+		<Style x:Key="DataGridDemoRowStyle"  TargetType="{x:Type dg:DataGridRow}">
+		    <Style.Triggers>
+		        <Trigger Property="AlternationIndex" Value="2" >
+		            <Setter Property="Background" Value="{StaticResource RowBackgroundAlternationIndex2Brush}" />
+		        </Trigger>
+		        <Trigger Property="AlternationIndex" Value="3">
+		            <Setter Property="Background" Value="{StaticResource RowBackgroundAlternationIndex3Brush}" />
+		        </Trigger>
+		    </Style.Triggers>
+		</Style>
+		
+	</UserControl.Resources>
+	
+	<!--
+	<DockPanel DataContext="{Binding Source={StaticResource liveTimingDefaultView}}">
+        <dg:DataGrid ItemsSource="{Binding Mode=OneWay}" x:Name="liveTimingGrid"/>
+    </DockPanel>
+	-->
+	
+	<DockPanel>
+        <dg:DataGrid ItemsSource="{Binding Source={StaticResource liveTimingDefaultView}}" x:Name="liveTimingGrid"/>
+    </DockPanel>
+
+</UserControl>

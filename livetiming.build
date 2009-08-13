@@ -8,6 +8,7 @@
 	<!-- Environment configuration -->	
 	<property name="Build.Dir" value="bin" readonly="true" />
 	<property name="Solution.Filename" value="Live Timing.sln" readonly="true" />
+	<property name="Solution.LiveViewer" value="Live Timing Viewer.sln" readonly="true" />
 	<property name="Help.Filename" value="F1 Help.shfbproj" readonly="true" />
 	<property name="Version.Filename" value="version.xml" readonly="true" />
 	
@@ -31,6 +32,13 @@
 	<!-- Build the debug version of F1 solution -->
 	<target name="builddeb" description="Build all library and executables in Debug">
 		<msbuild project="${Solution.Filename}">
+      		<property name="Configuration" value="Debug"/>
+    	</msbuild>
+	</target>
+	
+	<!-- Build debug version of live timing viewer solution -->
+	<target name="buildlvdeb" description="Build all library and executables in Debug">
+		<msbuild project="${Solution.LiveViewer}">
       		<property name="Configuration" value="Debug"/>
     	</msbuild>
 	</target>

@@ -215,17 +215,17 @@ namespace F1.Messages.Car
             if( datums.Length >= 3 )
             {
                 // hours
-                timeSecs += double.Parse(datums[2]) * 3600.0;
+                timeSecs += double.Parse(datums[datums.Length-3]) * 3600.0;
             }
             if( datums.Length >= 2 )
             {
                 // mins
-                timeSecs += double.Parse(datums[1])*60;
+                timeSecs += double.Parse(datums[datums.Length-2])*60;
             }
             if( datums.Length >= 1 )
             {
                 // seconds and fraction of a second
-                timeSecs += double.Parse(datums[0]);
+                timeSecs += double.Parse(datums[datums.Length-1]);
             }
 
             return timeSecs;

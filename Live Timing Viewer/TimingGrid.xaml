@@ -9,38 +9,59 @@
 	x:Class="Live_Timing_Viewer.TimingGrid"
 	x:Name="timingGrid"
 	d:DesignWidth="523" d:DesignHeight="367"
-	Background="Black">
+	Background="Black" Height="425" Width="488">
+
+  <!-- Define a data provider to construct and retrieve the default view from the live timing data provider class -->
+  <UserControl.Resources>
+    <!-- Create an instance -->
+    <ObjectDataProvider x:Key="liveTimingData" ObjectType="{x:Type ac:LiveTimingDataProvider}"/>
+
+    <!-- define the method which is invoked to obtain our data -->
+    <ObjectDataProvider x:Key="liveTimingDefaultView" ObjectInstance="{StaticResource liveTimingData}" MethodName="get_DefaultView"/>
+
+
+    <Style x:Key="DataGridDemoRowStyle"  TargetType="{x:Type dg:DataGridRow}">
+      <Style.Triggers>
+        <Trigger Property="AlternationIndex" Value="2" >
+          <Setter Property="Background" Value="{StaticResource RowBackgroundAlternationIndex2Brush}" />
+        </Trigger>
+        <Trigger Property="AlternationIndex" Value="3">
+          <Setter Property="Background" Value="{StaticResource RowBackgroundAlternationIndex3Brush}" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
 	
-	<!-- Define a data provider to construct and retrieve the default view from the live timing data provider class -->
-	<UserControl.Resources>
-		<!-- Create an instance -->
-		<ObjectDataProvider x:Key="liveTimingData" ObjectType="{x:Type ac:LiveTimingDataProvider}"/>
-		
-		<!-- define the method which is invoked to obtain our data -->
-        <ObjectDataProvider x:Key="liveTimingDefaultView" ObjectInstance="{StaticResource liveTimingData}" MethodName="get_DefaultView"/>
-		
-		
-		<Style x:Key="DataGridDemoRowStyle"  TargetType="{x:Type dg:DataGridRow}">
-		    <Style.Triggers>
-		        <Trigger Property="AlternationIndex" Value="2" >
-		            <Setter Property="Background" Value="{StaticResource RowBackgroundAlternationIndex2Brush}" />
-		        </Trigger>
-		        <Trigger Property="AlternationIndex" Value="3">
-		            <Setter Property="Background" Value="{StaticResource RowBackgroundAlternationIndex3Brush}" />
-		        </Trigger>
-		    </Style.Triggers>
-		</Style>
-		
-	</UserControl.Resources>
-	
-	<!--
+	<DataTemplate x:Key="RowDetailsTemplate"> 
+        <Grid TextBlock.Foreground="White"> 
+            <Grid.RowDefinitions>
+                <RowDefinition /> 
+                <RowDefinition />                 
+            </Grid.RowDefinitions>
+            <TextBlock Text="RowDetails Go here"  Grid.Row="0"/>             
+            <TextBlock Text="{Binding }" Grid.Row="1"/> 
+        </Grid>        
+</DataTemplate>
+
+  </UserControl.Resources>
+
+  <!--
 	<DockPanel DataContext="{Binding Source={StaticResource liveTimingDefaultView}}">
         <dg:DataGrid ItemsSource="{Binding Mode=OneWay}" x:Name="liveTimingGrid"/>
     </DockPanel>
 	-->
-	
-	<DockPanel>
-        <dg:DataGrid ItemsSource="{Binding Source={StaticResource liveTimingDefaultView}}" x:Name="liveTimingGrid"/>
-    </DockPanel>
+
+  <DockPanel>
+    <dg:DataGrid ItemsSource="{Binding Source={StaticResource liveTimingDefaultView}}" x:Name="liveTimingGrid">
+		<!--
+		<dg:DataGrid.RowBackground>
+			<SolidColorBrush>
+				<SolidColorBrush.Color>
+					<Color A="255" R="0" G="0" B="0"/>
+				</SolidColorBrush.Color>
+			</SolidColorBrush>
+		</dg:DataGrid.RowBackground>
+		-->
+	</dg:DataGrid>
+  </DockPanel>
 
 </UserControl>

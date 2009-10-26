@@ -46,6 +46,12 @@ namespace F1.Simulator
                     HandleData(blob, read); 
                 }
 
+                if(_fileStream.CanSeek && _fileStream.Position >= _fileStream.Length)
+                {
+                    Terminate();
+                    break;
+                }
+
                 Thread.Sleep(INTERVAL);
             }
         }

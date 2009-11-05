@@ -8,8 +8,7 @@
 	mc:Ignorable="d"
 	x:Class="Live_Timing_Viewer.TimingGrid"
 	x:Name="timingGrid"
-	d:DesignWidth="523" d:DesignHeight="367"
-	Background="Black" Height="425" Width="488">
+	Background="Black" Height="307" Width="502">
 
   <!-- Define a data provider to construct and retrieve the default view from the live timing data provider class -->
   <UserControl.Resources>
@@ -19,13 +18,62 @@
     <!-- define the method which is invoked to obtain our data -->
     <ObjectDataProvider x:Key="liveTimingDefaultView" ObjectInstance="{StaticResource liveTimingData}" MethodName="get_DefaultView"/>
 	
+	
+	<SolidColorBrush x:Key="RowBackgroundAlternationIndex1Brush" Color="Black" /> 
+	
+	<SolidColorBrush x:Key="RowBackgroundAlternationIndex2Brush" Color="#222222" />
+	
+	<SolidColorBrush x:Key="GridTextColourBrush" Color="White" />
+	
+	<Style x:Key="LiveTimingGridStyle" TargetType="{x:Type dg:DataGrid}">
+		<Setter Property="AlternationCount" Value="2"/>
+		<Setter Property="BorderThickness" Value="0,0,0,0"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="MinColumnWidth" Value="50"/>
+		<Setter Property="CanUserAddRows" Value="False"/>
+		<Setter Property="CanUserDeleteRows" Value="False"/>
+		<Setter Property="CanUserResizeRows" Value="False"/>
+		<Setter Property="IsReadOnly" Value="True"/>
+		<Setter Property="Background" Value="Black"/>
+		<Setter Property="RowHeaderWidth" Value="0"/>
+	</Style>
+	
+	<Style x:Key="LiveTimingGridCellStyle" TargetType="{x:Type dg:DataGridCell}">
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	
+	<Style x:Key="LiveTimingHeaderStyle" TargetType="{x:Type dg:DataGridColumnHeader}">
+		<Setter Property="Background" Value="#333333"/>
+		<Setter Property="Foreground" Value="{DynamicResource GridTextColourBrush}"/>
+	</Style>
+	
+	<Style x:Key="LiveTimingRowStyle" TargetType="{x:Type dg:DataGridRow}">
+		<Style.Triggers>
+			<Trigger Property="AlternationIndex" Value="0">
+				<Setter Property="Background" Value="{DynamicResource RowBackgroundAlternationIndex1Brush}"/>
+				<Setter Property="Foreground" Value="{DynamicResource GridTextColourBrush}"/>
+			</Trigger>
+			<Trigger Property="AlternationIndex" Value="1">
+				<Setter Property="Background" Value="{DynamicResource RowBackgroundAlternationIndex2Brush}"/>
+				<Setter Property="Foreground" Value="{DynamicResource GridTextColourBrush}"/>	
+			</Trigger>			
+		</Style.Triggers>		
+	</Style>
+	
+	<Style x:Key="LiveTimingRowHeaderStyle" TargetType="{x:Type dg:DataGridRowHeader}">		
+	</Style>
+		
   </UserControl.Resources>
 
-  <DockPanel>
-    <dg:DataGrid ItemsSource="{Binding Source={StaticResource liveTimingDefaultView}}" 
-				 x:Name="liveTimingGrid" 
-				 CellStyle="{DynamicResource LiveTimingGridCellStyle}">
-	</dg:DataGrid>
+  <DockPanel LastChildFill="False">
+    <dg:DataGrid x:Name="liveTimingGrid"
+				 ItemsSource="{Binding Source={StaticResource liveTimingDefaultView}}" 
+				 Style="{DynamicResource LiveTimingGridStyle}"
+				 ColumnHeaderStyle="{DynamicResource LiveTimingHeaderStyle}" 
+				 CellStyle="{DynamicResource LiveTimingGridCellStyle}"
+				 RowStyle="{DynamicResource LiveTimingRowStyle}"
+				 RowHeaderStyle="{DynamicResource LiveTimingRowHeaderStyle}"/>
   </DockPanel>
 
 </UserControl>

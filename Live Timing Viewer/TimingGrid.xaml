@@ -30,6 +30,7 @@
 		<Setter Property="BorderThickness" Value="0,0,0,0"/>
 		<Setter Property="Padding" Value="0"/>
 		<Setter Property="MinColumnWidth" Value="50"/>
+		<Setter Property="MaxColumnWidth" Value="50"/>
 		<Setter Property="CanUserAddRows" Value="False"/>
 		<Setter Property="CanUserDeleteRows" Value="False"/>
 		<Setter Property="CanUserResizeRows" Value="False"/>
@@ -58,7 +59,7 @@
 				<Setter Property="Background" Value="{DynamicResource RowBackgroundAlternationIndex2Brush}"/>
 				<Setter Property="Foreground" Value="{DynamicResource GridTextColourBrush}"/>	
 			</Trigger>			
-		</Style.Triggers>		
+		</Style.Triggers>
 	</Style>
 	
 	<Style x:Key="LiveTimingRowHeaderStyle" TargetType="{x:Type dg:DataGridRowHeader}">		

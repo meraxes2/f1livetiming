@@ -1,0 +1,3 @@
+﻿<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Live_Timing_Viewer="clr-namespace:Live_Timing_Viewer" x:Name="svg2192" Width="110" Height="50" ClipToBounds="True">
+	<Live_Timing_Viewer:F1LiveLogo Width="105.844" Height="50.214"/>
+</Canvas>

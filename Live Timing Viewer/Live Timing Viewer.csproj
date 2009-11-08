@@ -58,6 +58,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="F1LiveLogo.xaml.cs">
+      <DependentUpon>F1LiveLogo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Launcher.xaml.cs">
+      <DependentUpon>Launcher.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -65,6 +71,18 @@
     <Compile Include="TimingGrid.xaml.cs">
       <DependentUpon>TimingGrid.xaml</DependentUpon>
     </Compile>
+    <Page Include="F1LiveLogo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="F1_logo glass.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Launcher.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LiveTimingResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

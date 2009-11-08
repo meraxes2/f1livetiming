@@ -1,0 +1,32 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:uc="clr-namespace:Live_Timing_Viewer"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Class="Live_Timing_Viewer.Launcher"
+	x:Name="Window"
+	Title="Live Timing Launch Pad"
+	Width="400" Height="400" Background="Black" WindowStyle="None" ResizeMode="NoResize" mc:Ignorable="d" WindowStartupLocation="CenterScreen">
+
+	<Grid x:Name="LayoutRoot">
+		<uc:F1LiveLogo HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="62.5" Margin="28.6,25.5,0,0" Foreground="#FFEEE6E6"/>
+		<Button x:Name="_exitButton" HorizontalAlignment="Right" Margin="0,0,32.5,33.04" VerticalAlignment="Bottom" Width="75" Content="Exit" Grid.Column="1"/>
+		
+		<GroupBox Margin="30.1,0,32.5,68.833" VerticalAlignment="Bottom" Height="79.167" Foreground="White" Header="Simulator" d:LayoutOverrides="GridBox">
+			<Grid>
+				<TextBox x:Name="_filePathDisplay" TextWrapping="Wrap" HorizontalAlignment="Left" Width="232.12" Margin="8,8,0,0" VerticalAlignment="Top"/>
+				<Button x:Name="_browseButton" HorizontalAlignment="Right" Width="75" Content="Browse" Margin="0,6.5,0,0" VerticalAlignment="Top"/>
+				<Button x:Name="_launchSimButton" HorizontalAlignment="Right" Width="75" Content="Launch" Margin="0,0,0,1.787" VerticalAlignment="Bottom"/>
+			</Grid>
+		</GroupBox>
+		
+		<GroupBox Margin="30.1,124,31,152" Header="Live Server" Foreground="White" d:LayoutOverrides="GridBox">
+			<Grid>
+				<TextBox x:Name="_userNameEdit" Margin="13,8,105.78,0" VerticalAlignment="Top" TextWrapping="Wrap"/>
+				<Button x:Name="_launchLiveButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Content="Launch" Margin="0,0,0,8"/>
+				<TextBox x:Name="_passwordEdit" Margin="13,41.333,105.78,37.746" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+			</Grid>
+		</GroupBox>
+		
+	</Grid>
+</Window>

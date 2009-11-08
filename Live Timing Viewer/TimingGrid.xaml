@@ -8,7 +8,7 @@
 	mc:Ignorable="d"
 	x:Class="Live_Timing_Viewer.TimingGrid"
 	x:Name="timingGrid"
-	Background="Black" Height="307" Width="502">
+	Background="Black" Height="362" Width="502">
 
   <!-- Define a data provider to construct and retrieve the default view from the live timing data provider class -->
   <UserControl.Resources>
@@ -74,7 +74,7 @@
 				 ColumnHeaderStyle="{DynamicResource LiveTimingHeaderStyle}" 
 				 CellStyle="{DynamicResource LiveTimingGridCellStyle}"
 				 RowStyle="{DynamicResource LiveTimingRowStyle}"
-				 RowHeaderStyle="{DynamicResource LiveTimingRowHeaderStyle}"/>
+				 RowHeaderStyle="{DynamicResource LiveTimingRowHeaderStyle}" />
   </DockPanel>
 
 </UserControl>

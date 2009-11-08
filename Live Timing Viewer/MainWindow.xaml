@@ -12,7 +12,7 @@
 	ResizeMode="NoResize">
 	
 	<Grid x:Name="LayoutRoot">
-		<uc:TimingGrid x:Name="timingGrid" Margin="17,126.5,113,19.5" Grid.Column="1" Grid.ColumnSpan="2"/>
+		<uc:TimingGrid x:Name="timingGrid" Margin="17,68,99,12" />
 		<TextBlock x:Name="title" Margin="17,8,113,0" VerticalAlignment="Top" Height="38" TextWrapping="Wrap" Foreground="White" FontSize="21.333" FontStyle="Italic" Grid.Column="1" Grid.ColumnSpan="2" />
 	</Grid>
 </Window>

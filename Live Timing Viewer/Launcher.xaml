@@ -6,27 +6,48 @@
 	x:Class="Live_Timing_Viewer.Launcher"
 	x:Name="Window"
 	Title="Live Timing Launch Pad"
-	Width="400" Height="400" Background="Black" WindowStyle="None" ResizeMode="NoResize" mc:Ignorable="d" WindowStartupLocation="CenterScreen">
+	Width="360" Height="370" Background="Black" WindowStyle="None" ResizeMode="NoResize" mc:Ignorable="d" WindowStartupLocation="CenterScreen">
 
-	<Grid x:Name="LayoutRoot">
-		<uc:F1LiveLogo HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="62.5" Margin="28.6,25.5,0,0" Foreground="#FFEEE6E6"/>
-		<Button x:Name="_exitButton" HorizontalAlignment="Right" Margin="0,0,32.5,33.04" VerticalAlignment="Bottom" Width="75" Content="Exit" Grid.Column="1"/>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close"
+                        Executed="Launcher.Close"
+                        CanExecute="True"
+                    />
+    </Window.CommandBindings>
+
+
+    <Grid x:Name="LayoutRoot">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<uc:F1LiveLogo HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="62.5" Margin="28.562,25.5,0,0" Foreground="#FFEEE6E6"/>
+		<Button x:Name="_exitButton" Margin="0,0,33.976,17.218" VerticalAlignment="Bottom" Content="Exit" HorizontalAlignment="Right" Width="74.976" IsCancel="True" Command="ApplicationCommands.Close" />
 		
-		<GroupBox Margin="30.1,0,32.5,68.833" VerticalAlignment="Bottom" Height="79.167" Foreground="White" Header="Simulator" d:LayoutOverrides="GridBox">
+		<GroupBox Margin="30.062,116,33.976,136.434" Header="Live Server" Foreground="White" HorizontalAlignment="Center">
 			<Grid>
-				<TextBox x:Name="_filePathDisplay" TextWrapping="Wrap" HorizontalAlignment="Left" Width="232.12" Margin="8,8,0,0" VerticalAlignment="Top"/>
-				<Button x:Name="_browseButton" HorizontalAlignment="Right" Width="75" Content="Browse" Margin="0,6.5,0,0" VerticalAlignment="Top"/>
-				<Button x:Name="_launchSimButton" HorizontalAlignment="Right" Width="75" Content="Launch" Margin="0,0,0,1.787" VerticalAlignment="Bottom"/>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="0.405*"/>
+					<RowDefinition Height="0.595*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.842*"/>
+					<ColumnDefinition Width="0.158*"/>
+				</Grid.ColumnDefinitions>
+				<TextBox x:Name="_userNameEdit" Margin="73.864,4.821,3.035,11.529" Width="207" Grid.ColumnSpan="2" d:LayoutOverrides="Height" />
+				<TextBox x:Name="_passwordEdit" Margin="73.864,-5.423,3.035,0" Height="22" Width="207" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="1" />
+				<Button x:Name="_launchLiveButton" Content="Launch" Margin="-33.106,24.577,3.035,9.753" Grid.Row="1" Grid.Column="1" d:LayoutOverrides="Height" />
+				<TextBlock HorizontalAlignment="Left" Margin="0.915,4.821,0,10.463" x:Name="_usernameLabel" Text="Username:" Width="63" TextAlignment="Right" />
+				<TextBlock HorizontalAlignment="Left" Margin="0.915,-4.463,0,0" x:Name="textBlock2" Text="Password:" TextAlignment="Right" Width="63" VerticalAlignment="Top" Height="23" Grid.Row="1" />
 			</Grid>
 		</GroupBox>
-		
-		<GroupBox Margin="30.1,124,31,152" Header="Live Server" Foreground="White" d:LayoutOverrides="GridBox">
+
+		<GroupBox Margin="30.062,0,33.976,53.267" VerticalAlignment="Bottom" Height="79.167" Foreground="White" Header="Simulator">
 			<Grid>
-				<TextBox x:Name="_userNameEdit" Margin="13,8,105.78,0" VerticalAlignment="Top" TextWrapping="Wrap"/>
-				<Button x:Name="_launchLiveButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Content="Launch" Margin="0,0,0,8"/>
-				<TextBox x:Name="_passwordEdit" Margin="13,41.333,105.78,37.746" TextWrapping="Wrap" d:LayoutOverrides="Height"/>
+				<TextBox x:Name="_filePathDisplay" TextWrapping="Wrap" HorizontalAlignment="Left" Width="188.9" Margin="8,8,0,0" VerticalAlignment="Top" Height="19" />
+				<Button x:Name="_browseButton" HorizontalAlignment="Right" Width="75" Content="Browse" Margin="0,5.04,2.919,0" VerticalAlignment="Top" RenderTransformOrigin="-0.153,0.396" d:LayoutOverrides="VerticalAlignment"/>
+				<Button x:Name="_launchSimButton" HorizontalAlignment="Right" Width="75" Content="Launch" Margin="0,0,2.919,3.247" VerticalAlignment="Bottom"/>
 			</Grid>
 		</GroupBox>
-		
-	</Grid>
+
+    </Grid>
 </Window>

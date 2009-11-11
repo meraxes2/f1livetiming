@@ -7,5 +7,5 @@ namespace Live_Timing_Viewer
 	/// </summary>
 	public partial class App : Application
 	{
-	}
+    }
 }

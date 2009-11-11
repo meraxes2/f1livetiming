@@ -1,27 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Live_Timing_Viewer
 {
-	/// <summary>
-	/// Interaction logic for Launcher.xaml
-	/// </summary>
 	public partial class Launcher : Window
 	{
 		public Launcher()
 		{
-			this.InitializeComponent();
-			
-			// Insert code required on object creation below this point.
+			InitializeComponent();
 		}
+
+	    private void CommandBinding_OnClose(object sender, ExecutedRoutedEventArgs e)
+	    {
+	        Close();
+	    }
+
+	    private void OnLaunch_Live(object sender, RoutedEventArgs e)
+	    {
+	        if( String.IsNullOrEmpty(_userNameEdit.Text) ||
+                String.IsNullOrEmpty(_passwordEdit.Text) )
+	        {
+	            MessageBox.Show("Please enter a valid username and password.", 
+                                "Invalid username and/or password",
+	                            MessageBoxButton.OK, 
+                                MessageBoxImage.Hand);
+
+	            return;
+	        }
+	    }
+
+	    private void OnLaunch_Simulator(object sender, RoutedEventArgs e)
+	    {
+            if (String.IsNullOrEmpty(_filePathDisplay.Text) ||
+                !File.Exists(_filePathDisplay.Text))
+            {
+                MessageBox.Show("Please enter a simulator file.",
+                                "No or incorrect file specified",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Hand);
+
+                return;
+            }
+	    }
+
+	    private void OnBrowse_Simulator(object sender, RoutedEventArgs e)
+	    {
+	        
+	    }
 	}
 }

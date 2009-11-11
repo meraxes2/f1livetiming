@@ -9,45 +9,31 @@
 	Width="360" Height="370" Background="Black" WindowStyle="None" ResizeMode="NoResize" mc:Ignorable="d" WindowStartupLocation="CenterScreen">
 
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Close"
-                        Executed="Launcher.Close"
-                        CanExecute="True"
-                    />
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CommandBinding_OnClose" />
     </Window.CommandBindings>
-
-
-    <Grid x:Name="LayoutRoot">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<uc:F1LiveLogo HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="62.5" Margin="28.562,25.5,0,0" Foreground="#FFEEE6E6"/>
-		<Button x:Name="_exitButton" Margin="0,0,33.976,17.218" VerticalAlignment="Bottom" Content="Exit" HorizontalAlignment="Right" Width="74.976" IsCancel="True" Command="ApplicationCommands.Close" />
+    
+    <Canvas x:Name="LayoutRoot">
+		<uc:F1LiveLogo Width="108" Height="62.5" Foreground="#FFEEE6E6" Canvas.Left="28.562" Canvas.Top="25.5"/>
 		
-		<GroupBox Margin="30.062,116,33.976,136.434" Header="Live Server" Foreground="White" HorizontalAlignment="Center">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="0.405*"/>
-					<RowDefinition Height="0.595*"/>
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="0.842*"/>
-					<ColumnDefinition Width="0.158*"/>
-				</Grid.ColumnDefinitions>
-				<TextBox x:Name="_userNameEdit" Margin="73.864,4.821,3.035,11.529" Width="207" Grid.ColumnSpan="2" d:LayoutOverrides="Height" />
-				<TextBox x:Name="_passwordEdit" Margin="73.864,-5.423,3.035,0" Height="22" Width="207" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="1" />
-				<Button x:Name="_launchLiveButton" Content="Launch" Margin="-33.106,24.577,3.035,9.753" Grid.Row="1" Grid.Column="1" d:LayoutOverrides="Height" />
-				<TextBlock HorizontalAlignment="Left" Margin="0.915,4.821,0,10.463" x:Name="_usernameLabel" Text="Username:" Width="63" TextAlignment="Right" />
-				<TextBlock HorizontalAlignment="Left" Margin="0.915,-4.463,0,0" x:Name="textBlock2" Text="Password:" TextAlignment="Right" Width="63" VerticalAlignment="Top" Height="23" Grid.Row="1" />
-			</Grid>
+		<Button x:Name="_exitButton" Content="Exit" Width="75" IsCancel="True" Command="ApplicationCommands.Close" Canvas.Left="251.048" Canvas.Top="332.505" />
+		
+		<GroupBox Header="Live Server" Foreground="White" Height="108.566" Canvas.Left="30.062" Canvas.Top="116" Width="295.962">
+			<Canvas>
+				<TextBox x:Name="_userNameEdit" Width="207" Canvas.Left="70.364" Canvas.Top="4.821" />
+				<TextBox x:Name="_passwordEdit" Width="207" Canvas.Left="70.364" Canvas.Top="34.384" />
+				<Button x:Name="_launchLiveButton" Content="Launch" Width="75" Canvas.Left="201.962" Canvas.Top="63.012" Click="OnLaunch_Live" />
+				<TextBlock x:Name="_usernameLabel" Text="Username:" TextAlignment="Right" Width="55.915" Height="24" Canvas.Left="6" Canvas.Top="5.821" />
+				<TextBlock x:Name="_passwordLabel" Text="Password:" TextAlignment="Right" Width="55.915" Height="24" Canvas.Left="6" Canvas.Top="35.344" />
+			</Canvas>
 		</GroupBox>
 
-		<GroupBox Margin="30.062,0,33.976,53.267" VerticalAlignment="Bottom" Height="79.167" Foreground="White" Header="Simulator">
-			<Grid>
-				<TextBox x:Name="_filePathDisplay" TextWrapping="Wrap" HorizontalAlignment="Left" Width="188.9" Margin="8,8,0,0" VerticalAlignment="Top" Height="19" />
-				<Button x:Name="_browseButton" HorizontalAlignment="Right" Width="75" Content="Browse" Margin="0,5.04,2.919,0" VerticalAlignment="Top" RenderTransformOrigin="-0.153,0.396" d:LayoutOverrides="VerticalAlignment"/>
-				<Button x:Name="_launchSimButton" HorizontalAlignment="Right" Width="75" Content="Launch" Margin="0,0,2.919,3.247" VerticalAlignment="Bottom"/>
-			</Grid>
+		<GroupBox Height="79.167" Foreground="White" Header="Simulator" Width="295.962" Canvas.Left="30.062" Canvas.Top="237.566">
+			<Canvas>
+				<TextBox x:Name="_filePathDisplay" HorizontalAlignment="Left" Width="188.9" Height="19" Canvas.Top="8" Canvas.Left="8" />
+				<Button x:Name="_browseButton" Width="75" Content="Browse" VerticalAlignment="Top" Canvas.Left="200.962" Canvas.Top="6.723" Click="OnBrowse_Simulator"/>
+				<Button x:Name="_launchSimButton" Width="75" Content="Launch" Canvas.Left="200.962" Canvas.Top="32.613" Click="OnLaunch_Simulator"/>
+			</Canvas>
 		</GroupBox>
 
-    </Grid>
+	</Canvas>
 </Window>

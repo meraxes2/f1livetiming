@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using AppCore;
 
 namespace Live_Timing_Viewer
 {
@@ -10,6 +11,12 @@ namespace Live_Timing_Viewer
 		public TimingGrid()
 		{
             InitializeComponent();
+
+            LiveTimingDataProvider provider = FindResource("liveTimingData") as LiveTimingDataProvider;
+
+            App theApp = App.Current as App;
+
+            provider.GoLive(theApp.LiveTiming);
         }
 	}
 }

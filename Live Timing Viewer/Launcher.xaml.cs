@@ -12,24 +12,43 @@ namespace Live_Timing_Viewer
 			InitializeComponent();
 		}
 
+
 	    private void CommandBinding_OnClose(object sender, ExecutedRoutedEventArgs e)
 	    {
 	        Close();
 	    }
 
+
 	    private void OnLaunch_Live(object sender, RoutedEventArgs e)
 	    {
-	        if( String.IsNullOrEmpty(_userNameEdit.Text) ||
-                String.IsNullOrEmpty(_passwordEdit.Text) )
-	        {
-	            MessageBox.Show("Please enter a valid username and password.", 
+            _launchLiveButton.IsEnabled = false;
+
+            if (String.IsNullOrEmpty(_userNameEdit.Text) ||
+                String.IsNullOrEmpty(_passwordEdit.Text))
+            {
+                MessageBox.Show("Please enter a valid username and password.",
                                 "Invalid username and/or password",
-	                            MessageBoxButton.OK, 
+                                MessageBoxButton.OK,
                                 MessageBoxImage.Hand);
 
-	            return;
-	        }
+            }
+            else
+            {
+                App theApp = (App)App.Current;
+
+                if (theApp.BeginLiveTiming(_userNameEdit.Text, _passwordEdit.Text))
+                {
+                    // go next
+                }
+                else
+                {
+                    _connectionErrorMessage.Visibility = Visibility.Visible;
+                }
+            }
+
+            _launchLiveButton.IsEnabled = true;
 	    }
+
 
 	    private void OnLaunch_Simulator(object sender, RoutedEventArgs e)
 	    {
@@ -44,6 +63,7 @@ namespace Live_Timing_Viewer
                 return;
             }
 	    }
+
 
 	    private void OnBrowse_Simulator(object sender, RoutedEventArgs e)
 	    {

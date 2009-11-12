@@ -9,28 +9,28 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="MainStateDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="MainStateDS" msprop:Generator_UserDSName="MainStateDS" msprop:EnableTableAdapterManager="true">
+  <xs:element name="MainStateDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="MainStateDS" msprop:Generator_UserDSName="MainStateDS">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Main" msprop:Generator_UserTableName="Main" msprop:Generator_RowDeletedName="MainRowDeleted" msprop:Generator_TableClassName="MainDataTable" msprop:Generator_RowChangedName="MainRowChanged" msprop:Generator_RowClassName="MainRow" msprop:Generator_RowChangingName="MainRowChanging" msprop:Generator_RowEvArgName="MainRowChangeEvent" msprop:Generator_RowEvHandlerName="MainRowChangeEventHandler" msprop:Generator_TablePropName="Main" msprop:Generator_TableVarName="tableMain" msprop:Generator_RowDeletingName="MainRowDeleting">
+        <xs:element name="Main" msprop:Generator_TableClassName="MainDataTable" msprop:Generator_RowEvArgName="MainRowChangeEvent" msprop:Generator_TableVarName="tableMain" msprop:Generator_TablePropName="Main" msprop:Generator_RowDeletingName="MainRowDeleting" msprop:Generator_UserTableName="Main" msprop:Generator_RowChangingName="MainRowChanging" msprop:Generator_RowDeletedName="MainRowDeleted" msprop:Generator_RowChangedName="MainRowChanged" msprop:Generator_RowEvHandlerName="MainRowChangeEventHandler" msprop:Generator_RowClassName="MainRow">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="CarID" msprop:Generator_UserColumnName="CarID" msprop:Generator_ColumnPropNameInRow="CarID" msprop:Generator_ColumnVarNameInTable="columnCarID" msprop:Generator_ColumnPropNameInTable="CarIDColumn" type="xs:int" minOccurs="0" />
-              <xs:element name="Position" msprop:Generator_UserColumnName="Position" msprop:Generator_ColumnPropNameInRow="Position" msprop:Generator_ColumnVarNameInTable="columnPosition" msprop:Generator_ColumnPropNameInTable="PositionColumn" type="xs:int" minOccurs="0" />
-              <xs:element name="Driver" msprop:Generator_UserColumnName="Driver" msprop:Generator_ColumnPropNameInRow="Driver" msprop:Generator_ColumnVarNameInTable="columnDriver" msprop:Generator_ColumnPropNameInTable="DriverColumn" type="xs:string" minOccurs="0" />
-              <xs:element name="Gap" msprop:Generator_UserColumnName="Gap" msprop:Generator_ColumnPropNameInRow="Gap" msprop:Generator_ColumnVarNameInTable="columnGap" msprop:Generator_ColumnPropNameInTable="GapColumn" type="xs:double" minOccurs="0" />
-              <xs:element name="Interval" msprop:Generator_UserColumnName="Interval" msprop:Generator_ColumnPropNameInRow="Interval" msprop:Generator_ColumnVarNameInTable="columnInterval" msprop:Generator_ColumnPropNameInTable="IntervalColumn" type="xs:double" minOccurs="0" />
-              <xs:element name="LapTime" msprop:Generator_UserColumnName="LapTime" msprop:Generator_ColumnPropNameInRow="LapTime" msprop:Generator_ColumnVarNameInTable="columnLapTime" msprop:Generator_ColumnPropNameInTable="LapTimeColumn" type="xs:double" minOccurs="0" />
-              <xs:element name="Sector_x0020_1" msprop:Generator_UserColumnName="Sector 1" msprop:Generator_ColumnPropNameInRow="Sector_1" msprop:Generator_ColumnVarNameInTable="columnSector_1" msprop:Generator_ColumnPropNameInTable="Sector_1Column" type="xs:double" minOccurs="0" />
-              <xs:element name="Sector_x0020_2" msprop:Generator_UserColumnName="Sector 2" msprop:Generator_ColumnPropNameInRow="Sector_2" msprop:Generator_ColumnVarNameInTable="columnSector_2" msprop:Generator_ColumnPropNameInTable="Sector_2Column" type="xs:double" minOccurs="0" />
-              <xs:element name="Sector_x0020_3" msprop:Generator_UserColumnName="Sector 3" msprop:Generator_ColumnPropNameInRow="Sector_3" msprop:Generator_ColumnVarNameInTable="columnSector_3" msprop:Generator_ColumnPropNameInTable="Sector_3Column" type="xs:double" minOccurs="0" />
-              <xs:element name="Pits" msprop:Generator_UserColumnName="Pits" msprop:Generator_ColumnPropNameInRow="Pits" msprop:Generator_ColumnVarNameInTable="columnPits" msprop:Generator_ColumnPropNameInTable="PitsColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="CarID" msprop:Generator_ColumnVarNameInTable="columnCarID" msprop:Generator_ColumnPropNameInRow="CarID" msprop:Generator_ColumnPropNameInTable="CarIDColumn" msprop:Generator_UserColumnName="CarID" type="xs:int" />
+              <xs:element name="Position" msprop:Generator_ColumnVarNameInTable="columnPosition" msprop:Generator_ColumnPropNameInRow="Position" msprop:Generator_ColumnPropNameInTable="PositionColumn" msprop:Generator_UserColumnName="Position" type="xs:int" minOccurs="0" />
+              <xs:element name="Driver" msprop:Generator_ColumnVarNameInTable="columnDriver" msprop:Generator_ColumnPropNameInRow="Driver" msprop:Generator_ColumnPropNameInTable="DriverColumn" msprop:Generator_UserColumnName="Driver" type="xs:string" minOccurs="0" />
+              <xs:element name="Gap" msprop:Generator_ColumnVarNameInTable="columnGap" msprop:Generator_ColumnPropNameInRow="Gap" msprop:Generator_ColumnPropNameInTable="GapColumn" msprop:Generator_UserColumnName="Gap" type="xs:double" minOccurs="0" />
+              <xs:element name="Interval" msprop:Generator_ColumnVarNameInTable="columnInterval" msprop:Generator_ColumnPropNameInRow="Interval" msprop:Generator_ColumnPropNameInTable="IntervalColumn" msprop:Generator_UserColumnName="Interval" type="xs:double" minOccurs="0" />
+              <xs:element name="LapTime" msprop:Generator_ColumnVarNameInTable="columnLapTime" msprop:Generator_ColumnPropNameInRow="LapTime" msprop:Generator_ColumnPropNameInTable="LapTimeColumn" msprop:Generator_UserColumnName="LapTime" type="xs:double" minOccurs="0" />
+              <xs:element name="Sector_x0020_1" msprop:Generator_ColumnVarNameInTable="columnSector_1" msprop:Generator_ColumnPropNameInRow="Sector_1" msprop:Generator_ColumnPropNameInTable="Sector_1Column" msprop:Generator_UserColumnName="Sector 1" type="xs:double" minOccurs="0" />
+              <xs:element name="Sector_x0020_2" msprop:Generator_ColumnVarNameInTable="columnSector_2" msprop:Generator_ColumnPropNameInRow="Sector_2" msprop:Generator_ColumnPropNameInTable="Sector_2Column" msprop:Generator_UserColumnName="Sector 2" type="xs:double" minOccurs="0" />
+              <xs:element name="Sector_x0020_3" msprop:Generator_ColumnVarNameInTable="columnSector_3" msprop:Generator_ColumnPropNameInRow="Sector_3" msprop:Generator_ColumnPropNameInTable="Sector_3Column" msprop:Generator_UserColumnName="Sector 3" type="xs:double" minOccurs="0" />
+              <xs:element name="Pits" msprop:Generator_ColumnVarNameInTable="columnPits" msprop:Generator_ColumnPropNameInRow="Pits" msprop:Generator_ColumnPropNameInTable="PitsColumn" msprop:Generator_UserColumnName="Pits" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:choice>
     </xs:complexType>
-    <xs:unique name="MainStateDSKey1">
+    <xs:unique name="MainStateDSKey1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:Main" />
       <xs:field xpath="mstns:CarID" />
     </xs:unique>

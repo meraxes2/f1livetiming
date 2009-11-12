@@ -128,6 +128,9 @@ namespace F1
             Stop( JoinMethod.DontJoin, discard );
         }
 
+
+        public F1.Enums.EventType CurrentEventType { get; private set; }
+
         #endregion
 
         #region IDisposable Members
@@ -161,6 +164,11 @@ namespace F1
                 {
                     // Tell the thread to stop blocking and exit after it's processed the remainder of messages.
                     Stop(JoinMethod.DontJoin, false);
+                }
+
+                if (msg is EventId)
+                {
+                    CurrentEventType = (msg as EventId).EventType;
                 }
 
                 SystemMessageHandler.Invoke(msg);

@@ -22,7 +22,7 @@ namespace F1.Messages.Car
     /// <summary>
     /// Implements ICarMessage to indicates which driver is driving for a given CarId.
     /// </summary>
-    class CarDriver : CarBaseMessage
+    public class CarDriver : CarBaseMessage
     {
         public string Name { get; private set; }
 

@@ -24,7 +24,8 @@
 				<Button x:Name="_launchLiveButton" Content="Launch" Width="75" Canvas.Left="201.962" Canvas.Top="63.012" Click="OnLaunch_Live" />
 				<TextBlock x:Name="_usernameLabel" Text="Username:" TextAlignment="Right" Width="55.915" Height="24" Canvas.Left="6" Canvas.Top="5.821" />
 				<TextBlock x:Name="_passwordLabel" Text="Password:" TextAlignment="Right" Width="55.915" Height="24" Canvas.Left="6" Canvas.Top="35.344" />
-			</Canvas>
+                <Label x:Name="_connectionErrorMessage" Visibility="Hidden" Content="Connection failed. Check credentials." Height="23" Width="191" Foreground="Red" FontSize="10" Canvas.Left="6" Canvas.Top="61"  />
+            </Canvas>
 		</GroupBox>
 
 		<GroupBox Height="79.167" Foreground="White" Header="Simulator" Width="295.962" Canvas.Left="30.062" Canvas.Top="237.566">

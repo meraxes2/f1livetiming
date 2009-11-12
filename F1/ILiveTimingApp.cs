@@ -152,5 +152,11 @@ namespace F1
         /// <param name="discard">true will cause the thread to exit abondoning any processing and messages that may
         /// remain. Use false to complete the current task before exiting.</param>
         void Stop( bool discard );
+
+
+        /// <summary>
+        /// The current event type once this race/qualy/free practice has started
+        /// </summary>B
+        F1.Enums.EventType CurrentEventType { get; }
     }
 }

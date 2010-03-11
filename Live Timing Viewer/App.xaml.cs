@@ -31,7 +31,7 @@ namespace Live_Timing_Viewer
         }
 
 
-        void Terminate()
+        public void Terminate()
         {
             LiveTiming.Dispose();
         }

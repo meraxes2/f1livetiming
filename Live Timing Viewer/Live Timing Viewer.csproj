@@ -122,6 +122,14 @@
       <Project>{908BC019-C939-42E7-87B6-54DCDEDE989D}</Project>
       <Name>AppCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{F8333564-085A-4CCE-9B71-9E79C993E788}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\F1\F1.csproj">
+      <Project>{32C5B4E4-D186-432A-BCC4-5F7874733BEC}</Project>
+      <Name>F1</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -80,6 +80,11 @@ namespace F1.Protocol
                 ret = TryGetCookie(user, pass, "secure.formula1.com");
             }
 
+            if (string.IsNullOrEmpty(ret))
+            {
+                throw new AuthorizationException("Incorrect login credentials", null);
+            }
+
             return ret;
         }
 
@@ -89,7 +94,7 @@ namespace F1.Protocol
             string body = string.Format("email={0}&password={1}", user, pass);
             byte[] bodyData = StringUtils.StringToASCIIBytes(body);
 
-            HttpWebRequest req = WebRequest.Create("http://" + host + "/reg/login.asp") as HttpWebRequest;
+            HttpWebRequest req = WebRequest.Create("http://" + host + "/reg/getkey/login.asp") as HttpWebRequest;
 
             if (null != req.Proxy)
             {
@@ -113,7 +118,15 @@ namespace F1.Protocol
 
             if( string.IsNullOrEmpty(cookie))
             {
-                throw new AuthorizationException("Incorrect login credentials", null);
+                if (0 < resp1.ContentLength)
+                {
+                    // it's probably not an event day, and the server is returning a singlecharacter
+                    StreamReader stringReader = new StreamReader(resp1.GetResponseStream());
+
+                    return stringReader.ReadToEnd();
+                }
+
+                return null;
             }
 
             return ParseCookie(cookie);

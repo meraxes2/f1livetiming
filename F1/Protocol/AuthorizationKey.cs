@@ -73,28 +73,34 @@ namespace F1.Protocol
         #region Static Helpers
         private static string Login(string user, string pass)
         {
-            string ret = TryGetCookie(user, pass, "live-timing.formula1.com");
+            string ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login?redirect_url=%2flive_timing%2f");
+
+            if ("0" == ret || String.IsNullOrEmpty(ret))
+            {
+                TryGetCookie(user, pass, "http://live-timing.formula1.com/reg/getkey/login.asp");
+            }
 
             if( String.IsNullOrEmpty(ret) )
             {
-                ret = TryGetCookie(user, pass, "secure.formula1.com");
+                ret = TryGetCookie(user, pass, "http://secure.formula1.com/reg/getkey/login.asp");
             }
 
             if (string.IsNullOrEmpty(ret))
             {
                 throw new AuthorizationException("Incorrect login credentials", null);
             }
+        
 
             return ret;
         }
 
 
-        private static string TryGetCookie(string user, string pass, string host)
+        private static string TryGetCookie(string user, string pass, string baseurl)
         {
             string body = string.Format("email={0}&password={1}", user, pass);
             byte[] bodyData = StringUtils.StringToASCIIBytes(body);
 
-            HttpWebRequest req = WebRequest.Create("http://" + host + "/reg/getkey/login.asp") as HttpWebRequest;
+            HttpWebRequest req = WebRequest.Create(baseurl) as HttpWebRequest;
 
             if (null != req.Proxy)
             {

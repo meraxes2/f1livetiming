@@ -168,7 +168,7 @@ namespace F1.Network
             }
             catch(Exception e)
             {
-                _log.Warn(e.Message);
+                _log.Warn("HandleRead() - " + e.Message);
 
                 // Error while processing the data, so we abort and discard the remainder
                 // of read/write requests pending.

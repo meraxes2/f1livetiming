@@ -29,10 +29,12 @@ namespace Common.Patterns.Command
         private readonly LinkedList<ICommand> _lowPriorityQueue;
         private readonly LinkedList<ICommand> _highPriorityQueue;
         private readonly object _thisLock;
+        private readonly EventWaitHandle _signal;
 
         public CommandQueue()
         {
             _thisLock = new object();
+            _signal = new EventWaitHandle(false, EventResetMode.AutoReset);
             _lowPriorityQueue = new LinkedList<ICommand>();
             _highPriorityQueue = new LinkedList<ICommand>();
         }
@@ -45,7 +47,7 @@ namespace Common.Patterns.Command
                 DoPushExtra();
                 if (_lowPriorityQueue.Count == 0 && _highPriorityQueue.Count == 0)
                 {
-                    Monitor.PulseAll(_thisLock);
+                    _signal.Set();
                 }
                 _lowPriorityQueue.AddLast(cmd);
             }
@@ -59,7 +61,7 @@ namespace Common.Patterns.Command
                 DoPushExtra();
                 if (AreEmptyUnsafe)
                 {
-                    Monitor.PulseAll(_thisLock);
+                    _signal.Set();
                 }
                 _highPriorityQueue.AddLast(cmd);
             }
@@ -86,7 +88,12 @@ namespace Common.Patterns.Command
             {
                 if (AreEmptyUnsafe)
                 {
-                    if (!Monitor.Wait(_thisLock, time))
+                    Monitor.Exit(_thisLock);
+                    if(_signal.WaitOne((int)time.TotalMilliseconds, false))
+                    {
+                        Monitor.Enter(_thisLock);
+                    }
+                    else
                     {
                         DoPopExtra();
                         return null;

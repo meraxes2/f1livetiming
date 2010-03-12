@@ -47,7 +47,7 @@ namespace Test
             _queue.Push(CommandFactory.MakeCommand(IncrementCallCount));
             _queue.Push(CommandFactory.MakeCommand(IncrementCallCount));
 
-            ProcessQueue(_queue);
+            ProcessQueue(_queue,0);
 
             Assert.AreEqual(_callCount, 2);
 
@@ -56,7 +56,7 @@ namespace Test
 
             Assert.AreEqual(_callCount, 2);
 
-            ProcessQueue(_queue);
+            ProcessQueue(_queue,0);
 
             Assert.AreEqual(_callCount, 4);
         }
@@ -68,6 +68,8 @@ namespace Test
 
             t.Start(_queue);
 
+            Thread.Sleep(500);
+
             _queue.Push(CommandFactory.MakeCommand(IncrementCallCount));
 
             Thread.Sleep(1000);
@@ -78,11 +80,11 @@ namespace Test
         }
 
 
-        private static void ProcessQueue(CommandQueue queue)
+        private static void ProcessQueue(CommandQueue queue, int timeoutSecs)
         {
             while(queue.HasCommand)
             {
-                using( ICommand cmd = queue.Pop(new TimeSpan(0)))
+                using( ICommand cmd = queue.Pop(new TimeSpan(0,0,timeoutSecs)))
                 {
                     cmd.Execute();
                 }
@@ -98,7 +100,11 @@ namespace Test
 
         private static void WaitThread(Object o)
         {
-            ProcessQueue(o as CommandQueue);
+            CommandQueue q = o as CommandQueue;
+            using (ICommand cmd = q.Pop(new TimeSpan(0, 0, 5)))
+            {
+                cmd.Execute();
+            }
         }
     }
 }

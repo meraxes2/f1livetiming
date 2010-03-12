@@ -104,8 +104,11 @@ namespace Common.Utils.Threading
                 _cmdQueue.Push(CommandFactory.MakeCommand(() => _running = false));
             }
 
-
+#if COMPACT
+            if (join == JoinMethod.Join && _thread != null )
+#else
             if (join == JoinMethod.Join && _thread != null && _thread.IsAlive )
+#endif
             {
                 _thread.Join();
                 _thread = null;

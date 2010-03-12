@@ -83,7 +83,11 @@ namespace Common.Utils.Threading
                 if (_running)
                 {
                     _running = false;
+#if COMPACT
+                    if( _thread != null )
+#else
                     if( _thread != null && _thread.IsAlive )
+#endif
                     {
                         doJoin = true;
                     }

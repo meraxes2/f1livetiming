@@ -21,6 +21,11 @@ using System;
 
 namespace Common.Patterns.State
 {
+    /// <summary>
+    /// Defines the principal interface of the StateMachine pattern.
+    /// </summary>
+    /// <typeparam name="TContext">The concrete IContext type this state machine will use.</typeparam>
+    /// <typeparam name="TContract">The contract / interface to define the additional behaviours of this State Machine.</typeparam>
     public interface IStateMachine<TContext> : IDisposable where TContext : IContext
     {
         void ChangeTo<TNewState>() where TNewState : IState<TContext>, new();

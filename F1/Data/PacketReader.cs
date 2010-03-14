@@ -27,6 +27,7 @@ using F1.Exceptions;
 using F1.Messages;
 using F1.Messages.System;
 using log4net;
+using System;
 
 namespace F1.Data
 {
@@ -60,14 +61,11 @@ namespace F1.Data
         }
 
         /// <summary>
-        /// Specialise the IState further to provide PacketReader specific
+        /// Define the contract for this state machine.
         /// methods.
         /// </summary>
-        internal abstract class PacketReaderState : IState<DataContext>
+        public interface IPacketReaderContract
         {
-            protected DataContext Context { get; private set; }
-            protected PacketReader Fsm { get; private set; }
-
             /// <summary>
             /// The states must implement this and process the next
             /// chunk of available data in it. It's ok to change state
@@ -75,45 +73,21 @@ namespace F1.Data
             /// </summary>
             /// <returns>true indicates we may not have completed the stream, and
             /// hence we should want to continue processing.</returns>
-            abstract public bool ReadNext();
-
-            #region IState Members
-
-            public virtual void Entry(IStateMachine<DataContext> fsm, DataContext c)
-            {
-                Context = c;
-                Fsm = (PacketReader)fsm;
-            }
-
-            public void Exit()
-            {
-            }
-
-            #endregion
-
-            #region IDisposable Members
-
-            public void Dispose()
-            {
-            }
-
-            #endregion
+            bool ReadNext();
         }
 
 
         /// <summary>
         /// The first state for initialising the packet reader.
         /// </summary>
-        internal class PacketReaderInit : PacketReaderState
+        internal class PacketReaderInit : State<DataContext>, IPacketReaderContract
         {
-            public override void Entry(IStateMachine<DataContext> fsm, DataContext c)
+            public override void Entry()
             {
-                base.Entry(fsm, c);
-
-                Fsm.ChangeTo<NewMessageStartState>();
+                StateMachine.ChangeTo<NewMessageStartState>();
             }
 
-            public override bool ReadNext()
+            public bool ReadNext()
             {
                 // this should never be called
                 return false;
@@ -125,9 +99,9 @@ namespace F1.Data
         /// Start the process of reading the next message from
         /// the stream.
         /// </summary>
-        internal class NewMessageStartState : PacketReaderState
+        internal class NewMessageStartState : State<DataContext>, IPacketReaderContract
         {
-            public override bool ReadNext()
+            public bool ReadNext()
             {
                 Context.Header = new Header(Context.Input);
 
@@ -136,7 +110,7 @@ namespace F1.Data
                     // We've read the header completely, so now we
                     // move on to understanding it.
 
-                    Fsm.ChangeTo<ProcessHeaderState>();
+                    StateMachine.ChangeTo<ProcessHeaderState>();
 
                     return true;
                 }
@@ -144,7 +118,7 @@ namespace F1.Data
                 // We haven't read some or all of the header yet
                 // so exit and wait for more data.
 
-                Fsm.ChangeTo<HeaderContinuationState>();
+                StateMachine.ChangeTo<HeaderContinuationState>();
 
                 return false;
             }
@@ -154,9 +128,9 @@ namespace F1.Data
         /// <summary>
         /// Read the remainder of the incomplete header message.
         /// </summary>
-        internal class HeaderContinuationState : PacketReaderState
+        internal class HeaderContinuationState : State<DataContext>, IPacketReaderContract
         {
-            public override bool ReadNext()
+            public bool ReadNext()
             {
                 Context.Header.ContinueDataRead();
 
@@ -164,7 +138,7 @@ namespace F1.Data
                 {
                     // We've read all of the header now we need to understand it
 
-                    Fsm.ChangeTo<ProcessHeaderState>();
+                    StateMachine.ChangeTo<ProcessHeaderState>();
 
                     return true;
                 }
@@ -183,9 +157,9 @@ namespace F1.Data
         /// Process the completed header data, and start getting the data
         /// appropriate for the given message.
         /// </summary>
-        internal class ProcessHeaderState : PacketReaderState
+        internal class ProcessHeaderState : State<DataContext>, IPacketReaderContract
         {
-            public override bool ReadNext()
+            public override void Entry()
             {
                 // It's not our business to choose the message, so rely
                 // on the factory object.
@@ -206,7 +180,7 @@ namespace F1.Data
                     // Couldn't resolve the message, which means we don't know how
                     // to continue with this stream. "Computer says no".
 
-                    Fsm.ChangeTo<ErrorState>();
+                    StateMachine.ChangeTo<ErrorState>();
                     throw new UnknownSystemTypeException(Context.Header.RawType, Context.Header.CarId, Context.Header.Datum);        
                 }
 
@@ -214,16 +188,22 @@ namespace F1.Data
 
                 if (null == Context.Packet || Context.Packet.IsComplete)
                 {
-                    // Complete the processing of this message.
-
-                    Fsm.ChangeTo<ProcessMessageState>();
-                    return true;
+                    // The packet is completed, so Complete the processing of this message by
+                    // changing to the next state now.
+                    StateMachine.ChangeTo<ProcessMessageState>();
                 }
-                
-                // We need to wait for the rest of the data for the
-                // message. 
-                Fsm.ChangeTo<PacketContinuationState>();
-                return false;
+                else
+                {
+                    // Otherwise we need to wait for the rest of the data for the
+                    // message so put it into the read continuation state.
+                    StateMachine.ChangeTo<PacketContinuationState>();
+                }
+            }
+
+
+            public bool ReadNext()
+            {
+                throw new NotImplementedException("This method can never be called.");
             }
         }
 
@@ -231,9 +211,17 @@ namespace F1.Data
         /// <summary>
         /// Continue reading the data for this packet
         /// </summary>
-        internal class PacketContinuationState : PacketReaderState
+        internal class PacketContinuationState : State<DataContext>, IPacketReaderContract
         {
-            public override bool ReadNext()
+            public override void Entry()
+            {
+                if (Context.CurrentMessage == null)
+                {
+                    throw new NullReferenceException();
+                }
+            }
+
+            public bool ReadNext()
             {
                 Context.Packet.ContinueDataRead();
 
@@ -242,7 +230,7 @@ namespace F1.Data
                     // We managed to get the rest of the message data
                     // so complete processing of the message.
 
-                    Fsm.ChangeTo<ProcessMessageState>();
+                    StateMachine.ChangeTo<ProcessMessageState>();
                     return true;
                 }
 
@@ -259,9 +247,9 @@ namespace F1.Data
         /// Complete the extraction of data for the message and queue the
         /// completed message.
         /// </summary>
-        internal class ProcessMessageState : PacketReaderState
+        internal class ProcessMessageState : State<DataContext>, IPacketReaderContract
         {
-            public override bool ReadNext()
+            public override void Entry()
             {
                 if (Context.Packet == null || !Context.Packet.IsGarbage)
                 {
@@ -288,9 +276,13 @@ namespace F1.Data
                 
                 // Start again:
 
-                Fsm.ChangeTo<NewMessageStartState>();
+                StateMachine.ChangeTo<NewMessageStartState>();
+            }
 
-                return true;
+
+            public bool ReadNext()
+            {
+                throw new NotImplementedException("This method can not be called.");
             }
         }
 
@@ -298,9 +290,9 @@ namespace F1.Data
         /// <summary>
         /// We've reached an unrecoverable state.
         /// </summary>
-        internal class ErrorState : PacketReaderState
+        internal class ErrorState : State<DataContext>, IPacketReaderContract
         {
-            public override bool ReadNext()
+            public bool ReadNext()
             {
                 throw new ErrorStateException();
             }
@@ -318,7 +310,7 @@ namespace F1.Data
     /// data from which we will need to continue another iteration
     /// later.
     /// </remarks>
-    public class PacketReader : StateMachine<DataContext>
+    public class PacketReader : StateMachine<DataContext, IPacketReaderContract>
     {
         /// <summary>
         /// Initialise the state machine with the raw input data
@@ -370,8 +362,5 @@ namespace F1.Data
         /// ReadNext as this is not thread safe.
         /// </summary>
         public Queue<IMessage> MessageQueue { get { return Context.MessageQueue; } }
-
-
-        private PacketReaderState TypedState { get { return (PacketReaderState)CurrentState; } }
     }
 }

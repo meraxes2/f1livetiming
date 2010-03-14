@@ -21,15 +21,33 @@ using System;
 
 namespace Common.Patterns.State
 {
+    /// <summary>
+    /// Defines the contract that any State must implement (including IDisposable) to be a valid state.
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
     public interface IState<TContext> : IDisposable where TContext : IContext
 	{
+        /// <summary>
+        /// A reference to the current state machine. This 
+        /// value is initialised by the state machine immediately after
+        /// construction and before Entry().
+        /// </summary>
+        IStateMachine<TContext> StateMachine { get; set; }
+        
+        /// <summary>
+        /// A reference to the current state machine's context. This 
+        /// value is initialised by the state machine immediately after
+        /// construction and before Entry().
+        /// </summary>
+        TContext Context { get; set; }
+        
         /// <summary>
         /// When a new state is made current, the entry method is called
         /// to initialise the implementation of the state. This method
         /// is guaranteed to be called after the Exit() of the previous
         /// state.
         /// </summary>
-        void Entry(IStateMachine<TContext> fsm, TContext c);
+        void Entry();
 
         /// <summary>
         /// When a new state is 

@@ -19,10 +19,19 @@
 
 namespace Common.Patterns.State
 {
-    public class StateMachine<TContext> : IStateMachine<TContext> where TContext : IContext, new()
+    public class StateMachine<TContext, TContract> : IStateMachine<TContext> where TContext : IContext, new()
     {
         protected IState<TContext> CurrentState { get; private set; }
+
         protected TContext Context { get; private set; }
+
+        protected TContract TypedState
+        {
+            get
+            {
+                return (TContract)CurrentState;
+            }
+        }
 
         protected StateMachine()
         {
@@ -32,7 +41,9 @@ namespace Common.Patterns.State
         protected void InitialState<TInitialState>() where TInitialState : IState<TContext>, new()
         {
             CurrentState = new TInitialState();
-            CurrentState.Entry(this, Context);
+            CurrentState.StateMachine = this;
+            CurrentState.Context = Context;            
+            CurrentState.Entry();
         }
 
         #region IStateMachine Members
@@ -43,7 +54,9 @@ namespace Common.Patterns.State
             CurrentState.Dispose();
 
             CurrentState = new TNewState();
-            CurrentState.Entry(this, Context);
+            CurrentState.StateMachine = this;
+            CurrentState.Context = Context;
+            CurrentState.Entry();
         }
 
 

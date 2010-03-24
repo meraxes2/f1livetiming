@@ -6,6 +6,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72208192-26F2-4D68-BEBF-AD7425542A49}"
 	ProjectSection(SolutionItems) = preProject
 		Live Timing1.vsmdi = Live Timing1.vsmdi
+		Live Timing3.vsmdi = Live Timing3.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		Session Keys.txt = Session Keys.txt
 	EndProjectSection
@@ -18,7 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivetimingLogger", "Tools\L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Live data capture", "Tools\Live data capture\Live data capture.csproj", "{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyCracker", "Tools\KeyCracker\KeyCracker.csproj", "{D65A552D-6A20-430A-92D8-7387806D8693}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Live Timing3.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -44,6 +50,10 @@ Global
 		{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A9596D8-CB9F-4D83-8BF7-A7AE7D533D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D65A552D-6A20-430A-92D8-7387806D8693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D65A552D-6A20-430A-92D8-7387806D8693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D65A552D-6A20-430A-92D8-7387806D8693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D65A552D-6A20-430A-92D8-7387806D8693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

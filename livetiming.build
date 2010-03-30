@@ -14,11 +14,7 @@
 	
 	<!-- Delete the output from previous builds -->
 	<target name="clean" description="Remove all generated files.">
-		<delete failonerror="false">
-			<fileset>
-				<include name="${Build.Dir}\*"/>
-			</fileset>
-		</delete>
+		<delete failonerror="false" dir="${Build.Dir}" />
 	</target>
 	
 	

@@ -19,7 +19,9 @@
 
 using Common.Patterns.Singleton;
 using log4net;
+#if !COMPACT
 using log4net.Config;
+#endif
 using System.IO;
 
 namespace Test
@@ -34,7 +36,9 @@ namespace Test
 
         public void NextTest(string testName)
         {
+#if !COMPACT
             GlobalContext.Properties["UnitTest"] = testName;
+#endif
         }
 
 
@@ -46,10 +50,12 @@ namespace Test
 
         public void Enable()
         {
+#if !COMPACT
             using (Stream configStream = File.Open("logging.config", FileMode.Open))
             {
                 XmlConfigurator.Configure(configStream);
             }
+#endif
         }
     }
 }

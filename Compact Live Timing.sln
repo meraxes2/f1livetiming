@@ -5,7 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compact Common", "Common\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compact F1", "F1\Compact F1.csproj", "{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C37F4C1C-911E-4610-BFD3-BF56A98FF64C}"
+	ProjectSection(SolutionItems) = preProject
+		Compact Live Timing.vsmdi = Compact Live Timing.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compact Test", "Test\Compact Test.csproj", "{53F3F158-380E-4E6A-86A7-11025D3468EC}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Compact Live Timing.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -19,6 +30,10 @@ Global
 		{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F3F158-380E-4E6A-86A7-11025D3468EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F3F158-380E-4E6A-86A7-11025D3468EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F3F158-380E-4E6A-86A7-11025D3468EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F3F158-380E-4E6A-86A7-11025D3468EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

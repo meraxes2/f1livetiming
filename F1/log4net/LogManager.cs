@@ -28,5 +28,10 @@ namespace log4net
         {
             return new LogImpl();
         }
+
+        public static void Shutdown()
+        {
+
+        }
     }
 }

@@ -73,9 +73,14 @@ namespace F1.Network
 
                 _log.Info("Connecting...");
 
+#if COMPACT
+                EndPoint ep = new IPEndPoint(e.AddressList[0], PORT);
+                _incoming.Connect(ep);
+                _incoming.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 10000);
+#else
                 _incoming.Connect(e.AddressList, PORT);
-
                 _incoming.ReceiveTimeout = 10000; // 10 seconds because we may not always be receiving data
+#endif
 
                 //  Queue the first read and write
                 CmdQueue.Push(CommandFactory.MakeCommand(DoNextRead, new byte[BLOB_SIZE]));
@@ -108,7 +113,7 @@ namespace F1.Network
         private void DoPing()
         {
             byte[] reqPacket = { 0x10 };
-            _incoming.BeginSend(reqPacket, 0, 1, SocketFlags.None, new AsyncCallback(OnWriteData), null);
+            _incoming.BeginSend(reqPacket, 0, 1, SocketFlags.None, OnWriteData, null);
         }
 
 
@@ -126,7 +131,7 @@ namespace F1.Network
         
         private void DoNextRead(byte[] blob)
         {
-            _incoming.BeginReceive(blob, 0, blob.Length, SocketFlags.None, new AsyncCallback(OnReceiveData), blob);
+            _incoming.BeginReceive(blob, 0, blob.Length, SocketFlags.None, OnReceiveData, blob);
         }
 
 

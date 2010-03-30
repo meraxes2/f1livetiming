@@ -1,27 +1,69 @@
 <?xml version="1.0"?>
 <project name="LiveTiming" default="build">
 	<description>Live Timing Build Files</description>
+
+	<!--
+		Main build targets:
+			clean - Delete temporary build files.
+			build - Build debug and release versions of frameworks and library.
+			deploy - Macro step to build all, including help, version assemblies and package.
+			help - Build the help from the assemblies.
+	-->
+
 	
 	<!-- Target this build at the .NET framework 3.5 -->
 	<property name="nant.settings.currentframework" value="net-3.5" />
 	
-	<!-- Environment configuration -->	
+	<!-- Environment configuration -->
+	<property name="BuildRoot.Dir" value="." readonly="true" />
+	<property name="SvnRoot.Dir" value="https://f1livetiming.googlecode.com/svn/trunk" readonly="true" />
 	<property name="Build.Dir" value="bin" readonly="true" />
 	<property name="Solution.Filename" value="Live Timing.sln" readonly="true" />
+	<property name="Solution.Compact" value="Compact Live Timing.sln" readonly="true" />
 	<property name="Solution.LiveViewer" value="Live Timing Viewer.sln" readonly="true" />
 	<property name="Help.Filename" value="F1 Help.shfbproj" readonly="true" />
 	<property name="Version.Filename" value="version.xml" readonly="true" />
 	
+
+
 	<!-- Delete the output from previous builds -->
 	<target name="clean" description="Remove all generated files.">
 		<delete failonerror="false" dir="${Build.Dir}" />
 	</target>
-	
-	
+
+	<!-- Build both versions of F1 solution -->
+	<target name="build" description="Build all library and executables." depends="builddeb,buildrel" />		
+
+	<!-- Multiple targets and then zips up the output to create a release -->
+	<target name="deploy" description="Build and create deployment package." depends="clean,upass,build,help">
+		<copy todir="${Build.Dir}" overwrite="true" file="README" />
+		<copy todir="${Build.Dir}" overwrite="true" file="NOTICE" />
+		<copy todir="${Build.Dir}" overwrite="true" file="Session Keys.txt" />
+		<copy todir="${Build.Dir}" overwrite="true" file="COPYING" />
+		<copy todir="${Build.Dir}" overwrite="true" file="COPYRIGHT" />
+		<copy todir="${Build.Dir}" overwrite="true" file="Copy me to auth.config" />
+		<copy todir="${Build.Dir}" overwrite="true" file="build.number" />
+		<zip zipfile="release ${Version.Current}.zip" ziplevel="9">
+			<fileset basedir="${Build.Dir}" defaultexcludes="false">
+				<include name="**/*"/>
+			</fileset>
+		</zip>
+		<call target="revertversionfiles" />
+	</target>
+
+	<!-- Build the help files  -->
+	<target name="help" description="Build the help files from XML doc" depends="buildrel">
+		<msbuild project="${Help.Filename}"> 
+		</msbuild>
+	</target>
+
 	<!-- Build the release version of F1 solution -->
 	<target name="buildrel" description="Build all library and executables in Release">
 		<msbuild project="${Solution.Filename}">
       		<property name="Configuration" value="Release"/>
+    	</msbuild>
+		<msbuild project="${Solution.Compact}">
+			<property name="Configuration" value="Release"/>
     	</msbuild>
 	</target>
 	
@@ -30,6 +72,9 @@
 		<msbuild project="${Solution.Filename}">
       		<property name="Configuration" value="Debug"/>
     	</msbuild>
+		<msbuild project="${Solution.Compact}">
+			<property name="Configuration" value="Debug"/>
+    	</msbuild>
 	</target>
 	
 	<!-- Build debug version of live timing viewer solution -->
@@ -37,16 +82,7 @@
 		<msbuild project="${Solution.LiveViewer}">
       		<property name="Configuration" value="Debug"/>
     	</msbuild>
-	</target>
-		
-	<!-- Build both versions of F1 solution -->
-	<target name="build" description="Build all library and executables." depends="builddeb,buildrel" />		
-	
-	<!-- Build the help files  -->
-	<target name="help" description="Build the help files from XML doc" depends="buildrel">
-		<msbuild project="${Help.Filename}"> 
-		</msbuild>
-	</target>
+	</target>	
 	
 	<!-- Retrieve the current version number -->
 	<target name="getver" description="Update version numbering in assembly files">
@@ -115,21 +151,17 @@
 			</do>
 		</foreach>
 	</target>
-	
-	
-	<!-- Multiple targets and then zips up the output to create a release -->
-	<target name="deploy" description="Build and create deployment package." depends="clean,upass,build,help">
-		<copy todir="${Build.Dir}" overwrite="true" file="README" />
-		<copy todir="${Build.Dir}" overwrite="true" file="NOTICE" />
-		<copy todir="${Build.Dir}" overwrite="true" file="Session Keys.txt" />
-		<copy todir="${Build.Dir}" overwrite="true" file="COPYING" />
-		<copy todir="${Build.Dir}" overwrite="true" file="COPYRIGHT" />
-		<copy todir="${Build.Dir}" overwrite="true" file="Copy me to auth.config" />
-		<copy todir="${Build.Dir}" overwrite="true" file="build.number" />
-		<zip zipfile="release ${Version.Current}.zip" ziplevel="9">
-			<fileset basedir="${Build.Dir}" defaultexcludes="false">
-				<include name="**/*"/>
-			</fileset>
-		</zip>
+
+	<!-- Revert the versioned file changes -->
+	<target name="revertversionfiles" description="Sub-task to revert the versioned files that have changed">
+		<svn command="revert" uri="${SvnRoot.Dir}" quiet="false">
+			 <fileset basedir="${BuildRoot.Dir}" defaultexcludes="false">
+				<include name="**/AssemblyInfo.cs"/>
+				<include name="build.number"/>
+			 </fileset>
+		</svn>
 	</target>
+	
+	
+	
 </project>

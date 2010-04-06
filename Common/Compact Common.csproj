@@ -7,7 +7,7 @@
     <ProjectGuid>{E22605D7-E94E-4135-8021-6BB91D3B806B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Compact_Common</RootNamespace>
+    <RootNamespace>Common</RootNamespace>
     <AssemblyName>Compact Common</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>PocketPC</PlatformFamilyName>
@@ -51,6 +51,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Patterns\Command\Command.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Patterns\Observer\IObserver.cs" />
     <Compile Include="Patterns\Observer\Subject.cs" />
     <Compile Include="Patterns\Singleton\BasicSingleton.cs" />
+    <Compile Include="Patterns\State\CreationMethodAttribute.cs" />
     <Compile Include="Patterns\State\IContext.cs" />
     <Compile Include="Patterns\State\IState.cs" />
     <Compile Include="Patterns\State\IStateMachine.cs" />

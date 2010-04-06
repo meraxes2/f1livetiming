@@ -17,10 +17,15 @@
  *  limitations under the License. 
  */
 
+using System.Collections.Generic;
+using Common.Patterns.Singleton;
+
 namespace Common.Patterns.State
 {
     public class StateMachine<TContext, TContract> : IStateMachine<TContext> where TContext : IContext, new()
     {
+        private Dictionary<string, IState<TContext>> _localStateCache = new Dictionary<string, IState<TContext>>();
+
         protected IState<TContext> CurrentState { get; private set; }
 
         protected TContext Context { get; private set; }
@@ -40,7 +45,7 @@ namespace Common.Patterns.State
 
         protected void InitialState<TInitialState>() where TInitialState : IState<TContext>, new()
         {
-            CurrentState = new TInitialState();
+            CurrentState = CreateState<TInitialState>();
             CurrentState.StateMachine = this;
             CurrentState.Context = Context;            
             CurrentState.Entry();
@@ -53,7 +58,7 @@ namespace Common.Patterns.State
             CurrentState.Exit();
             CurrentState.Dispose();
 
-            CurrentState = new TNewState();
+            CurrentState = CreateState<TNewState>();
             CurrentState.StateMachine = this;
             CurrentState.Context = Context;
             CurrentState.Entry();
@@ -68,6 +73,44 @@ namespace Common.Patterns.State
 
             CurrentState = default(IState<TContext>);
             Context = default(TContext);
+
+            _localStateCache = null;
+        }
+
+        #endregion
+
+        #region State Factory Method
+
+        private TNewState CreateState<TNewState>() where TNewState : IState<TContext>, new()
+        {
+            object [] attrs = typeof (TNewState).GetCustomAttributes(typeof (CreationMethodAttribute), false);
+
+            if (attrs != null && attrs.Length > 0)
+            {
+                CreationMethodAttribute creationMethod = attrs[0] as CreationMethodAttribute;
+                if (creationMethod != null)
+                {
+                    switch (creationMethod.CreationMethod)
+                    {
+                        case CreationMethod.Dynamic:
+                            return new TNewState();
+                        case CreationMethod.OnePerApplication:
+                            return BasicSingleton<TNewState>.Instance;
+                        case CreationMethod.OnePerStateMachine:
+                            string key = typeof (TNewState).FullName;
+                            if (_localStateCache.ContainsKey(key))
+                            {
+                                return (TNewState) _localStateCache[key];
+                            }
+                            TNewState ret = new TNewState();
+                            _localStateCache[key] = ret;
+                            return ret;
+                    }
+                }
+            }
+            
+            // default, i.e. no attributes
+            return new TNewState();
         }
 
         #endregion

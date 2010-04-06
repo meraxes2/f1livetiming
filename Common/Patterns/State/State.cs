@@ -1,5 +1,4 @@
-﻿using System;
-namespace Common.Patterns.State
+﻿namespace Common.Patterns.State
 {
     /// <summary>
     /// Provides a common implementation of all the basic features of the state pattern. Inheriting

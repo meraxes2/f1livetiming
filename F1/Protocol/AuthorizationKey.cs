@@ -73,11 +73,16 @@ namespace F1.Protocol
         #region Static Helpers
         private static string Login(string user, string pass)
         {
-            string ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login?redirect_url=%2flive_timing%2f");
+            string ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login");
 
             if ("0" == ret || String.IsNullOrEmpty(ret))
             {
-                TryGetCookie(user, pass, "http://live-timing.formula1.com/reg/getkey/login.asp");
+                ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login?redirect_url=%2flive_timing%2f");
+            }
+
+            if ("0" == ret || String.IsNullOrEmpty(ret))
+            {
+                ret = TryGetCookie(user, pass, "http://live-timing.formula1.com/reg/getkey/login.asp");
             }
 
             if( String.IsNullOrEmpty(ret) )

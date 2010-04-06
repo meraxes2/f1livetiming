@@ -7,7 +7,7 @@
     <ProjectGuid>{659E7CAC-211A-4133-8B23-B9CCAC8C9DF6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Compact_F1</RootNamespace>
+    <RootNamespace>F1</RootNamespace>
     <AssemblyName>Compact F1</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>PocketPC</PlatformFamilyName>

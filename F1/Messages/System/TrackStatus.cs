@@ -100,7 +100,7 @@ namespace F1.Messages.System
             }
             else
             {
-                throw new DeserialiseException("Unknown track status, short: " + sp.ShortDatum);
+                throw new DeserialiseException("Unknown track status, short: " + sp.ShortDatum + ", data: " + HexString.BytesToHex(sp.Data));
             }
         }
 

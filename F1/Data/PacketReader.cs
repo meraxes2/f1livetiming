@@ -80,6 +80,7 @@ namespace F1.Data
         /// <summary>
         /// The first state for initialising the packet reader.
         /// </summary>
+        [CreationMethod(CreationMethod.OnePerStateMachine)]
         internal class PacketReaderInit : State<DataContext>, IPacketReaderContract
         {
             public override void Entry()
@@ -99,6 +100,7 @@ namespace F1.Data
         /// Start the process of reading the next message from
         /// the stream.
         /// </summary>
+        [CreationMethod(CreationMethod.OnePerStateMachine)]
         internal class NewMessageStartState : State<DataContext>, IPacketReaderContract
         {
             public bool ReadNext()
@@ -128,6 +130,7 @@ namespace F1.Data
         /// <summary>
         /// Read the remainder of the incomplete header message.
         /// </summary>
+        [CreationMethod(CreationMethod.OnePerStateMachine)]
         internal class HeaderContinuationState : State<DataContext>, IPacketReaderContract
         {
             public bool ReadNext()
@@ -157,6 +160,7 @@ namespace F1.Data
         /// Process the completed header data, and start getting the data
         /// appropriate for the given message.
         /// </summary>
+        [CreationMethod(CreationMethod.OnePerStateMachine)]
         internal class ProcessHeaderState : State<DataContext>, IPacketReaderContract
         {
             public override void Entry()
@@ -211,6 +215,7 @@ namespace F1.Data
         /// <summary>
         /// Continue reading the data for this packet
         /// </summary>
+        [CreationMethod(CreationMethod.OnePerStateMachine)]
         internal class PacketContinuationState : State<DataContext>, IPacketReaderContract
         {
             public override void Entry()
@@ -247,24 +252,39 @@ namespace F1.Data
         /// Complete the extraction of data for the message and queue the
         /// completed message.
         /// </summary>
+        [CreationMethod(CreationMethod.OnePerStateMachine)]
         internal class ProcessMessageState : State<DataContext>, IPacketReaderContract
         {
             public override void Entry()
             {
                 if (Context.Packet == null || !Context.Packet.IsGarbage)
                 {
-                    Context.CurrentMessage.Deserialise(Context.Header, Context.Packet);
-
-                    Context.MessageQueue.Enqueue(Context.CurrentMessage);
-
-                    if (Context.Header.IsSystemMessage && Context.Header.SystemType == SystemPacketType.EventId)
+                    try
                     {
-                        Context.EventType = ((EventId) Context.CurrentMessage).EventType;
+                        Context.CurrentMessage.Deserialise(Context.Header, Context.Packet);
+
+                        Context.MessageQueue.Enqueue(Context.CurrentMessage);
+
+                        if (Context.Header.IsSystemMessage && Context.Header.SystemType == SystemPacketType.EventId)
+                        {
+                            Context.EventType = ((EventId) Context.CurrentMessage).EventType;
+                        }
+
+                        if (Context.Logger.IsDebugEnabled)
+                        {
+                            Context.Logger.Debug(Context.CurrentMessage.ToString());
+                        }
                     }
-
-                    if (Context.Logger.IsDebugEnabled)
+                    catch(Exception e)
                     {
-                        Context.Logger.Debug(Context.CurrentMessage.ToString());
+                        if(Context.CurrentMessage != null)
+                        {
+                            Context.Logger.WarnFormat("Abondoned message: {0}, Reason: {1}", Context.CurrentMessage.GetType().Name, e.ToString() );
+                        }
+                        else
+                        {
+                            Context.Logger.WarnFormat("Failed to deserialise message, reason {1}", e.ToString());
+                        }
                     }
                 }
                 else
@@ -290,6 +310,7 @@ namespace F1.Data
         /// <summary>
         /// We've reached an unrecoverable state.
         /// </summary>
+        [CreationMethod(CreationMethod.OnePerStateMachine)]
         internal class ErrorState : State<DataContext>, IPacketReaderContract
         {
             public bool ReadNext()

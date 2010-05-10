@@ -109,6 +109,16 @@ namespace Test
                 Assert.AreEqual((uint)0xdc8af5ee, key);
             }
 
+
+            {
+                const string session = "6708"; // 0xdc8af5ee
+
+                uint key = authKey.GetKey(session);
+
+                Assert.AreNotEqual(AuthorizationKey.INVALID_KEY, key);
+                Assert.AreEqual((uint)0xdc8af5ee, key);
+            }
+
             {
                 const string session = "_040109"; // 0xcf0a3056
 

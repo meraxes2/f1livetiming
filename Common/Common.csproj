@@ -59,6 +59,7 @@
     <Compile Include="Patterns\Observer\IObserver.cs" />
     <Compile Include="Patterns\Observer\Subject.cs" />
     <Compile Include="Patterns\Singleton\BasicSingleton.cs" />
+    <Compile Include="Patterns\State\CreationMethodAttribute.cs" />
     <Compile Include="Patterns\State\IContext.cs" />
     <Compile Include="Patterns\State\IState.cs" />
     <Compile Include="Patterns\State\IStateMachine.cs" />

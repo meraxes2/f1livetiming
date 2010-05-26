@@ -87,24 +87,29 @@ namespace Common.Patterns.State
 
             if (attrs != null && attrs.Length > 0)
             {
-                CreationMethodAttribute creationMethod = attrs[0] as CreationMethodAttribute;
-                if (creationMethod != null)
+                foreach (object nextAttr in attrs)
                 {
-                    switch (creationMethod.CreationMethod)
+                    // process the first creation method attribute we find as there should only be one
+                    if( nextAttr is CreationMethodAttribute )
                     {
-                        case CreationMethod.Dynamic:
-                            return new TNewState();
-                        case CreationMethod.OnePerApplication:
-                            return BasicSingleton<TNewState>.Instance;
-                        case CreationMethod.OnePerStateMachine:
-                            string key = typeof (TNewState).FullName;
-                            if (_localStateCache.ContainsKey(key))
-                            {
-                                return (TNewState) _localStateCache[key];
-                            }
-                            TNewState ret = new TNewState();
-                            _localStateCache[key] = ret;
-                            return ret;
+                        CreationMethodAttribute creationMethod = (CreationMethodAttribute)nextAttr;
+
+                        switch (creationMethod.CreationMethod)
+                        {
+                            case CreationMethod.Dynamic:
+                                return new TNewState();
+                            case CreationMethod.OnePerApplication:
+                                return BasicSingleton<TNewState>.Instance;
+                            case CreationMethod.OnePerStateMachine:
+                                string key = typeof (TNewState).FullName;
+                                if (_localStateCache.ContainsKey(key))
+                                {
+                                    return (TNewState) _localStateCache[key];
+                                }
+                                TNewState ret = new TNewState();
+                                _localStateCache[key] = ret;
+                                return ret;
+                        }
                     }
                 }
             }

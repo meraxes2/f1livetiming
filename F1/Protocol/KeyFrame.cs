@@ -21,6 +21,7 @@ using System.IO;
 using System.Net;
 using F1.Exceptions;
 using F1.Runtime;
+using Common;
 
 namespace F1.Protocol
 {
@@ -47,17 +48,17 @@ namespace F1.Protocol
 
         private static Stream GetKeyFrame(string url)
         {
-            HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+            HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(url) as HttpWebRequest);
 
             if(null == req)
             {
                 throw new KeyFrameException("Could not create request for url: " + url, null);
             }
 
-            if (null != req.Proxy)
-            {
-                req.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            }
+            //if (null != req.Proxy)
+            //{
+            //    req.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            //}
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 

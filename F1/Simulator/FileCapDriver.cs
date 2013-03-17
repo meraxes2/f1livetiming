@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using Common.Utils.Threading;
 using F1.Runtime;
-using log4net;
+//using log4net;
 
 namespace F1.Simulator
 {
@@ -19,7 +19,7 @@ namespace F1.Simulator
         private readonly FileStream _fileStream;
         private readonly Runtime.Runtime _runtime;
 
-        private readonly ILog _log = LogManager.GetLogger("FileCapDriver");
+        //private readonly ILog _log = LogManager.GetLogger("FileCapDriver");
 
         public FileCapDriver(string capFile, MemoryStream memStream, Runtime.Runtime runtime)
             : base(false)
@@ -92,9 +92,9 @@ namespace F1.Simulator
                 {
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                _log.Warn(e.Message);
+                //_log.Warn(e.Message);
 
                 // Error while processing the data, so we abort and discard the remainder
                 // of read/write requests pending.

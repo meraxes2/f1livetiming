@@ -153,6 +153,8 @@ namespace F1
         /// remain. Use false to complete the current task before exiting.</param>
         void Stop( bool discard );
 
+        void StartThread();
+
 
         /// <summary>
         /// The current event type once this race/qualy/free practice has started

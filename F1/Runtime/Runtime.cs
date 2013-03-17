@@ -24,7 +24,7 @@ using F1.Enums;
 using F1.Messages;
 using F1.Messages.Car;
 using F1.Messages.System;
-using log4net;
+//using log4net;
 
 namespace F1.Runtime
 {
@@ -45,7 +45,7 @@ namespace F1.Runtime
         private int _currentLap;
         #endregion
 
-        private readonly ILog _logger = LogManager.GetLogger("Runtime");
+        //private readonly ILog _logger = LogManager.GetLogger("Runtime");
 
 
         /// <summary>
@@ -158,11 +158,11 @@ namespace F1.Runtime
 
         private void InitNewEvent(EventId e)
         {
-            _logger.Info("Retrieving decryption key for session: " + e.SessionId);
+            //_logger.Info("Retrieving decryption key for session: " + e.SessionId);
 
             _decryptor.Key = _authKeyService.GetKey(e.SessionId);
 
-            _logger.Info("Decryption key retrieved: 0x" + _decryptor.Key.ToString("X"));
+            //_logger.Info("Decryption key retrieved: 0x" + _decryptor.Key.ToString("X"));
 
             //  It's a new event, so get the new KeyFrame for the event.
             _keyFrameReceived = false;
@@ -189,11 +189,11 @@ namespace F1.Runtime
 
         private void RetrieveAndProcessKeyFrame(KeyFrame k)
         {
-            _logger.Info("Retrieving keyframe: " + k.FrameNumber.ToString("d5"));
+            //_logger.Info("Retrieving keyframe: " + k.FrameNumber.ToString("d5"));
 
             Stream keyFrameData = _keyFrameService.GetKeyFrame(k.FrameNumber);
 
-            _logger.DebugFormat("Retrieved keyframe, {0} bytes.", keyFrameData.Length);
+            //_logger.DebugFormat("Retrieved keyframe, {0} bytes.", keyFrameData.Length);
 
             HandleReadAdHoc(keyFrameData);
         }
@@ -203,7 +203,7 @@ namespace F1.Runtime
         {
             if( _packetReader.CurrentEventType != newEventType )
             {
-                _logger.InfoFormat("Applying EventType: {0}, to Live Stream.", newEventType.ToString());
+                //_logger.InfoFormat("Applying EventType: {0}, to Live Stream.", newEventType.ToString());
                 _packetReader.CurrentEventType = newEventType;
             }
         }
@@ -217,8 +217,8 @@ namespace F1.Runtime
 
                 IMessage newMsg = new RaceLapNumber(_currentLap);
 
-                if( _logger.IsDebugEnabled )
-                    _logger.Debug(newMsg.ToString());
+                //if( _logger.IsDebugEnabled )
+                //    _logger.Debug(newMsg.ToString());
 
                 // We use the front runner's lap count to artificially generate
                 // a lap count for general display.
@@ -233,12 +233,12 @@ namespace F1.Runtime
             {
                 if (msg.Rate > 0)
                 {
-                    _logger.InfoFormat("Changing polling frequence to every {0} seconds", msg.Rate);
+                   // _logger.InfoFormat("Changing polling frequence to every {0} seconds", msg.Rate);
                     Driver.SetRefresh(msg.Rate);
                 }
                 else if (msg.Rate == 0)
                 {
-                    _logger.Info("Received end of stream message, exiting.");
+                    //_logger.Info("Received end of stream message, exiting.");
 
                     //  Terminate the socket driver so it stops trying.
                     Driver.Terminate();

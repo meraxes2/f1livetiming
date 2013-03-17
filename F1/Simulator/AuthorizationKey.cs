@@ -77,8 +77,8 @@ namespace F1.Simulator
                         string[] split = nextLine.Split('=');
                         string[] value = split[1].Split('x');
 
-                        
-                        _keyLookup[split[0].Trim()] = uint.Parse(value[1], NumberStyles.HexNumber);
+
+                        _keyLookup[split[0].Trim()] = uint.Parse(value[1], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
                     }
                 }
             }

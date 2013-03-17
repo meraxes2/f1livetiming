@@ -79,7 +79,7 @@ namespace F1.Messages
         #endregion
 
 
-        public static IMessage CreateMessage(SystemPacketType type)
+        public static IMessage CreateMessage(SystemPacketType type, int datum)
         {
             switch (type)
             {
@@ -98,7 +98,8 @@ namespace F1.Messages
                 case SystemPacketType.Timestamp:
                     return new TimeStamp();
                 case SystemPacketType.Weather:
-                    return new Weather();   
+                    //return new Weather();   
+                    return CreateMessage((WeatherType)(datum & 0x07));
                 case SystemPacketType.Speed:
                     return new Speed();
                 case SystemPacketType.TrackStatus:
@@ -146,6 +147,39 @@ namespace F1.Messages
             }
 
             return null;
+        }
+
+        private static IMessage CreateMessage(WeatherType weatherType)
+        {
+            switch (weatherType)
+            {
+                case WeatherType.SessionClock:
+                    return new WeatherSessionClock();
+
+                case WeatherType.TrackTemperature:
+                    return new WeatherTrackTemperature();
+
+                case WeatherType.AirTemperature:
+                    return new WeatherAirTemperature();
+
+                case WeatherType.WetTrack:
+                    return new WeatherWetTrack();
+
+                case WeatherType.WindSpeed:
+                    return new WeatherWindSpeed();
+
+                case WeatherType.Humidity:
+                    return new WeatherHumidity();
+
+                case WeatherType.Pressure:
+                    return new WeatherPressure();
+
+                case WeatherType.WindDirection:
+                    return new WeatherWindDirection();
+
+                default:
+                    return new Weather();
+            }
         }
     }
 }

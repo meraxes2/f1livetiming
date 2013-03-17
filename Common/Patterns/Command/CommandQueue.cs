@@ -29,12 +29,12 @@ namespace Common.Patterns.Command
         private readonly LinkedList<ICommand> _lowPriorityQueue;
         private readonly LinkedList<ICommand> _highPriorityQueue;
         private readonly object _thisLock;
-        private readonly EventWaitHandle _signal;
+        private readonly AutoResetEvent _signal;
 
         public CommandQueue()
         {
             _thisLock = new object();
-            _signal = new EventWaitHandle(false, EventResetMode.AutoReset);
+            _signal = new AutoResetEvent(false);
             _lowPriorityQueue = new LinkedList<ICommand>();
             _highPriorityQueue = new LinkedList<ICommand>();
         }
@@ -44,8 +44,7 @@ namespace Common.Patterns.Command
         {
             lock (_thisLock)
             {
-                DoPushExtra();
-                if (_lowPriorityQueue.Count == 0 && _highPriorityQueue.Count == 0)
+                if(AreEmptyUnsafe)
                 {
                     _signal.Set();
                 }
@@ -58,7 +57,6 @@ namespace Common.Patterns.Command
         {
             lock (_thisLock)
             {
-                DoPushExtra();
                 if (AreEmptyUnsafe)
                 {
                     _signal.Set();
@@ -68,16 +66,16 @@ namespace Common.Patterns.Command
         }
 
 
-        public bool HasCommand
-        {
-            get
-            {
-                lock (_thisLock)
-                {
-                    return (!AreEmptyUnsafe);
-                }
-            }
-        }
+        //public bool HasCommand
+        //{
+        //    get
+        //    {
+        //        lock (_thisLock)
+        //        {
+        //            return (!AreEmptyUnsafe);
+        //        }
+        //    }
+        //}
 
 
         public ICommand Pop(TimeSpan time)
@@ -89,13 +87,12 @@ namespace Common.Patterns.Command
                 if (AreEmptyUnsafe)
                 {
                     Monitor.Exit(_thisLock);
-                    if(_signal.WaitOne((int)time.TotalMilliseconds, false))
+                    if(_signal.WaitOne((int)time.TotalMilliseconds))
                     {
                         Monitor.Enter(_thisLock);
                     }
                     else
                     {
-                        DoPopExtra();
                         return null;
                     }
                 }
@@ -110,17 +107,10 @@ namespace Common.Patterns.Command
                     ret = _lowPriorityQueue.First.Value;
                     _lowPriorityQueue.RemoveFirst();
                 }
-
-                DoPopExtra();
             }
 
             return ret;
         }
-
-
-        protected virtual void DoPushExtra() { }
-        protected virtual void DoPopExtra() { }
-
 
         private bool AreEmptyUnsafe
         {

@@ -23,6 +23,7 @@ using System.Text;
 using Common.Utils.Strings;
 using F1.Data.Packets;
 using F1.Enums;
+using System.Globalization;
 
 namespace F1.Messages.System
 {
@@ -140,7 +141,7 @@ namespace F1.Messages.System
                         fsSectorBuilder.Add(new SpeedPair
                                                 {
                                                     Driver = pairs[i*2],
-                                                    Speed = double.Parse(pairs[(i*2) + 1])
+                                                    Speed = double.Parse(pairs[(i*2) + 1], CultureInfo.InvariantCulture)
                                                 });
                     }
                     else

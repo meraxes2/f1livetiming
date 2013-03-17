@@ -26,7 +26,7 @@ using F1.Network;
 using F1.Runtime;
 using Common.Utils.Threading;
 using F1.Simulator;
-using log4net;
+//using log4net;
 
 namespace F1
 {
@@ -58,7 +58,7 @@ namespace F1
 
         private readonly object _onceOnlyLock = new object();
 
-        private readonly ILog _log = LogManager.GetLogger("LiveTimingSimulator");
+        //private readonly ILog _log = LogManager.GetLogger("LiveTimingSimulator");
         #endregion
 
 
@@ -197,7 +197,7 @@ namespace F1
 
         private void BuildSimulator(string keyFramePath, string liveDataFile, string username, string password, string authKeyFile, bool createThread)
         {
-            _log.Info("Building live timing simulator...");
+            //_log.Info("Building live timing simulator...");
 
             IKeyFrame kf = new Simulator.KeyFrame(keyFramePath);
             
@@ -224,7 +224,7 @@ namespace F1
 
             if (createThread)
             {
-                _log.Info("Creating child thread to Run simulator");
+                //_log.Info("Creating child thread to Run simulator");
                 Start();
             }
         }
@@ -243,5 +243,10 @@ namespace F1
         }
 
         #endregion
+
+        public void StartThread()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -25,6 +25,8 @@ using System.Globalization;
 using Common.Utils.Strings;
 using F1.Runtime;
 using F1.Exceptions;
+using System.Threading;
+using Common;
 
 namespace F1.Protocol
 {
@@ -38,6 +40,7 @@ namespace F1.Protocol
         private readonly string _loginCookie;
 
         private readonly Dictionary<string, uint> _cachedKeys = new Dictionary<string, uint>();
+        private static ManualResetEvent _requestDone = new ManualResetEvent(false);
 
         public AuthorizationKey(string user, string pass)
         {
@@ -68,7 +71,6 @@ namespace F1.Protocol
 
             return newKey;
         }
-
 
         #region Static Helpers
         private static string Login(string user, string pass)
@@ -107,53 +109,75 @@ namespace F1.Protocol
 
             HttpWebRequest req = WebRequest.Create(baseurl) as HttpWebRequest;
 
-            if (null != req.Proxy)
-            {
-                req.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            }
-
             req.AllowAutoRedirect = false;
             req.Method = "Post";
             req.ContentType = "application/x-www-form-urlencoded";
-            req.ContentLength = bodyData.Length;
 
-            using (Stream reqBody = req.GetRequestStream())
+            String result = String.Empty;
+
+            WebException ex = null;
+            AutoResetEvent done = new AutoResetEvent(false);
+
+            req.BeginGetRequestStream((ar) =>
             {
-                reqBody.Write(bodyData, 0, bodyData.Length);
-                reqBody.Close();
-            }
-
-            HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
-
-            string cookie = resp1.Headers["Set-Cookie"];
-
-            if( string.IsNullOrEmpty(cookie))
-            {
-                if (0 < resp1.ContentLength)
+                using (Stream reqBody = req.EndGetRequestStream(ar))
                 {
-                    // it's probably not an event day, and the server is returning a singlecharacter
-                    StreamReader stringReader = new StreamReader(resp1.GetResponseStream());
-
-                    return stringReader.ReadToEnd();
+                    reqBody.Write(bodyData, 0, bodyData.Length);
+                    reqBody.Flush();
+                    reqBody.Close();
                 }
 
-                return null;
+                req.BeginGetResponse((ar2) =>
+                {
+                    try
+                    {
+                        HttpWebResponse resp1 = req.EndGetResponse(ar2) as HttpWebResponse;
+
+                        string cookie = resp1.Headers["Set-Cookie"];
+
+                        if (string.IsNullOrEmpty(cookie))
+                        {
+                            if (0 < resp1.ContentLength)
+                            {
+                                // it's probably not an event day, and the server is returning a singlecharacter
+                                using (StreamReader stringReader = new StreamReader(resp1.GetResponseStream()))
+                                {
+                                    result = stringReader.ReadToEnd();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result = ParseCookie(cookie);
+                        }
+                    }
+                    catch (WebException e)
+                    {
+                        ex = e;
+                    }
+
+                    done.Set();
+
+                }, null);
+
+            }, null);
+
+            done.WaitOne();
+
+            if (ex != null)
+            {
+                //rethrow exception
+                throw ex;
             }
 
-            return ParseCookie(cookie);
+            return result;
         }
-
 
         private static uint TryGetKey( string cookie, string sessionName )
         {
             string url = String.Format("http://secure.formula1.com/reg/getkey/{0}.asp?auth={1}", sessionName, cookie);
-            
-            HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
 
-            if (null != req.Proxy)
-            {
-                req.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            }
+            HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(url) as HttpWebRequest);
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 
@@ -174,7 +198,7 @@ namespace F1.Protocol
 
         private static uint ParseKey(string key)
         {
-            return uint.Parse(key, NumberStyles.HexNumber);
+            return uint.Parse(key, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
         }
         #endregion
     }

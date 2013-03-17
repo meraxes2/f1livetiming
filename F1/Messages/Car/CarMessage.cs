@@ -22,6 +22,8 @@ using System.IO;
 using Common.Utils.Strings;
 using F1.Data.Packets;
 using F1.Enums;
+using System.Globalization;
+
 
 namespace F1.Messages.Car
 {
@@ -156,7 +158,7 @@ namespace F1.Messages.Car
                 return -1;
             }
 
-            return int.Parse(BaseData);
+            return int.Parse(BaseData, CultureInfo.InvariantCulture);
         }
 
 
@@ -185,7 +187,7 @@ namespace F1.Messages.Car
                         if (BaseData[BaseData.Length - 1] == 'L' && BaseData[BaseData.Length - 2] <= '9')
                         {
                             type = TimeType.NLaps;
-                            return int.Parse(BaseData.Substring(0, BaseData.Length - 1));
+                            return int.Parse(BaseData.Substring(0, BaseData.Length - 1), CultureInfo.InvariantCulture);
                         }
 
                         type = TimeType.Time;
@@ -215,17 +217,17 @@ namespace F1.Messages.Car
             if( datums.Length >= 3 )
             {
                 // hours
-                timeSecs += double.Parse(datums[datums.Length-3]) * 3600.0;
+                timeSecs += double.Parse(datums[datums.Length - 3], CultureInfo.InvariantCulture) * 3600.0;
             }
             if( datums.Length >= 2 )
             {
                 // mins
-                timeSecs += double.Parse(datums[datums.Length-2])*60;
+                timeSecs += double.Parse(datums[datums.Length-2], CultureInfo.InvariantCulture)*60;
             }
             if( datums.Length >= 1 )
             {
                 // seconds and fraction of a second
-                timeSecs += double.Parse(datums[datums.Length-1]);
+                timeSecs += double.Parse(datums[datums.Length-1], CultureInfo.InvariantCulture);
             }
 
             return timeSecs;

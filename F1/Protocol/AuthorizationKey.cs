@@ -107,70 +107,37 @@ namespace F1.Protocol
             string body = string.Format("email={0}&password={1}", user, pass);
             byte[] bodyData = StringUtils.StringToASCIIBytes(body);
 
-            HttpWebRequest req = WebRequest.Create(baseurl) as HttpWebRequest;
+            HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(baseurl) as HttpWebRequest);
 
-            req.AllowAutoRedirect = false;
-            req.Method = "Post";
-            req.ContentType = "application/x-www-form-urlencoded";
+            req.Request.AllowAutoRedirect = false;
+            req.Request.Method = "Post";
+            req.Request.ContentType = "application/x-www-form-urlencoded";
 
-            String result = String.Empty;
-
-            WebException ex = null;
-            AutoResetEvent done = new AutoResetEvent(false);
-
-            req.BeginGetRequestStream((ar) =>
+            using (Stream reqBody = req.GetRequestStream())
             {
-                using (Stream reqBody = req.EndGetRequestStream(ar))
-                {
-                    reqBody.Write(bodyData, 0, bodyData.Length);
-                    reqBody.Flush();
-                    reqBody.Close();
-                }
-
-                req.BeginGetResponse((ar2) =>
-                {
-                    try
-                    {
-                        HttpWebResponse resp1 = req.EndGetResponse(ar2) as HttpWebResponse;
-
-                        string cookie = resp1.Headers["Set-Cookie"];
-
-                        if (string.IsNullOrEmpty(cookie))
-                        {
-                            if (0 < resp1.ContentLength)
-                            {
-                                // it's probably not an event day, and the server is returning a singlecharacter
-                                using (StreamReader stringReader = new StreamReader(resp1.GetResponseStream()))
-                                {
-                                    result = stringReader.ReadToEnd();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            result = ParseCookie(cookie);
-                        }
-                    }
-                    catch (WebException e)
-                    {
-                        ex = e;
-                    }
-
-                    done.Set();
-
-                }, null);
-
-            }, null);
-
-            done.WaitOne();
-
-            if (ex != null)
-            {
-                //rethrow exception
-                throw ex;
+                reqBody.Write(bodyData, 0, bodyData.Length);
+                reqBody.Flush();
+                reqBody.Close();
             }
 
-            return result;
+            HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
+
+            string cookie = resp1.Headers["Set-Cookie"];
+
+            if (string.IsNullOrEmpty(cookie))
+            {
+                if (0 < resp1.ContentLength)
+                {
+                    // it's probably not an event day, and the server is returning a singlecharacter
+                    StreamReader stringReader = new StreamReader(resp1.GetResponseStream());
+
+                    return stringReader.ReadToEnd();
+                }
+
+                return null;
+            }
+
+            return ParseCookie(cookie);
         }
 
         private static uint TryGetKey( string cookie, string sessionName )

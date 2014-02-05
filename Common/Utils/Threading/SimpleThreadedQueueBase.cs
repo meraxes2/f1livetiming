@@ -35,6 +35,14 @@ namespace Common.Utils.Threading
             Join = 0
         } ;
 
+        public bool IsAlive
+        {
+            get 
+            {
+                return _thread != null && _thread.IsAlive;
+            }
+        }
+
 
         #region Internal Data
         private readonly CommandQueue _cmdQueue = new CommandQueue();
@@ -123,11 +131,9 @@ namespace Common.Utils.Threading
 
             try
             {
-                TimeSpan largeWait = new TimeSpan(1,0,0,0);
-
                 while (_running)
                 {
-                    ICommand cmd = CmdQueue.Pop(largeWait);
+                    ICommand cmd = CmdQueue.Pop();
                     if(cmd != null)
                     {
                         using(cmd)

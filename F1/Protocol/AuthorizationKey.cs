@@ -122,22 +122,27 @@ namespace F1.Protocol
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 
-            string cookie = resp1.Headers["Set-Cookie"];
-
-            if (string.IsNullOrEmpty(cookie))
+            if (null != resp1)
             {
-                if (0 < resp1.ContentLength)
-                {
-                    // it's probably not an event day, and the server is returning a singlecharacter
-                    StreamReader stringReader = new StreamReader(resp1.GetResponseStream());
+                string cookie = resp1.Headers["Set-Cookie"];
 
-                    return stringReader.ReadToEnd();
+                if (string.IsNullOrEmpty(cookie))
+                {
+                    //if (0 < resp1.ContentLength)
+                    //{
+                    //    // it's probably not an event day, and the server is returning a singlecharacter
+                    //    StreamReader stringReader = new StreamReader(resp1.GetResponseStream());
+
+                    //    return stringReader.ReadToEnd();
+                    //}
+
+                    return null;
                 }
 
-                return null;
+                return ParseCookie(cookie);
             }
 
-            return ParseCookie(cookie);
+            return "";
         }
 
         private static uint TryGetKey( string cookie, string sessionName )
@@ -148,10 +153,15 @@ namespace F1.Protocol
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 
-            using(TextReader re = new StreamReader(resp1.GetResponseStream()))
+            if (null != resp1)
             {
-                return ParseKey(re.ReadLine());
+                using (TextReader re = new StreamReader(resp1.GetResponseStream()))
+                {
+                    return ParseKey(re.ReadLine());
+                }
             }
+
+            return INVALID_KEY;
         }
 
 

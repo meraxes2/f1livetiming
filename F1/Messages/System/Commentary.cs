@@ -34,8 +34,8 @@ namespace F1.Messages.System
         /// The next line of commentary. Words and sentances are often split between
         /// commentary which make their usage limited unless you just print the values.
         /// </summary>
-        public string Message { get; private set; }
-        public bool EndMessage { get; private set; }
+        public string Message { get; set; }
+        public bool EndMessage { get; set; }
 
         #region IMessage Members
 

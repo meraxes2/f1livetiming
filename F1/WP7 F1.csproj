@@ -58,6 +58,7 @@
     <Compile Include="Data\Packets\ShortPacket.cs" />
     <Compile Include="Data\Packets\SimplePacket.cs" />
     <Compile Include="Enums\CarType.cs" />
+    <Compile Include="Enums\ControlType.cs" />
     <Compile Include="Enums\EventType.cs" />
     <Compile Include="Enums\WeatherType.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
@@ -88,7 +89,10 @@
     <Compile Include="Messages\Car\CarSectorTimes.cs" />
     <Compile Include="Messages\Car\PracticeUnknown.cs" />
     <Compile Include="Messages\Car\QualifyPeriodTime.cs" />
+    <Compile Include="Messages\Control\AuthorizationProblem.cs" />
+    <Compile Include="Messages\Control\ControlBaseMessage.cs" />
     <Compile Include="Messages\ICarMessage.cs" />
+    <Compile Include="Messages\IControlMessage.cs" />
     <Compile Include="Messages\System\Commentary.cs" />
     <Compile Include="Messages\System\EndOfSession.cs" />
     <Compile Include="Messages\System\KeyFrame.cs" />

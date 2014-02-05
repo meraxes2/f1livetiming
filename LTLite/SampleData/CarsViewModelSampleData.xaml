@@ -1,0 +1,55 @@
+﻿<ViewModel:CarsViewModel xmlns:ViewModel="clr-namespace:LTLite.ViewModel" 
+                        Copyright="Pede facilisis" 
+                         EventType="NoEvent" 
+                         TrackStatusMessage="Quam nec adipiscing sociosqu" 
+                         WeatherTrackTemperature ="20"
+                         WeatherAirTemperature="19"
+                         WeatherIsWet="true"
+                         WeatherWindSpeed="10.4"
+                         WeatherHumidity="89"
+                         WeatherPressure="1023.6"
+                         WeatherWindDirection="45"
+                         Circuit="Spain Catalunya"
+                         Session="Practice 1"
+                         CounterDays="7"
+                         CounterHours="16"
+                         CounterMinutes="26"
+                         CounterSeconds="10">
+	<ViewModel:CarsViewModel.Cars>
+		<ViewModel:CarViewModel BestPracticeLapTimeColor="#FF0A58BA" CarId="55" CarNumberColor="#FFFAA049" DriverName="P. DI RESTA" DriverNameColor="#FFF6D45D" GapColor="#FF1A1180" IntervalColor="#FFB1ED69" LapCountColor="#FF2C3AC1" LapTimeColor="#FFA1294B" PositionColor="#FF23644A" Position="34" PitCountColor="#FFEFF5F5" Q3TimeColor="#FF659B94" Q2TimeColor="#FFB130D7" Q1TimeColor="#FF8F24CA" Sector2TimeColor="#FF1619B3" Sector1TimeColor="#FFA86528" Sector3TimeColor="#FF3D881D" />
+		<ViewModel:CarViewModel BestPracticeLapTimeColor="#FFF648D2" CarId="19" CarNumberColor="#FF8E18E9" DriverName="L. HAMILTON" DriverNameColor="#FFB692AC" GapColor="#FF42C925" IntervalColor="#FF816FD0" LapCountColor="#FFED3BC3" LapTimeColor="#FFF1A3D4" PositionColor="#FFA12C4E" Position="20" PitCountColor="#FF7977E4" Q3TimeColor="#FF6FA629" Q2TimeColor="#FFC80191" Q1TimeColor="#FF153F0B" Sector2TimeColor="#FFD0315C" Sector1TimeColor="#FF114729" Sector3TimeColor="#FFD295A6" />
+		<ViewModel:CarViewModel BestPracticeLapTimeColor="#FFF00F65" CarId="69" CarNumberColor="#FF35061E" DriverName="F. MASSA" DriverNameColor="#FFA4E9A2" GapColor="#FF993A10" IntervalColor="#FF8B2446" LapCountColor="#FF805372" LapTimeColor="#FF82AF3C" PositionColor="#FFD376B0" Position="89" PitCountColor="#FF87E561" Q3TimeColor="#FF86DB18" Q2TimeColor="#FF2E1AE0" Q1TimeColor="#FF34E06A" Sector2TimeColor="#FF134170" Sector1TimeColor="#FF8A662A" Sector3TimeColor="#FFE155F2" />		
+	</ViewModel:CarsViewModel.Cars>
+	<ViewModel:CarsViewModel.Comments>
+		<ViewModel:CommentViewModel Comment="Felis consequat"/>
+		<ViewModel:CommentViewModel Comment="Ipsum posuere nibh"/>
+		<ViewModel:CommentViewModel Comment="Justo congue vestibulum potenti nisi"/>
+		<ViewModel:CommentViewModel Comment="Cursus sagittis adipiscing parturient convallis"/>
+		<ViewModel:CommentViewModel Comment="Vestibulum vestibulum lacus lorem pretium"/>
+		<ViewModel:CommentViewModel Comment="Nisl nunc rhoncus dignissim adipiscing"/>
+		<ViewModel:CommentViewModel Comment="Magna senectus parturient"/>
+		<ViewModel:CommentViewModel Comment="Elementum odio mus"/>
+		<ViewModel:CommentViewModel Comment="Vestibulum dictum"/>
+		<ViewModel:CommentViewModel Comment="Vestibulum orci sodales"/>
+	</ViewModel:CarsViewModel.Comments>
+	<ViewModel:CarsViewModel.SpeedSector3>
+        <ViewModel:SpeedViewModel DriverName="L. HAMILTON" Speed="230.61"/>
+        <ViewModel:SpeedViewModel DriverName="F. MASSA" Speed="130.45"/>
+        <ViewModel:SpeedViewModel DriverName="K. RAIKONNEN" Speed="200.51"/>
+    </ViewModel:CarsViewModel.SpeedSector3>
+	<ViewModel:CarsViewModel.SpeedSector1>
+		<ViewModel:SpeedViewModel DriverName="L. HAMILTON" Speed="230.61"/>
+		<ViewModel:SpeedViewModel DriverName="F. MASSA" Speed="130.45"/>
+		<ViewModel:SpeedViewModel DriverName="K. RAIKONNEN" Speed="200.51"/>
+	</ViewModel:CarsViewModel.SpeedSector1>
+	<ViewModel:CarsViewModel.SpeedTrap>
+        <ViewModel:SpeedViewModel DriverName="L. HAMILTON" Speed="230.61"/>
+        <ViewModel:SpeedViewModel DriverName="F. MASSA" Speed="130.45"/>
+        <ViewModel:SpeedViewModel DriverName="K. RAIKONNEN" Speed="200.51"/>
+    </ViewModel:CarsViewModel.SpeedTrap>
+	<ViewModel:CarsViewModel.SpeedSector2>
+        <ViewModel:SpeedViewModel DriverName="L. HAMILTON" Speed="230.61"/>
+        <ViewModel:SpeedViewModel DriverName="F. MASSA" Speed="130.45"/>
+        <ViewModel:SpeedViewModel DriverName="K. RAIKONNEN" Speed="200.51"/>
+    </ViewModel:CarsViewModel.SpeedSector2>
+</ViewModel:CarsViewModel>

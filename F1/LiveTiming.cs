@@ -29,9 +29,6 @@ using F1.Network;
 using F1.Exceptions;
 //using log4net;
 using KeyFrame=F1.Protocol.KeyFrame;
-using System.IO.IsolatedStorage;
-using System.Threading;
-using System.Windows;
 
 namespace F1
 {
@@ -55,6 +52,7 @@ namespace F1
     {
         public event LiveTimingMessageHandlerDelegate SystemMessageHandler;
         public event LiveTimingMessageHandlerDelegate CarMessageHandler;
+        public event LiveTimingMessageHandlerDelegate ControlMessageHandler;
         
 
         #region Internal Data
@@ -150,9 +148,13 @@ namespace F1
             {
                 CarMessageHandler.Invoke(msg);
             }
+            else if (msg.Type == Enums.SystemPacketType.ControlType)
+            {
+                ControlMessageHandler.Invoke(msg);
+            }
             else
             {
-                if(msg is EndOfSession)
+                if (msg is EndOfSession)
                 {
                     // Tell the thread to stop blocking and exit after it's processed the remainder of messages.
                     Stop(JoinMethod.DontJoin, false);
@@ -221,6 +223,7 @@ namespace F1
             }
             catch (AuthorizationException)
             {
+                DoDispatchMessage(new F1.Messages.Control.AuthorizationProblem());
                 Stop(true);
             }
         }

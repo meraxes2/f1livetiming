@@ -1,0 +1,24 @@
+﻿<local:CarsViewModel
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:LTLite.ViewModel"
+    Copyright="Copyright 2014 Formula One Administration Ltd." 
+    EventType="NoEvent" 
+    TrackStatusMessage="SCD" 
+    LastComment="Bdskadjs sakj fdasfgsakj fjskadh fsdjhfgsd ajhfg asdf kgsad fgkasdh fgjk hdsgfsh."
+    >
+
+    <local:CarsViewModel.Cars>
+        <local:CarViewModel TablePosition="1" Position="2"  DriverName="J. BUTTON"     DriverNameColor="White" GapColor="White" IntervalColor="White" LapTimeColor="White" Sector1TimeColor="White" Sector2TimeColor="White" Sector3TimeColor="White" PitCountColor="White" Q1TimeColor="White" Q2TimeColor="White" Q3TimeColor="White" BestPracticeLapTimeColor="White" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="2" Position="3" DriverName="F. ALONSO"      DriverNameColor="White" GapColor="White" IntervalColor="Red" LapTimeColor="Red" Sector1TimeColor="Red" Sector2TimeColor="Red" Sector3TimeColor="Red" PitCountColor="Red" Q1TimeColor="Red" Q2TimeColor="Red" Q3TimeColor="Red" BestPracticeLapTimeColor="Red" PositionColor="White"  CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="3" Position="1" DriverName="S. VETTEL"      DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="4" Position="4" DriverName="K. KOBAYASHI"   DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="5" Position="5" DriverName="K. RAIKKONEN"   DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="6" Position="6" DriverName="H. KOVALAINEN"  DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="7" Position="7" DriverName="P. DE LA ROSA"  DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="8" Position="8" DriverName="N. KARTHIKEYAN" DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="9" Position="9" DriverName="P. MALDONADO"   DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+        <local:CarViewModel TablePosition="10" Position="10" DriverName="L. HAMILTON"  DriverNameColor="White" GapColor="White" IntervalColor="Blue" LapTimeColor="Blue" Sector1TimeColor="Blue" Sector2TimeColor="Blue" Sector3TimeColor="Blue" PitCountColor="Blue" Q1TimeColor="Blue" Q2TimeColor="Blue" Q3TimeColor="Blue" BestPracticeLapTimeColor="Blue" PositionColor="White" CarNumberColor="White"/>
+    </local:CarsViewModel.Cars>
+
+</local:CarsViewModel>

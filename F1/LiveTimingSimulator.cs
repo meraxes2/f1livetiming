@@ -48,6 +48,7 @@ namespace F1
     {
         public event LiveTimingMessageHandlerDelegate SystemMessageHandler;
         public event LiveTimingMessageHandlerDelegate CarMessageHandler;
+        public event LiveTimingMessageHandlerDelegate ControlMessageHandler;
 
         #region Internal Data
         private const int MEMSTREAM_SIZE = 1024;
@@ -157,6 +158,10 @@ namespace F1
             if (msg.Type == Enums.SystemPacketType.CarType)
             {
                 CarMessageHandler.Invoke(msg);
+            }
+            else if (msg.Type == Enums.SystemPacketType.ControlType)
+            {
+                ControlMessageHandler.Invoke(msg);
             }
             else
             {

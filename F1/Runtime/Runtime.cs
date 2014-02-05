@@ -120,6 +120,7 @@ namespace F1.Runtime
 
 
         #region Internal Message Dispatching
+        Commentary _incompleteComentaryMsg = null;
 
         private void DispatchMessage(IMessage msg, bool dispatchKeyFrame)
         {
@@ -142,6 +143,33 @@ namespace F1.Runtime
                     if( msg is CarInterval  )
                     {
                         UpdateLapCount(msg as CarInterval);
+                    }
+                    break;
+                case SystemPacketType.Commentary:
+                    {
+                        Commentary comentary = msg as Commentary;
+
+                        if (_incompleteComentaryMsg != null)
+                        {
+                            _incompleteComentaryMsg.Message += comentary.Message;
+                            _incompleteComentaryMsg.EndMessage = comentary.EndMessage;
+                        }
+                        else
+                        {
+                            _incompleteComentaryMsg = comentary;
+                        }
+
+                        if (_incompleteComentaryMsg.EndMessage)
+                        {
+                            //message is completed so dispatch it
+                            msg = _incompleteComentaryMsg;
+                            _incompleteComentaryMsg = null;
+                        }
+                        else
+                        {
+                            //we need to wait for the rest of the message before we can dispatch
+                            dispatch = false;
+                        }
                     }
                     break;
                 default:

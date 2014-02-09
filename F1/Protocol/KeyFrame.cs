@@ -48,17 +48,23 @@ namespace F1.Protocol
 
         private static Stream GetKeyFrame(string url)
         {
+#if WINDOWS_PHONE
             HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(url) as HttpWebRequest);
+#else
+            HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+#endif
 
             if(null == req)
             {
                 throw new KeyFrameException("Could not create request for url: " + url, null);
             }
 
-            //if (null != req.Proxy)
-            //{
-            //    req.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            //}
+#if !WINDOWS_PHONE
+            if (null != req.Proxy)
+            {
+                req.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            }
+#endif
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 

@@ -150,7 +150,10 @@ namespace F1
             }
             else if (msg.Type == Enums.SystemPacketType.ControlType)
             {
-                ControlMessageHandler.Invoke(msg);
+                if (ControlMessageHandler != null)
+                {
+                    ControlMessageHandler.Invoke(msg);
+                }
             }
             else
             {
@@ -233,7 +236,11 @@ namespace F1
         {
             try
             {
+#if WINDOWS_PHONE
                 _connection = new Wp7ConnectionDriver(_runtime, memStream);
+#else
+                _connection = new AsyncConnectionDriver(_runtime, memStream);
+#endif
             }
             catch (ConnectionException)
             {

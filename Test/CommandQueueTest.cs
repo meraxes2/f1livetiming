@@ -82,12 +82,13 @@ namespace Test
 
         private static void ProcessQueue(CommandQueue queue, int timeoutSecs)
         {
-            while(queue.HasCommand)
+            ICommand cmd = queue.Pop(false);
+            while (cmd != null)
             {
-                using( ICommand cmd = queue.Pop(new TimeSpan(0,0,timeoutSecs)))
-                {
-                    cmd.Execute();
-                }
+                cmd.Execute();
+                cmd.Dispose();
+
+                cmd = queue.Pop(false);
             }
         }
 
@@ -101,7 +102,7 @@ namespace Test
         private static void WaitThread(Object o)
         {
             CommandQueue q = o as CommandQueue;
-            using (ICommand cmd = q.Pop(new TimeSpan(0, 0, 5)))
+            using (ICommand cmd = q.Pop())
             {
                 cmd.Execute();
             }

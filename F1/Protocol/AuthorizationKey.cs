@@ -107,12 +107,25 @@ namespace F1.Protocol
             string body = string.Format("email={0}&password={1}", user, pass);
             byte[] bodyData = StringUtils.StringToASCIIBytes(body);
 
+#if WINDOWS_PHONE
             HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(baseurl) as HttpWebRequest);
 
             req.Request.AllowAutoRedirect = false;
             req.Request.Method = "Post";
             req.Request.ContentType = "application/x-www-form-urlencoded";
+#else
+            HttpWebRequest req = WebRequest.Create(baseurl) as HttpWebRequest;
 
+            if (null != req.Proxy)
+            {
+                req.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            }
+
+            req.AllowAutoRedirect = false;
+            req.Method = "Post";
+            req.ContentType = "application/x-www-form-urlencoded";
+            req.ContentLength = bodyData.Length;
+#endif
             using (Stream reqBody = req.GetRequestStream())
             {
                 reqBody.Write(bodyData, 0, bodyData.Length);
@@ -149,7 +162,16 @@ namespace F1.Protocol
         {
             string url = String.Format("http://secure.formula1.com/reg/getkey/{0}.asp?auth={1}", sessionName, cookie);
 
+#if WINDOWS_PHONE
             HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(url) as HttpWebRequest);
+#else
+            HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+
+            if (null != req.Proxy)
+            {
+                req.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            }
+#endif
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 

@@ -36,7 +36,7 @@ namespace KeyCracker
                 msg = null;
                 if (h.IsSystemMessage)
                 {
-                    msg = MessageFactory.CreateMessage(h.SystemType);
+                    msg = MessageFactory.CreateMessage(h.SystemType, h.Datum);
                     UpdateEventType(msg);
                 }
                 else

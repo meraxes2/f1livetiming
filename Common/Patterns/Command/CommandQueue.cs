@@ -76,7 +76,7 @@ namespace Common.Patterns.Command
             return true;
         }
 
-        public ICommand Pop()
+        public ICommand Pop(bool waitForCommand = true)
         {
             ICommand ret = null;
 
@@ -84,6 +84,11 @@ namespace Common.Patterns.Command
             {
                 while (!_quit && _highPriorityQueue.Count == 0 && _lowPriorityQueue.Count == 0)
                 {
+                    if (!waitForCommand)
+                    {
+                        break;
+                    }
+
                     Monitor.Wait(_thisLock);
                 }
 

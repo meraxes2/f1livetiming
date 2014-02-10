@@ -1,15 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{3B0C62DC-8C14-49C7-B645-7382EE0551A7}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72208192-26F2-4D68-BEBF-AD7425542A49}"
 	ProjectSection(SolutionItems) = preProject
 		Live Timing1.vsmdi = Live Timing1.vsmdi
-		Live Timing3.vsmdi = Live Timing3.vsmdi
+		Live Timing2.vsmdi = Live Timing2.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		Session Keys.txt = Session Keys.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{3B0C62DC-8C14-49C7-B645-7382EE0551A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1", "F1\F1.csproj", "{32C5B4E4-D186-432A-BCC4-5F7874733BEC}"
 EndProject
@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyCracker", "Tools\KeyCrac
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Live Timing3.vsmdi
+		CategoryFile = Live Timing2.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

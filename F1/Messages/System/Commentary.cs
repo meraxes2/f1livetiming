@@ -21,6 +21,7 @@ using System.IO;
 using System.Text;
 using F1.Data.Packets;
 using F1.Enums;
+using System;
 
 namespace F1.Messages.System
 {
@@ -33,7 +34,8 @@ namespace F1.Messages.System
         /// The next line of commentary. Words and sentances are often split between
         /// commentary which make their usage limited unless you just print the values.
         /// </summary>
-        public string Message { get; private set; }
+        public string Message { get; set; }
+        public bool EndMessage { get; set; }
 
         #region IMessage Members
 
@@ -62,6 +64,8 @@ namespace F1.Messages.System
                 // Not unicode, but new UTF8 style of message.
                 Message = Encoding.UTF8.GetString(sp.Data, 2, sp.Data.Length - 2);
             }
+
+            EndMessage = ((int)sp.Data[1] > 0);
         }
 
         public SystemPacketType Type
@@ -73,7 +77,7 @@ namespace F1.Messages.System
 
         public override string ToString()
         {
-            return "SystemMessage: Commentary - Message: " + Message;
+            return String.Format("SystemMessage: Commentary - EndMessage: {0}, Message: {1}", EndMessage, Message);
         }
     }
 }

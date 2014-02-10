@@ -29,105 +29,84 @@ namespace Common.Patterns.Command
         private readonly LinkedList<ICommand> _lowPriorityQueue;
         private readonly LinkedList<ICommand> _highPriorityQueue;
         private readonly object _thisLock;
-        private readonly EventWaitHandle _signal;
+        private bool _quit = false;
 
         public CommandQueue()
         {
             _thisLock = new object();
-            _signal = new EventWaitHandle(false, EventResetMode.AutoReset);
             _lowPriorityQueue = new LinkedList<ICommand>();
             _highPriorityQueue = new LinkedList<ICommand>();
         }
 
-
-        public void Push(ICommand cmd)
+        public void Quit()
         {
             lock (_thisLock)
             {
-                DoPushExtra();
-                if (_lowPriorityQueue.Count == 0 && _highPriorityQueue.Count == 0)
-                {
-                    _signal.Set();
-                }
+                _quit = true;
+                Monitor.PulseAll(_thisLock);
+            }
+        }
+
+        public bool Push(ICommand cmd)
+        {
+            lock (_thisLock)
+            {
+                if (_quit) return false;
+
                 _lowPriorityQueue.AddLast(cmd);
+
+                Monitor.PulseAll(_thisLock);
             }
+
+            return true;
         }
 
 
-        public void PushUrgent(ICommand cmd)
+        public bool PushUrgent(ICommand cmd)
         {
             lock (_thisLock)
             {
-                DoPushExtra();
-                if (AreEmptyUnsafe)
-                {
-                    _signal.Set();
-                }
+                if (_quit) return false;
+
                 _highPriorityQueue.AddLast(cmd);
+
+                Monitor.PulseAll(_thisLock);
             }
+
+            return true;
         }
 
-
-        public bool HasCommand
-        {
-            get
-            {
-                lock (_thisLock)
-                {
-                    return (!AreEmptyUnsafe);
-                }
-            }
-        }
-
-
-        public ICommand Pop(TimeSpan time)
+        public ICommand Pop(bool waitForCommand = true)
         {
             ICommand ret = null;
 
             lock (_thisLock)
             {
-                if (AreEmptyUnsafe)
+                while (!_quit && _highPriorityQueue.Count == 0 && _lowPriorityQueue.Count == 0)
                 {
-                    Monitor.Exit(_thisLock);
-                    if(_signal.WaitOne((int)time.TotalMilliseconds, false))
+                    if (!waitForCommand)
                     {
-                        Monitor.Enter(_thisLock);
+                        break;
                     }
-                    else
-                    {
-                        DoPopExtra();
-                        return null;
-                    }
+
+                    Monitor.Wait(_thisLock);
                 }
 
                 if (_highPriorityQueue.Count > 0)
                 {
                     ret = _highPriorityQueue.First.Value;
                     _highPriorityQueue.RemoveFirst();
+                    Monitor.PulseAll(_thisLock);
                 }
                 else if (_lowPriorityQueue.Count > 0)
                 {
                     ret = _lowPriorityQueue.First.Value;
                     _lowPriorityQueue.RemoveFirst();
+                    Monitor.PulseAll(_thisLock);
                 }
-
-                DoPopExtra();
             }
 
             return ret;
-        }
-
-
-        protected virtual void DoPushExtra() { }
-        protected virtual void DoPopExtra() { }
-
-
-        private bool AreEmptyUnsafe
-        {
-            get
-            {
-                return (_lowPriorityQueue.Count == 0 && _highPriorityQueue.Count == 0);
-            }
         }
     }
 }

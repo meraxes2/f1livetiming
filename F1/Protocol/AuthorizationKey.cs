@@ -25,6 +25,8 @@ using System.Globalization;
 using Common.Utils.Strings;
 using F1.Runtime;
 using F1.Exceptions;
+using System.Threading;
+using Common;
 
 namespace F1.Protocol
 {
@@ -38,6 +40,7 @@ namespace F1.Protocol
         private readonly string _loginCookie;
 
         private readonly Dictionary<string, uint> _cachedKeys = new Dictionary<string, uint>();
+        private static ManualResetEvent _requestDone = new ManualResetEvent(false);
 
         public AuthorizationKey(string user, string pass)
         {
@@ -68,7 +71,6 @@ namespace F1.Protocol
 
             return newKey;
         }
-
 
         #region Static Helpers
         private static string Login(string user, string pass)
@@ -105,6 +107,13 @@ namespace F1.Protocol
             string body = string.Format("email={0}&password={1}", user, pass);
             byte[] bodyData = StringUtils.StringToASCIIBytes(body);
 
+#if WINDOWS_PHONE
+            HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(baseurl) as HttpWebRequest);
+
+            req.Request.AllowAutoRedirect = false;
+            req.Request.Method = "Post";
+            req.Request.ContentType = "application/x-www-form-urlencoded";
+#else
             HttpWebRequest req = WebRequest.Create(baseurl) as HttpWebRequest;
 
             if (null != req.Proxy)
@@ -116,51 +125,65 @@ namespace F1.Protocol
             req.Method = "Post";
             req.ContentType = "application/x-www-form-urlencoded";
             req.ContentLength = bodyData.Length;
-
+#endif
             using (Stream reqBody = req.GetRequestStream())
             {
                 reqBody.Write(bodyData, 0, bodyData.Length);
+                reqBody.Flush();
                 reqBody.Close();
             }
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 
-            string cookie = resp1.Headers["Set-Cookie"];
-
-            if( string.IsNullOrEmpty(cookie))
+            if (null != resp1)
             {
-                if (0 < resp1.ContentLength)
-                {
-                    // it's probably not an event day, and the server is returning a singlecharacter
-                    StreamReader stringReader = new StreamReader(resp1.GetResponseStream());
+                string cookie = resp1.Headers["Set-Cookie"];
 
-                    return stringReader.ReadToEnd();
+                if (string.IsNullOrEmpty(cookie))
+                {
+                    //if (0 < resp1.ContentLength)
+                    //{
+                    //    // it's probably not an event day, and the server is returning a singlecharacter
+                    //    StreamReader stringReader = new StreamReader(resp1.GetResponseStream());
+
+                    //    return stringReader.ReadToEnd();
+                    //}
+
+                    return null;
                 }
 
-                return null;
+                return ParseCookie(cookie);
             }
 
-            return ParseCookie(cookie);
+            return "";
         }
-
 
         private static uint TryGetKey( string cookie, string sessionName )
         {
             string url = String.Format("http://secure.formula1.com/reg/getkey/{0}.asp?auth={1}", sessionName, cookie);
-            
+
+#if WINDOWS_PHONE
+            HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(url) as HttpWebRequest);
+#else
             HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
 
             if (null != req.Proxy)
             {
                 req.Proxy.Credentials = CredentialCache.DefaultCredentials;
             }
+#endif
 
             HttpWebResponse resp1 = req.GetResponse() as HttpWebResponse;
 
-            using(TextReader re = new StreamReader(resp1.GetResponseStream()))
+            if (null != resp1)
             {
-                return ParseKey(re.ReadLine());
+                using (TextReader re = new StreamReader(resp1.GetResponseStream()))
+                {
+                    return ParseKey(re.ReadLine());
+                }
             }
+
+            return INVALID_KEY;
         }
 
 
@@ -174,7 +197,7 @@ namespace F1.Protocol
 
         private static uint ParseKey(string key)
         {
-            return uint.Parse(key, NumberStyles.HexNumber);
+            return uint.Parse(key, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
         }
         #endregion
     }

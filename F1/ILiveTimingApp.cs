@@ -137,6 +137,11 @@ namespace F1
         event LiveTimingMessageHandlerDelegate CarMessageHandler;
 
         /// <summary>
+        /// Handle this event to receive Control IMessage types. <see cref="LiveTimingMessageHandlerDelegate"/>
+        /// </summary>
+        event LiveTimingMessageHandlerDelegate ControlMessageHandler;
+
+        /// <summary>
         /// This function implements the 'Runtime' of this library, and hence the calling
         /// thread is responsible for invoking the associated message handlers. Calling this method
         /// will block until one of either <see cref="Stop"/> is called or an End of session
@@ -152,6 +157,9 @@ namespace F1
         /// <param name="discard">true will cause the thread to exit abondoning any processing and messages that may
         /// remain. Use false to complete the current task before exiting.</param>
         void Stop( bool discard );
+
+        void StartThread();
+        bool IsAlive { get; }
 
 
         /// <summary>

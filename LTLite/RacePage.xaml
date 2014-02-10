@@ -1,0 +1,176 @@
+﻿<!--/*
+ *  f1livetiming - Part of the Live Timing Library for .NET
+ *  
+ *      http://livetiming.turnitin.co.uk/
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); 
+ *  you may not use this file except in compliance with the License. 
+ *  You may obtain a copy of the License at 
+ *  
+ *      http://www.apache.org/licenses/LICENSE-2.0 
+ *  
+ *  Unless required by applicable law or agreed to in writing, software 
+ *  distributed under the License is distributed on an "AS IS" BASIS, 
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ *  See the License for the specific language governing permissions and 
+ *  limitations under the License. 
+ */-->
+    
+<phone:PhoneApplicationPage
+    x:Class="LTLite.RacePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="clr-namespace:LTLite.Converters"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="White"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="False"
+    d:DataContext="{d:DesignData SampleData/CarViewModelSampleData.xaml}">
+    
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <phone:PhoneApplicationPage.Resources>
+        <converters:ColorConverter x:Key="colorConverter" />
+        <converters:DriverNameShortConverter x:Key="driverNameShortConverter" />
+        <converters:PositionConverter x:Key="positionConverter" />
+        <converters:GapShortConverter x:Key="gapShortConverter" />
+        <converters:OddEvenColorConverter x:Key="oddEvenColorConverter" />
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Black">
+        <Grid x:Name="LayoutPortrait">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="27"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="0,0,0,0" Grid.Row="0" Orientation="Horizontal">
+                <TextBlock Text="Pos" Width="40" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Left" Text="Name" Width="55" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Gap" Width="45" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Int" Width="45" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Time" Width="90" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S1" Width="55" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S2" Width="55" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S3" Width="55" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Pit"  Width="30" Foreground="#CCCCCC"/>
+            </StackPanel>
+
+            <ListBox Height="auto" Name="listBox" Width="auto" ItemsSource="{Binding Cars}" Background="Black" Grid.Row="1" Style="{StaticResource ListBoxStyleTiming}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0"  Height="27" Width="480" Orientation="Horizontal" Background="{Binding TablePosition, Mode=OneWay, Converter={StaticResource oddEvenColorConverter}}">
+                            <TextBlock TextAlignment="Right" Padding="0,0,10,0" Width="40" Text="{Binding Position, Mode=OneWay, Converter={StaticResource positionConverter}}" Foreground="{Binding PositionColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock Width="55" Text="{Binding DriverName, Mode=OneWay, Converter={StaticResource driverNameShortConverter}}" Foreground="{Binding CarNumberColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="45" Text="{Binding Gap, Mode=OneWay, Converter={StaticResource gapShortConverter}}" Foreground="{Binding GapColor, Mode=OneWay, Converter={StaticResource colorConverter}}">></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="45" Text="{Binding Interval, Mode=OneWay}" Foreground="{Binding IntervalColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="90" Text="{Binding LapTime, Mode=OneWay}" Foreground="{Binding LapTimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="55" Text="{Binding Sector1Time, Mode=OneWay}" Foreground="{Binding Sector1TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="55" Text="{Binding Sector2Time, Mode=OneWay}" Foreground="{Binding Sector2TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="55" Text="{Binding Sector3Time, Mode=OneWay}" Foreground="{Binding Sector3TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="30" Text="{Binding PitCount, Mode=OneWay}" Foreground="{Binding PitCountColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Margin="0,0,0,0" Grid.Row="2" Orientation="Vertical">
+                <ScrollViewer Margin="6,0,6,6" Style="{StaticResource ScrollViewerStyleTiming}" Height="96">
+                    <TextBlock TextWrapping="Wrap" Text="{Binding LastComment, Mode=OneWay}" VerticalAlignment="Bottom"/>
+                </ScrollViewer>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,6" Height="27">
+                    <TextBlock Text="Best Lap:" Width="90" Padding="6,0,0,0" Foreground="#00FFFF"/>
+                    <TextBlock Text="{Binding FastestDriverNumber, Mode=OneWay}" TextAlignment="Right" Padding="0,0,5,0" Width="30" Foreground="#FF00FF"/>
+                    <TextBlock Text="{Binding FastestDriverName, Mode=OneWay}" Width="185" Foreground="#FF00FF"/>
+                    <TextBlock TextAlignment="Right" Text="{Binding FastestLapTime, Mode=OneWay}" Width="80" Foreground="#FF00FF"/>
+                    <TextBlock TextAlignment="Right" Text="Lap:" Width="55" Foreground="#00FFFF"/>
+                    <TextBlock TextAlignment="Right" Text="{Binding FastestLapNumber, Mode=OneWay}" Width="30" Foreground="#FF00FF"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="27">
+                    <TextBlock Text="Track Status:" Padding="6,0,0,0" Foreground="White"/>
+                    <TextBlock Text="{Binding TrackStatus, Mode=OneWay}" Padding="6,0,0,0" Foreground="{Binding TrackStatusColor, Converter={StaticResource colorConverter}, Mode=OneWay}"/>
+                    <TextBlock Text="{Binding TrackStatusMessage, Mode=OneWay}" Padding="6,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="LayoutLandscape" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="27"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="0,0,0,0" Grid.Row="0" Orientation="Horizontal">
+                <TextBlock Text="Pos" Width="40" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Center" Text="Name" Width="200" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Gap" Width="80" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Interval" Width="80" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Time" Width="100" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S1" Width="80" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S2" Width="80" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S3" Width="80" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Pit"  Width="50" Foreground="#CCCCCC"/>
+            </StackPanel>
+
+            <ListBox Height="393" Name="listBoxLandscape" Width="auto" ItemsSource="{Binding Cars}" Background="Black" Grid.Row="1" Style="{StaticResource ListBoxStyleTiming}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0"  Height="27" Orientation="Horizontal" Background="{Binding TablePosition, Mode=OneWay, Converter={StaticResource oddEvenColorConverter}}" Width="800">
+                            <TextBlock TextAlignment="Right" Padding="0,0,10,0" Width="40" Text="{Binding Position, Mode=OneWay, Converter={StaticResource positionConverter}}" Foreground="{Binding PositionColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Padding="0,0,5,0" Width="30" Text="{Binding CarNumber, Mode=OneWay}" Foreground="{Binding CarNumberColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock Width="170" Text="{Binding DriverName, Mode=OneWay}" Foreground="{Binding DriverNameColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="80" Text="{Binding Gap, Mode=OneWay, Converter={StaticResource gapShortConverter}}" Foreground="{Binding GapColor, Mode=OneWay, Converter={StaticResource colorConverter}}">></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="80" Text="{Binding Interval, Mode=OneWay}" Foreground="{Binding IntervalColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="100" Text="{Binding LapTime, Mode=OneWay}" Foreground="{Binding LapTimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="80" Text="{Binding Sector1Time, Mode=OneWay}" Foreground="{Binding Sector1TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="80" Text="{Binding Sector2Time, Mode=OneWay}" Foreground="{Binding Sector2TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="80" Text="{Binding Sector3Time, Mode=OneWay}" Foreground="{Binding Sector3TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="50" Text="{Binding PitCount, Mode=OneWay}" Foreground="{Binding PitCountColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Margin="0,0,0,0" Grid.Row="2" Orientation="Vertical">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="6,0,6,0" Style="{StaticResource ScrollViewerStyleTiming}">
+                    <TextBlock Text="{Binding LastComment, Mode=OneWay}" Height="33"/>
+                </ScrollViewer>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="27">
+                    <TextBlock Text="Track Status:" Padding="6,0,0,0" Foreground="White"/>
+                    <TextBlock Text="{Binding TrackStatus, Mode=OneWay}" Padding="6,0,0,0" Foreground="{Binding TrackStatusColor, Converter={StaticResource colorConverter}, Mode=OneWay}"/>
+                    <TextBlock Text="{Binding TrackStatusMessage, Mode=OneWay}" Padding="6,0,0,0"/>
+                </StackPanel>                    
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

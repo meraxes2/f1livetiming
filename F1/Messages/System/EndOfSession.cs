@@ -26,7 +26,7 @@ namespace F1.Messages.System
     /// <summary>
     /// Indicates that the current session is over. There is no data associated with this type.
     /// </summary>
-    class EndOfSession : IMessage
+    public class EndOfSession : IMessage
     {
         #region IMessage members
         public Packet CreatePacketType(Header header, Stream rawStream, Stream decryptStream)

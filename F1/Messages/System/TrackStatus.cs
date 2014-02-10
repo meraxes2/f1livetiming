@@ -22,6 +22,7 @@ using Common.Utils.Strings;
 using F1.Data.Packets;
 using F1.Enums;
 using F1.Exceptions;
+using System.Globalization;
 
 namespace F1.Messages.System
 {
@@ -74,7 +75,7 @@ namespace F1.Messages.System
 
             if (sp.ShortDatum == 1)
             {
-                int status = int.Parse(StringUtils.ASCIIBytesToString(sp.Data));
+                int status = int.Parse(StringUtils.ASCIIBytesToString(sp.Data), CultureInfo.InvariantCulture);
                 switch (status)
                 {
                     case 1:

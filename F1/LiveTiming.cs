@@ -27,7 +27,7 @@ using F1.Protocol;
 using F1.Messages;
 using F1.Network;
 using F1.Exceptions;
-using log4net;
+//using log4net;
 using KeyFrame=F1.Protocol.KeyFrame;
 
 namespace F1
@@ -52,18 +52,21 @@ namespace F1
     {
         public event LiveTimingMessageHandlerDelegate SystemMessageHandler;
         public event LiveTimingMessageHandlerDelegate CarMessageHandler;
+        public event LiveTimingMessageHandlerDelegate ControlMessageHandler;
         
 
         #region Internal Data
         private const int MEMSTREAM_SIZE = 1024;
 
-        private Runtime.Runtime _runtime;
-        private IDisposable _connection;
-        private MessageDispatcherImpl _handler;
+        private Runtime.Runtime _runtime = null;
+        private IDisposable _connection = null;
+        private MessageDispatcherImpl _handler = null;
+        private string _username = "";
+        private string _password = "";
         
         private readonly object _onceOnlyLock = new object();
         
-        private readonly ILog _log = LogManager.GetLogger("LiveTiming");
+        //private readonly ILog _log = LogManager.GetLogger("LiveTiming");
         #endregion
 
         /// <summary>
@@ -76,27 +79,32 @@ namespace F1
         public LiveTiming( string username, string password, bool createThread )
             : base(false)
         {
-            _log.Info("Logging into LiveTiming server...");
+            _username = username;
+            _password = password;
 
-            //  Log in to the live timing server
-            IAuthKey authKeyService = Login(username, password);
+            base.CmdQueue.Push(CommandFactory.MakeCommand(InitRuntime));
 
-            //  Set up the Runtime object for business logic to the live timing.
-            InitRuntime(authKeyService);
-
-            if (createThread)
+            if(createThread)
             {
                 // The caller has promised not to call Run, so we must.
                 Start();
             }
         }
 
+        public void StartThread()
+        {
+            Start();
+        }
+
 
         public void Dispose()
         {
             Stop(JoinMethod.Join, false);
-            _connection.Dispose();
-            _connection = null;
+            if (_connection != null)
+            {
+                _connection.Dispose();
+                _connection = null;
+            }
             _runtime = null;
         }
 
@@ -140,9 +148,16 @@ namespace F1
             {
                 CarMessageHandler.Invoke(msg);
             }
+            else if (msg.Type == Enums.SystemPacketType.ControlType)
+            {
+                if (ControlMessageHandler != null)
+                {
+                    ControlMessageHandler.Invoke(msg);
+                }
+            }
             else
             {
-                if(msg is EndOfSession)
+                if (msg is EndOfSession)
                 {
                     // Tell the thread to stop blocking and exit after it's processed the remainder of messages.
                     Stop(JoinMethod.DontJoin, false);
@@ -183,28 +198,37 @@ namespace F1
             {
                 return new AuthorizationKey(username, password);
             }
-            catch (AuthorizationException e)
+            catch (AuthorizationException )
             {
-                _log.Error("Could not log in to server. Reason: " + e.Message);
+                //_log.Error("Could not log in to server. Reason: " + e.Message);
                 throw;
             }
         }
 
 
-        private void InitRuntime(IAuthKey authKeyService)
+        private void InitRuntime()
         {
-            _log.Info("Connecting to live stream....");
+            //_log.Info("Connecting to live stream....");
+            try
+            {
+                IAuthKey authKeyService = Login(_username, _password);
 
-            IKeyFrame keyFrameService = new KeyFrame();
+                IKeyFrame keyFrameService = new KeyFrame();
 
-            _handler = new MessageDispatcherImpl(this);
+                _handler = new MessageDispatcherImpl(this);
 
-            MemoryStream memStream  = new MemoryStream(MEMSTREAM_SIZE);
+                MemoryStream memStream = new MemoryStream(MEMSTREAM_SIZE);
 
-            _runtime = new Runtime.Runtime(memStream, authKeyService, keyFrameService, _handler);
+                _runtime = new Runtime.Runtime(memStream, authKeyService, keyFrameService, _handler);
 
-            //  Create network component that drives the Runtime with data.
-            CreateDriver(keyFrameService, memStream);
+                //  Create network component that drives the Runtime with data.
+                CreateDriver(keyFrameService, memStream);
+            }
+            catch (AuthorizationException)
+            {
+                DoDispatchMessage(new F1.Messages.Control.AuthorizationProblem());
+                Stop(true);
+            }
         }
 
 
@@ -212,7 +236,11 @@ namespace F1
         {
             try
             {
+#if WINDOWS_PHONE
+                _connection = new Wp7ConnectionDriver(_runtime, memStream);
+#else
                 _connection = new AsyncConnectionDriver(_runtime, memStream);
+#endif
             }
             catch (ConnectionException)
             {

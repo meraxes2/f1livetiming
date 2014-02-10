@@ -1,9 +1,27 @@
+/*
+ *  f1livetiming - Part of the Live Timing Library for .NET
+ *  
+ *      http://livetiming.turnitin.co.uk/
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); 
+ *  you may not use this file except in compliance with the License. 
+ *  You may obtain a copy of the License at 
+ *  
+ *      http://www.apache.org/licenses/LICENSE-2.0 
+ *  
+ *  Unless required by applicable law or agreed to in writing, software 
+ *  distributed under the License is distributed on an "AS IS" BASIS, 
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ *  See the License for the specific language governing permissions and 
+ *  limitations under the License. 
+ */
+
 using System;
 using System.IO;
 using System.Threading;
 using Common.Utils.Threading;
 using F1.Runtime;
-using log4net;
+//using log4net;
 
 namespace F1.Simulator
 {
@@ -19,7 +37,7 @@ namespace F1.Simulator
         private readonly FileStream _fileStream;
         private readonly Runtime.Runtime _runtime;
 
-        private readonly ILog _log = LogManager.GetLogger("FileCapDriver");
+        //private readonly ILog _log = LogManager.GetLogger("FileCapDriver");
 
         public FileCapDriver(string capFile, MemoryStream memStream, Runtime.Runtime runtime)
             : base(false)
@@ -92,9 +110,9 @@ namespace F1.Simulator
                 {
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                _log.Warn(e.Message);
+                //_log.Warn(e.Message);
 
                 // Error while processing the data, so we abort and discard the remainder
                 // of read/write requests pending.

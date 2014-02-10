@@ -26,7 +26,7 @@ namespace F1.Messages.System
     /// <summary>
     /// Time elapsed of the current event.
     /// </summary>
-    class TimeStamp : IMessage
+    public class TimeStamp : IMessage
     {
         /// <summary>
         /// The time in seconds of the amount of time elapsed in this event.

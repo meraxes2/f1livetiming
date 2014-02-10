@@ -21,6 +21,9 @@ using System;
 using System.IO;
 using F1.Exceptions;
 using F1.Runtime;
+#if WINDOWS_PHONE
+using System.Windows;
+#endif
 
 namespace F1.Simulator
 {
@@ -44,8 +47,13 @@ namespace F1.Simulator
 
         public Stream GetKeyFrame(int frameNumber)
         {
-            Stream ret = GetKeyFrame(String.Format("{0}\\keyframe_{1}.bin", _rootDirectory, frameNumber.ToString("d5")));
+#if WINDOWS_PHONE
+            String path = String.Format("{0}/keyframe_{1}.bin", _rootDirectory, frameNumber.ToString("d5"));            
+#else
+            String path = String.Format("{0}\\keyframe_{1}.bin", _rootDirectory, frameNumber.ToString("d5"));
+#endif
 
+            Stream ret = GetKeyFrame(path);
             _lastKeyFrame = frameNumber;
 
             return ret;
@@ -55,7 +63,11 @@ namespace F1.Simulator
         {
             try
             {
+#if WINDOWS_PHONE
+                return Application.GetResourceStream(new Uri(path, UriKind.Relative)).Stream;
+#else
                 return File.OpenRead(path);
+#endif
             }
             catch (Exception e)
             {

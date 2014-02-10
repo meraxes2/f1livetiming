@@ -40,6 +40,7 @@ namespace F1.Enums
         TrackStatus = 11,
         Copyright = 12,
         RaceLapCount = 20,
-        EndOfSession = 21
+        EndOfSession = 21,
+        ControlType = 30
     }
 }

@@ -26,7 +26,7 @@ using F1.Enums;
 using F1.Exceptions;
 using F1.Messages;
 using F1.Messages.System;
-using log4net;
+//using log4net;
 using System;
 
 namespace F1.Data
@@ -42,13 +42,13 @@ namespace F1.Data
             public IMessage CurrentMessage { get; set; }
             public Queue<IMessage> MessageQueue { get; set; }
             public EventType EventType { get; set; }
-            public ILog Logger { get; set; }
+            //public ILog Logger { get; set; }
 
             public DataContext()
             {
                 EventType = EventType.NoEvent;
                 MessageQueue = new Queue<IMessage>();
-                Logger = LogManager.GetLogger("PacketReader");
+                //Logger = LogManager.GetLogger("PacketReader");
             }
 
             #region IDisposable Members
@@ -169,7 +169,7 @@ namespace F1.Data
                 // on the factory object.
                 if (Context.Header.IsSystemMessage)
                 {
-                    Context.CurrentMessage = MessageFactory.CreateMessage(Context.Header.SystemType);
+                    Context.CurrentMessage = MessageFactory.CreateMessage(Context.Header.SystemType, Context.Header.Datum);
                 }
                 else
                 {
@@ -179,7 +179,7 @@ namespace F1.Data
 
                 if( null == Context.CurrentMessage )
                 {
-                    Context.Logger.ErrorFormat("Unknown message type={0}, carId={1}, datum=0x{2:x}.", Context.Header.RawType, Context.Header.CarId, Context.Header.Datum);
+                   // Context.Logger.ErrorFormat("Unknown message type={0}, carId={1}, datum=0x{2:x}.", Context.Header.RawType, Context.Header.CarId, Context.Header.Datum);
 
                     // Couldn't resolve the message, which means we don't know how
                     // to continue with this stream. "Computer says no".
@@ -270,26 +270,26 @@ namespace F1.Data
                             Context.EventType = ((EventId) Context.CurrentMessage).EventType;
                         }
 
-                        if (Context.Logger.IsDebugEnabled)
-                        {
-                            Context.Logger.Debug(Context.CurrentMessage.ToString());
-                        }
+                        //if (Context.Logger.IsDebugEnabled)
+                        //{
+                        //    Context.Logger.Debug(Context.CurrentMessage.ToString());
+                        //}
                     }
-                    catch(Exception e)
+                    catch(Exception)
                     {
                         if(Context.CurrentMessage != null)
                         {
-                            Context.Logger.WarnFormat("Abondoned message: {0}, Reason: {1}", Context.CurrentMessage.GetType().Name, e.ToString() );
+                            //Context.Logger.WarnFormat("Abondoned message: {0}, Reason: {1}", Context.CurrentMessage.GetType().Name, e.ToString() );
                         }
                         else
                         {
-                            Context.Logger.WarnFormat("Failed to deserialise message, reason {1}", e.ToString());
+                            //Context.Logger.WarnFormat("Failed to deserialise message, reason {1}", e.ToString());
                         }
                     }
                 }
                 else
                 {
-                    Context.Logger.Debug("Writing off garbage packet.");
+                    //Context.Logger.Debug("Writing off garbage packet.");
                 }
 
                 Context.CurrentMessage = null;

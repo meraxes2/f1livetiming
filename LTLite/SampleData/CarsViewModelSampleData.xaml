@@ -14,7 +14,11 @@
                          CounterDays="7"
                          CounterHours="16"
                          CounterMinutes="26"
-                         CounterSeconds="10">
+                         CounterSeconds="10"
+                         EventRemainingTime="16:00"
+                         EventRemainingTimeStr="16:00"
+                         TrackStatus="&#x25A0;"
+                         TrackStatusColor="Red">
 	<ViewModel:CarsViewModel.Cars>
 		<ViewModel:CarViewModel BestPracticeLapTimeColor="#FF0A58BA" CarId="55" CarNumberColor="#FFFAA049" DriverName="P. DI RESTA" DriverNameColor="#FFF6D45D" GapColor="#FF1A1180" IntervalColor="#FFB1ED69" LapCountColor="#FF2C3AC1" LapTimeColor="#FFA1294B" PositionColor="#FF23644A" Position="34" PitCountColor="#FFEFF5F5" Q3TimeColor="#FF659B94" Q2TimeColor="#FFB130D7" Q1TimeColor="#FF8F24CA" Sector2TimeColor="#FF1619B3" Sector1TimeColor="#FFA86528" Sector3TimeColor="#FF3D881D" />
 		<ViewModel:CarViewModel BestPracticeLapTimeColor="#FFF648D2" CarId="19" CarNumberColor="#FF8E18E9" DriverName="L. HAMILTON" DriverNameColor="#FFB692AC" GapColor="#FF42C925" IntervalColor="#FF816FD0" LapCountColor="#FFED3BC3" LapTimeColor="#FFF1A3D4" PositionColor="#FFA12C4E" Position="20" PitCountColor="#FF7977E4" Q3TimeColor="#FF6FA629" Q2TimeColor="#FFC80191" Q1TimeColor="#FF153F0B" Sector2TimeColor="#FFD0315C" Sector1TimeColor="#FF114729" Sector3TimeColor="#FFD295A6" />

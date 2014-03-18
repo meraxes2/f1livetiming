@@ -82,7 +82,7 @@
                     <TextBlock Text="name" Style="{StaticResource Header}" />
                     <TextBlock Text="LTLite" Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,-6,12,12"/>
                     <TextBlock Text="version" Style="{StaticResource Header}" />
-                    <TextBlock Text="1.0" Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,-6,12,12"/>
+                    <TextBlock Text="1.1" Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,-6,12,12"/>
                     <TextBlock Text="email" Style="{StaticResource Header}" />
                     <TextBlock x:Name="emailTextBlock" Text="xxxx@xxxx.xxx" TextDecorations="Underline" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{StaticResource PhoneAccentBrush}" Margin="12,-6,12,12" Tap="TextBlock_Tap_Email"/>
                     <TextBlock Text="libraries" Style="{StaticResource Header}" />

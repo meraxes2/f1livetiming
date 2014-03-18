@@ -83,7 +83,7 @@ namespace LTLite.ViewModel
 
         #region Gap
         double _gap = 0.0;
-        CarBaseMessage.TimeType _gapType = CarBaseMessage.TimeType.Time;
+        CarBaseMessage.TimeType _gapType = CarBaseMessage.TimeType.NoData;
 
         public void SetGap(double gap, CarBaseMessage.TimeType type)
         {
@@ -618,6 +618,9 @@ namespace LTLite.ViewModel
                     case CarBaseMessage.TimeType.Retired:
                         return "DNF";
 
+                    case CarBaseMessage.TimeType.TextTime:
+                        return "●";
+
                     default:
                         return "";
                 }
@@ -687,6 +690,9 @@ namespace LTLite.ViewModel
                     case CarBaseMessage.TimeType.Retired:
                         return "DNF";
 
+                    case CarBaseMessage.TimeType.TextTime:
+                        return "●";
+
                     default:
                         return "";
                 }
@@ -755,6 +761,9 @@ namespace LTLite.ViewModel
 
                     case CarBaseMessage.TimeType.Retired:
                         return "DNF";
+
+                    case CarBaseMessage.TimeType.TextTime:
+                        return "●";
 
                     default:
                         return "";

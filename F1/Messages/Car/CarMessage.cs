@@ -71,7 +71,11 @@ namespace F1.Messages.Car
             /// The number of laps completed by the front runner. Or the number
             /// of lapse the driver is behind. This is dependant on the message type.
             /// </summary>
-            NLaps
+            NLaps,
+            /// <summary>
+            /// The value is a text with no time.
+            /// </summary>
+            TextTime
         }
 
         /// <summary>
@@ -182,6 +186,9 @@ namespace F1.Messages.Car
                         break;
                     case "RETIRED":
                         type = TimeType.Retired;
+                        break;
+                    case "●":
+                        type = TimeType.TextTime;
                         break;
                     default:
                         if (BaseData[BaseData.Length - 1] == 'L' && BaseData[BaseData.Length - 2] <= '9')

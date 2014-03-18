@@ -34,6 +34,11 @@ namespace F1.Messages.Car
         /// </summary>
         public double SectorTime { get; private set; }
 
+		/// <summary>
+        /// The sector time in text.
+        /// </summary>
+        public string SectorTimeText { get { return BaseData; } }
+
         /// <summary>
         /// Defines the behaviour of SectorTime, see <see cref="CarBaseMessage.TimeType"/>
         /// </summary>

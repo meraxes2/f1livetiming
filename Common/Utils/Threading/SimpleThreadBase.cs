@@ -16,8 +16,11 @@
  *  See the License for the specific language governing permissions and 
  *  limitations under the License. 
  */
-
+#if WINRT
+using System.Threading.Tasks;
+#else
 using System.Threading;
+#endif
 
 namespace Common.Utils.Threading
 {
@@ -38,15 +41,26 @@ namespace Common.Utils.Threading
 
         private readonly object _lock = new object();
         private bool _running = true;
+#if WINRT
+        private Task _task;
+#else
         private Thread _thread;
+#endif
 
         protected SimpleThreadBase(bool start)
         {
+#if WINRT
+            if(start)
+            {                
+                _task = Task.Run((System.Action)Run);
+            }
+#else
             _thread = new Thread(Run);
             if (start)
             {
                 Start();
             }
+#endif
         }
 
 
@@ -71,7 +85,14 @@ namespace Common.Utils.Threading
 
         protected void Start()
         {
+#if WINRT
+            if (_task == null)
+            {
+                _task = Task.Run((System.Action)Run);
+            }
+#else
             _thread.Start();
+#endif
         }
 
 
@@ -83,7 +104,9 @@ namespace Common.Utils.Threading
                 if (_running)
                 {
                     _running = false;
-#if COMPACT
+#if WINRT
+                    if (_task != null)
+#elif COMPACT
                     if( _thread != null )
 #else
                     if( _thread != null && _thread.IsAlive )
@@ -94,11 +117,19 @@ namespace Common.Utils.Threading
                 }
             }
 
+#if WINRT
+            if (doJoin && join == JoinMethod.Join)
+            {
+                _task.Wait();
+                _task = null;
+            }
+#else
             if (doJoin && join == JoinMethod.Join && _thread != null )
             {
                 _thread.Join();
                 _thread = null;
             }
+#endif
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Common.Utils.Strings
 
         public static string ASCIIBytesToString(byte[] data, int offset, int length)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             return Encoding.UTF8.GetString(data, offset, length);
 #else
             return Encoding.ASCII.GetString(data, offset, length);
@@ -61,7 +61,7 @@ namespace Common.Utils.Strings
 
         public static byte[] StringToASCIIBytes(string str)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             return Encoding.UTF8.GetBytes(str);
 #else
             return Encoding.ASCII.GetBytes(str);

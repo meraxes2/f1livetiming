@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using Common.Patterns.Singleton;
+using System.Reflection;
 
 namespace Common.Patterns.State
 {
@@ -83,14 +84,17 @@ namespace Common.Patterns.State
 
         private TNewState CreateState<TNewState>() where TNewState : IState<TContext>, new()
         {
-            object [] attrs = typeof (TNewState).GetCustomAttributes(typeof (CreationMethodAttribute), false);
-
-            if (attrs != null && attrs.Length > 0)
+#if WINRT
+            var attrs = typeof(TNewState).GetTypeInfo().GetCustomAttributes(typeof(CreationMethodAttribute), false);
+#else
+            var attrs = typeof(TNewState).GetCustomAttributes(typeof (CreationMethodAttribute), false);
+#endif
+            if (attrs != null)
             {
-                foreach (object nextAttr in attrs)
+                foreach (var nextAttr in attrs)
                 {
                     // process the first creation method attribute we find as there should only be one
-                    if( nextAttr is CreationMethodAttribute )
+                    if (nextAttr is CreationMethodAttribute)
                     {
                         CreationMethodAttribute creationMethod = (CreationMethodAttribute)nextAttr;
 
@@ -101,10 +105,10 @@ namespace Common.Patterns.State
                             case CreationMethod.OnePerApplication:
                                 return BasicSingleton<TNewState>.Instance;
                             case CreationMethod.OnePerStateMachine:
-                                string key = typeof (TNewState).FullName;
+                                string key = typeof(TNewState).FullName;
                                 if (_localStateCache.ContainsKey(key))
                                 {
-                                    return (TNewState) _localStateCache[key];
+                                    return (TNewState)_localStateCache[key];
                                 }
                                 TNewState ret = new TNewState();
                                 _localStateCache[key] = ret;
@@ -113,7 +117,7 @@ namespace Common.Patterns.State
                     }
                 }
             }
-            
+          
             // default, i.e. no attributes
             return new TNewState();
         }

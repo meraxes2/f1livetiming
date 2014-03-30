@@ -72,7 +72,6 @@
     <Compile Include="Exceptions\UnknownSystemTypeException.cs" />
     <Compile Include="ILiveTimingApp.cs" />
     <Compile Include="LiveTiming.cs" />
-    <Compile Include="LiveTimingSimulator.cs" />
     <Compile Include="Messages\Car\CarGap.cs" />
     <Compile Include="Messages\Car\CarInterval.cs" />
     <Compile Include="Messages\Car\CarLapCount.cs" />

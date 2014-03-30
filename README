@@ -1,6 +1,9 @@
 Requirements
 ------------
 
+LTLite (for Windows Phone 7/8) -> Visual Studio Express 2012 for Windows Phone
+LTStoreApp (for Windows 8.1) -> Visual Studio Express 2013 for Windows (or full Visual Studio 2013)
+
 Visual Studio 2008 + .NET Framework 3.5
 Sandcastle (for help file creation).
 NAnt-Gui 1.4 or above (for build file support and deployment).

@@ -1,6 +1,5 @@
 ﻿/*
  *  f1livetiming - Part of the Live Timing Library for .NET
- *  Copyright (C) 2009 Liam Lowey
  *  
  *      http://livetiming.turnitin.co.uk/
  *
@@ -17,30 +16,29 @@
  *  limitations under the License. 
  */
 
-using System.Collections.Generic;
+using System;
+using System.Globalization;
+using Windows.UI.Xaml.Data;
 
-namespace Common.Patterns.Observer
+namespace LTStoreApp.Converters
 {
-    public class Subject<TSubject, TNotify>
+    public class DriverNameShortConverter : IValueConverter
     {
-        private readonly List<IObserver<TSubject, TNotify>> _observers = new List<IObserver<TSubject,TNotify>>();
-
-        public void Attach( IObserver<TSubject,TNotify> observer )
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            _observers.Add( observer );
-        }
-
-        public void Detach( IObserver<TSubject,TNotify> observer )
-        {
-            _observers.Remove( observer );
-        }
-
-        public void Notify( TSubject subject, TNotify val )
-        {
-            foreach(var o in _observers)
+            if (value is string)
             {
-                o.Update(subject, val);
-            }           
+                return DriverNameConverter.Shorten(value as string);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
         }
     }
 }

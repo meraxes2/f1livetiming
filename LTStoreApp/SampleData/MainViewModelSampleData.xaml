@@ -1,0 +1,92 @@
+﻿<ViewModels:MainViewModel xmlns:ViewModels="using:LTStoreApp.ViewModels" 
+                          IsCommentsEmpty="True" 
+                          IsSpeedSector2Empty="True" 
+                          IsSpeedSector1Empty="False" 
+                          IsSpeedTrapEmpty="True" 
+                          IsSpeedSector3Empty="False" 
+                          LastComment="Adipiscing sed aptent" 
+                          EventType="Race"
+                          TableType="LiveTimingTable"
+                          TableTypeReduced="LiveTimingTable"
+                          IsCommentsTableReduced="False"
+                          IsCommentsTable="False"
+                          IsInRaceMode="True"
+                          IsInQualificationMode="False"
+                          IsInPracticeMode="False"
+                          IsLiveTimingTable="True"
+                          IsWeatherSpeedTableReduced="False"
+                          IsWeatherSpeedTable="False">
+    
+	<ViewModels:MainViewModel.Cars>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FFC1C7DC" CarId="28" CarNumber="12" CarNumberColor="#FF674AB7" DriverName="F. MASSA" DriverNameColor="#FFF85085" Gap="10.3" GapType="NLaps" GapColor="#FF068D63" GapRaw="258.79" IntervalRaw="595.36" Interval="10.0" IntervalColor="#FFE2FF58" LapCount="10" LapTime="1:34.234" LapCountColor="#FF8BCA96" LapTimeColor="#FF9BFF49" PositionColor="#FF8057FF" PitCount="3" Position="75" PitCountColor="#FFC97C3D" Q2Time="2:23.001" Q3TimeColor="#FF442D4F" Q2TimeColor="#FFFD8263" Q1TimeColor="#FF4EF4DF" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FF0743A2" Sector1TimeColor="#FF3EC9FA" Sector3TimeColor="#FF17438E" Sector1Time="45.6" Sector2Time="45.6" TablePosition="98"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FF4343B6" CarId="31" CarNumber="63" CarNumberColor="#FFA4A140" DriverName="R. KUBICA" DriverNameColor="#FF0D7A94" Gap="20" GapType="InPit" GapColor="#FF38E4BB" GapRaw="546.78" IntervalRaw="120.31" Interval="10.0" IntervalColor="#FF57630F" LapCount="77" LapTime="1:34.234" LapCountColor="#FFE0C922" LapTimeColor="#FFE00F60" PositionColor="#FFD01D5F" PitCount="1" Position="88" PitCountColor="#FFB1C91B" Q2Time="2:23.001" Q3TimeColor="#FFF7D507" Q2TimeColor="#FF55E526" Q1TimeColor="#FF5DBCD0" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FF298368" Sector1TimeColor="#FF3358A4" Sector3TimeColor="#FF41C09B" Sector1Time="45.6" Sector2Time="45.6" TablePosition="90"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FFE14F71" CarId="34" CarNumber="1" CarNumberColor="#FFEDF355" DriverName="L. HAMILTON" DriverNameColor="#FF01A6FB" Gap="1.3" GapType="NLaps" GapColor="#FF88A450" GapRaw="638.54" IntervalRaw="815.73" Interval="10.0" IntervalColor="#FFD75883" LapCount="12" LapTime="1:34.234" LapCountColor="#FF765255" LapTimeColor="#FFD623FA" PositionColor="#FFAF5181" PitCount="0" Position="17" PitCountColor="#FF10E55E" Q2Time="2:23.001" Q3TimeColor="#FF4D8348" Q2TimeColor="#FF771390" Q1TimeColor="#FF431015" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FF64BA6E" Sector1TimeColor="#FFBF4024" Sector3TimeColor="#FFADF39A" Sector1Time="45.6" Sector2Time="45.6" TablePosition="76"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FF7977CE" CarId="69" CarNumber="32" CarNumberColor="#FF9605AB" DriverName="F. ALONSO" DriverNameColor="#FFCDBBD0" Gap="12.3" GapType="NLaps" GapColor="#FFA69FB7" GapRaw="730.4" IntervalRaw="304.39" Interval="10.0" IntervalColor="#FF65AD50" LapCount="22" LapTime="1:34.234" LapCountColor="#FFBEF9A2" LapTimeColor="#FF2BA596" PositionColor="#FFA0339A" PitCount="1" Position="79" PitCountColor="#FF7CA33B" Q2Time="2:23.001" Q3TimeColor="#FF330DA8" Q2TimeColor="#FF8F7EB9" Q1TimeColor="#FFF5332E" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FF01093E" Sector1TimeColor="#FFD318A5" Sector3TimeColor="#FF7F9B3F" Sector1Time="45.6" Sector2Time="45.6" TablePosition="61"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FFA41D23" CarId="54" CarNumber="2" CarNumberColor="#FF3FA845" DriverName="G. VAN DER GARDE" DriverNameColor="#FFD1BB59" Gap="1.0" GapType="Time" GapColor="#FFBE8CC4" GapRaw="666.57" IntervalRaw="200.54" Interval="10.0" IntervalColor="#FFEC3446" LapCount="32" LapTime="1:34.234" LapCountColor="#FF913FBD" LapTimeColor="#FF16750D" PositionColor="#FFFFC606" PitCount="1" Position="21" PitCountColor="#FFC23CCC" Q2Time="2:23.001" Q3TimeColor="#FF134A31" Q2TimeColor="#FFA49A50" Q1TimeColor="#FFC1DD28" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="STOP" Sector2TimeColor="#FF488E1F" Sector1TimeColor="#FFA10E43" Sector3TimeColor="#FF009004" Sector1Time="STOP" Sector2Time="STOP" TablePosition="61"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FF6D8CAA" CarId="18" CarNumber="4" CarNumberColor="#FF4D2047" DriverName="P. DI RESTA" DriverNameColor="#FF35A73B" Gap="12.4" GapType="Time" GapColor="#FFCE14BB" GapRaw="647.49" IntervalRaw="352.22" Interval="10.0" IntervalColor="#FFFF7AF9" LapCount="87" LapTime="1:34.234" LapCountColor="#FFCE7409" LapTimeColor="#FFA28CEB" PositionColor="#FFA84162" PitCount="1" Position="78" PitCountColor="#FF68D761" Q2Time="2:23.001" Q3TimeColor="#FF646609" Q2TimeColor="#FFB2C615" Q1TimeColor="#FF7BA0D7" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FF42385E" Sector1TimeColor="#FFB1AD98" Sector3TimeColor="#FFA24D51" Sector1Time="45.6" Sector2Time="45.6" TablePosition="41"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FF32ADED" CarId="91" CarNumber="54" CarNumberColor="#FFD08C03" DriverName="A. SUTIL" DriverNameColor="#FFF749B2" Gap="0" GapType="Retired" GapColor="#FF4D3FD3" GapRaw="986.36" IntervalRaw="917.62" Interval="10.0" IntervalColor="#FFD23AA7" LapCount="11" LapTime="1:34.234" LapCountColor="#FFB3326C" LapTimeColor="#FFE0D208" PositionColor="#FF3ABE55" PitCount="1" Position="71" PitCountColor="#FFC48942" Q2Time="2:23.001" Q3TimeColor="#FFC4C509" Q2TimeColor="#FF34BAE5" Q1TimeColor="#FFFF3F52" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FF6B3791" Sector1TimeColor="#FFC5DDD1" Sector3TimeColor="#FF2F46CA" Sector1Time="45.6" Sector2Time="45.6" TablePosition="13"/>
+        <ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FFDEA6B8" CarId="62" CarNumber="11" CarNumberColor="#FF89DF17" DriverName="H. KOVALAINEN" DriverNameColor="#FFF02655" Gap="1" GapType="NLaps" GapColor="#FF04A774" GapRaw="252.13" IntervalRaw="151.39" Interval="10.0" IntervalColor="#FFDD0F52" LapCount="1" LapTime="1:34.234" LapCountColor="#FFCFB996" LapTimeColor="#FFCCDA54" PositionColor="#FFB5724A" PitCount="1" Position="88" PitCountColor="#FFBD6B17" Q2Time="2:23.001" Q3TimeColor="#FFDAA024" Q2TimeColor="#FFF0A5EF" Q1TimeColor="#FF5DE4DB" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="STOP" Sector2TimeColor="#FF2A5395" Sector1TimeColor="#FF379099" Sector3TimeColor="#FF46286B" Sector1Time="STOP" Sector2Time="STOP" TablePosition="17"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FF33D9EB" CarId="77" CarNumber="22" CarNumberColor="#FF107258" DriverName="N. HULKENBERG" DriverNameColor="#FFF804C6" Gap="23.3" GapType="Lapped" GapColor="#FF18317B" GapRaw="774.72" IntervalRaw="923.53" Interval="10.0" IntervalColor="#FF3EBD7B" LapCount="2" LapTime="1:34.234" LapCountColor="#FFF9D19E" LapTimeColor="#FFCB66FB" PositionColor="#FF1D343B" PitCount="1" Position="68" PitCountColor="#FFD8F0B0" Q2Time="2:23.001" Q3TimeColor="#FF7E0277" Q2TimeColor="#FFFC0541" Q1TimeColor="#FF4C4430" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FFB24647" Sector1TimeColor="#FF1775FB" Sector3TimeColor="#FF8A00B6" Sector1Time="45.6" Sector2Time="45.6" TablePosition="93"/>
+		<ViewModels:CarViewModel BestPracticeLapTime="1:29.234" BestPracticeLapTimeColor="#FF629BF6" CarId="90" CarNumber="0" CarNumberColor="#FF8510BB" DriverName="C. PIC" DriverNameColor="#FF4C0C72" Gap="1" GapType="NLaps" GapColor="#FF474780" GapRaw="362.78" IntervalRaw="776.86" Interval="10.0" IntervalColor="#FF11D067" LapCount="44" LapTime="1:34.234" LapCountColor="#FFD3653A" LapTimeColor="#FF6E3E56" PositionColor="#FFAE9AA3" PitCount="1" Position="95" PitCountColor="#FF74F53F" Q2Time="2:23.001" Q3TimeColor="#FFCB86E9" Q2TimeColor="#FFB0B347" Q1TimeColor="#FF5C7AEE" Q1Time="2:23.001" Q3Time="2:23.001" Sector3Time="33.5" Sector2TimeColor="#FF18E12D" Sector1TimeColor="#FFD6D114" Sector3TimeColor="#FF652780" Sector1Time="45.6" Sector2Time="45.6" TablePosition="55"/>
+	</ViewModels:MainViewModel.Cars>
+	<ViewModels:MainViewModel.Comments>
+		<ViewModels:CommentViewModel Comment="Varius himenaeos adipiscing donec sakjdhf slkadf hsjdk slkdf h lsdfhdsfklshf sadf sdlkfjhsdkfjhsakdlfh klhsd aflk sakdfj sdfsadlk fsdk fsakldf sadkf sadklfh d fsaldkf sadlkf hsdkalhfksajdhflka"/>
+		<ViewModels:CommentViewModel Comment="Euismod nisi nisl askd flk;asdhf sidh ncasdocdb casdjcdskajncsdkjahb bvalsd vjsdvndsuicnlaksdn cdsj caskd clskd nclsd csj dacak jsdc nds cslkd clkds hckahs ckasdjh ckjsd cjksdh cjkas "/>
+		<ViewModels:CommentViewModel Comment="Nunc parturient nec asdk fjoih fwecjkasnd cksdhv un cas vkadsj vufadk vkjl asvjkasd vkj cskaj vakzlv ljfdsvcavb kasvk va ksdjcvjasd valksd vksla dvkal jcsv "/>
+		<ViewModels:CommentViewModel Comment="Vestibulum sociosqu"/>
+		<ViewModels:CommentViewModel Comment="Suscipit odio aenean etiam non asd vhip dsavkajs dvjkl dvjkna fdlkv nlacnvafdjh vnakcn vdjk vk lbcvkkx mnxvb adslf valkfd sv"/>
+		<ViewModels:CommentViewModel Comment="Fusce torquent asdkvn ksad nvkl nv,acxm nvnaijdkl vc vakdsjc vnckajl nvfkv nalkcn vm"/>
+		<ViewModels:CommentViewModel Comment="Orci pede per feugiat imperdiet akjsdv nklsnv lkcn almcn v lacnvjkn cvmc n lk"/>
+		<ViewModels:CommentViewModel Comment="Malesuada ultrices lorem vestibulum vehicula"/>
+		<ViewModels:CommentViewModel Comment="Mauris nullam penatibus volutpat maecenas"/>
+		<ViewModels:CommentViewModel Comment="Porttitor quam tincidunt praesent morbi"/>
+	</ViewModels:MainViewModel.Comments>
+	<ViewModels:MainViewModel.SpeedSector3>
+		<ViewModels:SpeedViewModel DriverName="Sodales interdum" Speed="326.29"/>
+		<ViewModels:SpeedViewModel DriverName="Elementum adipiscing facilisis lobortis parturient" Speed="263.69"/>
+		<ViewModels:SpeedViewModel DriverName="Diam ipsum nec" Speed="765.38"/>
+		<ViewModels:SpeedViewModel DriverName="Non viverra nascetur vestibulum eget" Speed="107.08"/>
+		<ViewModels:SpeedViewModel DriverName="Elit vestibulum" Speed="639.15"/>
+		<ViewModels:SpeedViewModel DriverName="Enim adipiscing parturient justo fermentum" Speed="255.67"/>
+		<ViewModels:SpeedViewModel DriverName="Lacus aliquam integer libero per" Speed="892.27"/>
+		<ViewModels:SpeedViewModel DriverName="Lorem erat sed" Speed="781.76"/>
+		<ViewModels:SpeedViewModel DriverName="Eros vestibulum quisque pharetra sem" Speed="704.88"/>
+		<ViewModels:SpeedViewModel DriverName="Placerat fringilla magna vestibulum" Speed="831.01"/>
+	</ViewModels:MainViewModel.SpeedSector3>
+	<ViewModels:MainViewModel.SpeedSector1>
+		<ViewModels:SpeedViewModel DriverName="Accumsan gravida parturient quis" Speed="761.12"/>
+		<ViewModels:SpeedViewModel DriverName="Vestibulum sem" Speed="257.45"/>
+		<ViewModels:SpeedViewModel DriverName="Urna sit vel tristique" Speed="773.41"/>
+		<ViewModels:SpeedViewModel DriverName="Iaculis vestibulum auctor congue" Speed="845.02"/>
+		<ViewModels:SpeedViewModel DriverName="Cras nam" Speed="433.54"/>
+		<ViewModels:SpeedViewModel DriverName="Lacinia ultricies venenatis" Speed="324.61"/>
+		<ViewModels:SpeedViewModel DriverName="Nulla laoreet" Speed="626.04"/>
+		<ViewModels:SpeedViewModel DriverName="Natoque bibendum sed" Speed="482.43"/>
+		<ViewModels:SpeedViewModel DriverName="Adipiscing dis" Speed="335.86"/>
+		<ViewModels:SpeedViewModel DriverName="Proin augue posuere" Speed="440.81"/>
+	</ViewModels:MainViewModel.SpeedSector1>
+	<ViewModels:MainViewModel.SpeedTrap>
+		<ViewModels:SpeedViewModel DriverName="Vivamus ligula pulvinar litora" Speed="594.69"/>
+		<ViewModels:SpeedViewModel DriverName="Sit luctus" Speed="770.62"/>
+		<ViewModels:SpeedViewModel DriverName="Aliquam vel adipiscing" Speed="359.95"/>
+		<ViewModels:SpeedViewModel DriverName="Parturient sagittis" Speed="482.23"/>
+		<ViewModels:SpeedViewModel DriverName="Vestibulum nibh vestibulum senectus" Speed="551.74"/>
+		<ViewModels:SpeedViewModel DriverName="Aliquet sociosqu magnis nisi massa" Speed="101.33"/>
+		<ViewModels:SpeedViewModel DriverName="Mattis blandit suscipit nam nisl" Speed="821.94"/>
+		<ViewModels:SpeedViewModel DriverName="Adipiscing nunc sed" Speed="701.75"/>
+		<ViewModels:SpeedViewModel DriverName="Parturient habitasse commodo" Speed="686.76"/>
+		<ViewModels:SpeedViewModel DriverName="Mauris torquent metus" Speed="413.93"/>
+	</ViewModels:MainViewModel.SpeedTrap>
+	<ViewModels:MainViewModel.SpeedSector2>
+		<ViewModels:SpeedViewModel DriverName="Cursus est" Speed="301.55"/>
+		<ViewModels:SpeedViewModel DriverName="Dictumst duis" Speed="280.81"/>
+		<ViewModels:SpeedViewModel DriverName="Vulputate dictum hac" Speed="718.24"/>
+		<ViewModels:SpeedViewModel DriverName="Curabitur potenti phasellus nunc" Speed="704.3"/>
+		<ViewModels:SpeedViewModel DriverName="Eleifend pretium dolor rhoncus" Speed="423.94"/>
+		<ViewModels:SpeedViewModel DriverName="Amet facilisi ante" Speed="962.63"/>
+		<ViewModels:SpeedViewModel DriverName="Fames parturient faucibus" Speed="137.05"/>
+		<ViewModels:SpeedViewModel DriverName="Leo lectus arcu habitant consequat" Speed="963.5"/>
+		<ViewModels:SpeedViewModel DriverName="Mus convallis" Speed="231.87"/>
+		<ViewModels:SpeedViewModel DriverName="Dignissim felis vestibulum inceptos vestibulum" Speed="598.32"/>
+	</ViewModels:MainViewModel.SpeedSector2>
+</ViewModels:MainViewModel>

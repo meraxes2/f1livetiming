@@ -44,11 +44,12 @@ namespace F1.Simulator
         private readonly Dictionary<string, uint> _keyLookup = new Dictionary<string, uint>();
         private readonly uint _key;
 
+#if !WINDOWS_PHONE && !WINRT
         public AuthorizationKey(string keyPath)
         {
             ParseFile(keyPath);
         }
-
+#endif
 
         public AuthorizationKey(uint key)
         {
@@ -66,13 +67,14 @@ namespace F1.Simulator
         }
 
 
+#if !WINDOWS_PHONE && !WINRT
         private void ParseFile(string keyPath)
         {
-            using( FileStream s = File.OpenRead(keyPath))
+            using (FileStream s = File.OpenRead(keyPath))
             {
-                using(TextReader t = new StreamReader(s))
+                using (TextReader t = new StreamReader(s))
                 {
-                    for( string nextLine = t.ReadLine(); !string.IsNullOrEmpty(nextLine); nextLine = t.ReadLine())
+                    for (string nextLine = t.ReadLine(); !string.IsNullOrEmpty(nextLine); nextLine = t.ReadLine())
                     {
                         string[] split = nextLine.Split('=');
                         string[] value = split[1].Split('x');
@@ -83,5 +85,6 @@ namespace F1.Simulator
                 }
             }
         }
+#endif
     }
 }

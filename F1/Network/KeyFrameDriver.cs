@@ -22,6 +22,9 @@ using System.Threading;
 using Common.Utils.Threading;
 using F1.Runtime;
 using System.Net;
+#if WINRT
+using System.Threading.Tasks;
+#endif
 
 namespace F1.Network
 {
@@ -71,7 +74,11 @@ namespace F1.Network
                     lastTick = Environment.TickCount;
                 }
 
+#if WINRT
+                Task.Delay(1000).Wait();
+#else
                 Thread.Sleep(1000);//15secs
+#endif
             }
         }
 

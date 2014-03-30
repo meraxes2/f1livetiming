@@ -27,6 +27,9 @@ using F1.Runtime;
 using F1.Exceptions;
 using System.Threading;
 using Common;
+#if WINRT
+using System.Net.Http;
+#endif
 
 namespace F1.Protocol
 {
@@ -107,13 +110,37 @@ namespace F1.Protocol
             string body = string.Format("email={0}&password={1}", user, pass);
             byte[] bodyData = StringUtils.StringToASCIIBytes(body);
 
-#if WINDOWS_PHONE
+#if WINRT
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.AllowAutoRedirect = false;
+            handler.UseCookies = true;
+            handler.CookieContainer = new CookieContainer();
+
+            HttpClient client = new HttpClient(handler);
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, new Uri(baseurl));
+            message.Content = new FormUrlEncodedContent(
+                new Dictionary<string, string>() { { "email", user }, { "password", pass } }
+                );
+
+            HttpResponseMessage response = client.SendAsync(message).Result;
+            if(response.Headers.Contains("Set-Cookie"))
+            {
+                foreach(var cookie in response.Headers.GetValues("Set-Cookie"))
+                {
+                    if (!string.IsNullOrEmpty(cookie))
+                    {
+                        return ParseCookie(cookie);
+                    }
+                }    
+            }
+#else
+    #if WINDOWS_PHONE
             HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(baseurl) as HttpWebRequest);
 
             req.Request.AllowAutoRedirect = false;
             req.Request.Method = "Post";
             req.Request.ContentType = "application/x-www-form-urlencoded";
-#else
+    #else
             HttpWebRequest req = WebRequest.Create(baseurl) as HttpWebRequest;
 
             if (null != req.Proxy)
@@ -125,7 +152,7 @@ namespace F1.Protocol
             req.Method = "Post";
             req.ContentType = "application/x-www-form-urlencoded";
             req.ContentLength = bodyData.Length;
-#endif
+    #endif
             using (Stream reqBody = req.GetRequestStream())
             {
                 reqBody.Write(bodyData, 0, bodyData.Length);
@@ -154,15 +181,16 @@ namespace F1.Protocol
 
                 return ParseCookie(cookie);
             }
+#endif
 
-            return "";
+            return "";            
         }
 
         private static uint TryGetKey( string cookie, string sessionName )
         {
             string url = String.Format("http://secure.formula1.com/reg/getkey/{0}.asp?auth={1}", sessionName, cookie);
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || WINRT
             HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(url) as HttpWebRequest);
 #else
             HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;

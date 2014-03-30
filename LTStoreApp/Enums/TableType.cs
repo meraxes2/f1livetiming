@@ -1,6 +1,5 @@
 ﻿/*
  *  f1livetiming - Part of the Live Timing Library for .NET
- *  Copyright (C) 2009 Liam Lowey
  *  
  *      http://livetiming.turnitin.co.uk/
  *
@@ -17,30 +16,18 @@
  *  limitations under the License. 
  */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Common.Patterns.Observer
+namespace LTStoreApp.Enums
 {
-    public class Subject<TSubject, TNotify>
+    public enum TableType
     {
-        private readonly List<IObserver<TSubject, TNotify>> _observers = new List<IObserver<TSubject,TNotify>>();
-
-        public void Attach( IObserver<TSubject,TNotify> observer )
-        {
-            _observers.Add( observer );
-        }
-
-        public void Detach( IObserver<TSubject,TNotify> observer )
-        {
-            _observers.Remove( observer );
-        }
-
-        public void Notify( TSubject subject, TNotify val )
-        {
-            foreach(var o in _observers)
-            {
-                o.Update(subject, val);
-            }           
-        }
+        LiveTimingTable,
+        CommentsTable,
+        WeatherSpeedTable
     }
 }

@@ -18,7 +18,11 @@
  */
 
 using System;
+#if WINRT
+using System.Threading.Tasks;
+#else
 using System.Threading;
+#endif
 using Common.Patterns.Command;
 
 namespace Common.Utils.Threading
@@ -39,7 +43,11 @@ namespace Common.Utils.Threading
         {
             get 
             {
+#if WINRT
+                return _task != null && _task.Status == TaskStatus.Running;
+#else
                 return _thread != null && _thread.IsAlive;
+#endif
             }
         }
 
@@ -47,7 +55,11 @@ namespace Common.Utils.Threading
         #region Internal Data
         private readonly CommandQueue _cmdQueue = new CommandQueue();
         private bool _running = true;
+#if WINRT
+        private Task _task;
+#else
         private Thread _thread;
+#endif
         #endregion
 
       
@@ -84,8 +96,15 @@ namespace Common.Utils.Threading
         /// </summary>
         protected void Start()
         {
+#if WINRT
+            if (_task == null)
+            {
+                _task = Task.Run((System.Action)Run);
+            }
+#else
             _thread = new Thread(Run);
             _thread.Start();
+#endif
         }
 
 
@@ -112,15 +131,23 @@ namespace Common.Utils.Threading
                 _cmdQueue.Push(CommandFactory.MakeCommand(() => _running = false));
             }
 
-#if COMPACT
-            if (join == JoinMethod.Join && _thread != null )
+#if WINRT
+            if (join == JoinMethod.Join && _task != null)
+            {
+                _task.Wait();
+                _task = null;
+            }
 #else
+    #if COMPACT
+            if (join == JoinMethod.Join && _thread != null )
+    #else
             if (join == JoinMethod.Join && _thread != null && _thread.IsAlive )
-#endif
+    #endif
             {
                 _thread.Join();
                 _thread = null;
             }
+#endif
         }
 
 

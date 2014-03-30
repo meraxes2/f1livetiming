@@ -24,6 +24,11 @@ using F1.Runtime;
 #if WINDOWS_PHONE
 using System.Windows;
 #endif
+#if WINRT
+using Windows.UI.Xaml;
+using Windows.ApplicationModel;
+using Windows.Storage;
+#endif
 
 namespace F1.Simulator
 {
@@ -47,7 +52,7 @@ namespace F1.Simulator
 
         public Stream GetKeyFrame(int frameNumber)
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || WINRT
             String path = String.Format("{0}/keyframe_{1}.bin", _rootDirectory, frameNumber.ToString("d5"));            
 #else
             String path = String.Format("{0}\\keyframe_{1}.bin", _rootDirectory, frameNumber.ToString("d5"));
@@ -63,7 +68,26 @@ namespace F1.Simulator
         {
             try
             {
-#if WINDOWS_PHONE
+#if WINRT
+                Package package = Package.Current;
+                StorageFolder folder = package.InstalledLocation;
+
+                foreach(string name in path.Split('/'))
+                {
+                    if(name.Contains("."))
+                    {
+                        StorageFile file = folder.GetFileAsync(name).AsTask().Result;
+                        var f = file.OpenReadAsync().AsTask().Result;
+                        return f.AsStreamForRead(); 
+                    }
+                    else
+                    {
+                        folder = folder.GetFolderAsync(name).AsTask().Result; 
+                    }                    
+                }
+
+                throw new Exception("Could not open file");
+#elif WINDOWS_PHONE
                 return Application.GetResourceStream(new Uri(path, UriKind.Relative)).Stream;
 #else
                 return File.OpenRead(path);

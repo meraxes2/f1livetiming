@@ -21,6 +21,12 @@ using System.IO;
 using System.Threading;
 using Common.Utils.Threading;
 using F1.Runtime;
+#if WINRT
+using Windows.Storage;
+using Windows.ApplicationModel;
+using Windows.Storage.Streams;
+using System.Threading.Tasks;
+#endif
 //using log4net;
 
 namespace F1.Simulator
@@ -34,7 +40,11 @@ namespace F1.Simulator
         private const int INTERVAL = 1500; // also arbitary
         
         private readonly MemoryStream _memStream;
+#if WINRT        
+        private readonly string _path;
+#else
         private readonly FileStream _fileStream;
+#endif
         private readonly Runtime.Runtime _runtime;
 
         //private readonly ILog _log = LogManager.GetLogger("FileCapDriver");
@@ -43,7 +53,11 @@ namespace F1.Simulator
             : base(false)
         {
             _memStream = memStream;
+#if WINRT
+            _path = capFile;
+#else
             _fileStream = File.OpenRead(capFile);
+#endif
             _runtime = runtime;
             _runtime.Driver = this;
 
@@ -53,6 +67,49 @@ namespace F1.Simulator
         #region Driver Impl
         public override void Run()
         {
+#if WINRT
+            StorageFile file = Package.Current.InstalledLocation.GetFileAsync(_path).AsTask().Result;
+            using(var raStream = file.OpenReadAsync().AsTask().Result)
+            {
+                byte[] blob = new byte[CHUNK_SIZE];
+
+                while (IsRunning && raStream.CanRead)
+                {
+                    DataReader reader = new DataReader(raStream.GetInputStreamAt(0));
+                    reader.InputStreamOptions = InputStreamOptions.Partial;
+                    try
+                    {
+                        reader.LoadAsync((uint)blob.Length).AsTask().Wait();
+                        int bytesRead = 0;
+                        while (reader.UnconsumedBufferLength > 0)
+                        {
+                            blob[bytesRead++] = reader.ReadByte();
+                        }
+
+                        if (bytesRead > 0)
+                        {
+                            HandleData(blob, bytesRead);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    finally
+                    {
+                        reader.DetachStream();
+                        reader.Dispose();
+                    }
+
+                    if (raStream.Position >= raStream.Size)
+                    {
+                        Terminate();
+                        break;
+                    }
+
+                    Task.Delay(INTERVAL).Wait();
+                }
+            }  
+#else
             byte [] blob = new byte[CHUNK_SIZE];
 
             while(IsRunning && _fileStream.CanRead)
@@ -72,6 +129,7 @@ namespace F1.Simulator
 
                 Thread.Sleep(INTERVAL);
             }
+#endif
         }
 
         private void HandleData(byte[] blob, int dataLength)

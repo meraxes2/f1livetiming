@@ -236,7 +236,9 @@ namespace F1
         {
             try
             {
-#if WINDOWS_PHONE
+#if WINRT
+                _connection = new W8ConnectionDriver(_runtime, memStream);
+#elif WINDOWS_PHONE
                 _connection = new Wp7ConnectionDriver(_runtime, memStream);
 #else
                 _connection = new AsyncConnectionDriver(_runtime, memStream);

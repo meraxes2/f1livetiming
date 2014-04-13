@@ -268,6 +268,11 @@ namespace LTLite
                 passwd = (string)IsolatedStorageSettings.ApplicationSettings["password"];
             }
 
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("estimateData"))
+            {
+                MainViewModel.IsDataEstimationEnabled = (bool)IsolatedStorageSettings.ApplicationSettings["estimateData"];
+            }
+
             if (user != "" && passwd != "")
             {
                 MainViewModel.ProgressIsIndeterminate = true;
@@ -378,6 +383,7 @@ namespace LTLite
                     try
                     {
                         carViewModel = _invisibleCars.First(car => car.CarId == carMsg.CarId);
+                        carViewModel.IsDataEstimationEnabled = MainViewModel.IsDataEstimationEnabled;
                         oldPosition = carViewModel.TablePosition;
                     }
                     catch (InvalidOperationException)
@@ -387,6 +393,7 @@ namespace LTLite
                         carViewModel.CarId = carMsg.CarId;
                         carViewModel.Position = 0;
                         carViewModel.TablePosition = 0;
+                        carViewModel.IsDataEstimationEnabled = MainViewModel.IsDataEstimationEnabled;
                         _invisibleCars.Add(carViewModel);
                     }
                 }
@@ -753,6 +760,7 @@ namespace LTLite
             {
                 F1.Messages.Car.CarInterval carInt = (F1.Messages.Car.CarInterval)msg;
                 car.SetInterval(carInt.Interval, carInt.IntervalType, GetColor(msg.Colour));
+                MainViewModel.UpdateGaps(car.TablePosition);
             }
 
             if (msg is F1.Messages.Car.CarLapTime)

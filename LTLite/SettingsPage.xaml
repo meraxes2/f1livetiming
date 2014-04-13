@@ -82,7 +82,8 @@
                     <TextBlock Text="You need to have an account at" FontSize="{StaticResource PhoneFontSizeSmall}"/>
                     <TextBlock Text="formula1.com" Margin="6,0,0,0" TextDecorations="Underline" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneAccentBrush}" Tap="TextBlock_Tap_1"/>
                 </StackPanel>
-                <TextBlock Text="to be able to access live timing feed." Margin="12,0,12,6" FontSize="{StaticResource PhoneFontSizeSmall}"/>                
+                <TextBlock Text="to be able to access live timing feed." Margin="12,0,12,6" FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                <toolkit:ToggleSwitch Name="estimateData" Header="estimate missing data" HorizontalAlignment="Left" Width="456"/>
                 <toolkit:ToggleSwitch Name="preventLock" Header="prevent device from locking" HorizontalAlignment="Left" Width="456"/>
                 <toolkit:ToggleSwitch Name="runUnderLock" Header="run under lock screen" HorizontalAlignment="Left" Width="456"/>
                 <TextBlock  TextWrapping="Wrap" Text="These features may cause higher battery consumption." Margin ="12,0,12,0" FontSize="{StaticResource PhoneFontSizeSmall}"/>

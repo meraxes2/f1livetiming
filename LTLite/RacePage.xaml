@@ -75,9 +75,10 @@
 
             <StackPanel Margin="0,0,0,0" Grid.Row="0" Orientation="Horizontal">
                 <TextBlock Text="Pos" Width="40" Foreground="#CCCCCC"/>
-                <TextBlock TextAlignment="Center" Text="Name" Width="105" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Left" Text="Name" Width="70" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Gap" Width="45" Foreground="#CCCCCC"/>
                 <TextBlock TextAlignment="Right" Text="Int" Width="45" Foreground="#CCCCCC"/>
-                <TextBlock TextAlignment="Right" Text="Time" Width="100" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Time" Width="90" Foreground="#CCCCCC"/>
                 <TextBlock TextAlignment="Right" Text="S1" Width="60" Foreground="#CCCCCC"/>
                 <TextBlock TextAlignment="Right" Text="S2" Width="60" Foreground="#CCCCCC"/>
                 <TextBlock TextAlignment="Right" Text="S3" Width="60" Foreground="#CCCCCC"/>
@@ -88,10 +89,10 @@
                     <DataTemplate>
                         <StackPanel Margin="0"  Height="27" Width="480" Orientation="Horizontal" Background="{Binding TablePosition, Mode=OneWay, Converter={StaticResource oddEvenColorConverter}}">
                             <TextBlock TextAlignment="Right" Padding="0,0,10,0" Width="40" Text="{Binding Position, Mode=OneWay, Converter={StaticResource positionConverter}}" Foreground="{Binding PositionColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock TextAlignment="Right" Padding="0,0,5,0" Width="30" Text="{Binding CarNumber, Mode=OneWay}" Foreground="{Binding CarNumberColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock Width="75" Text="{Binding DriverName, Mode=OneWay, Converter={StaticResource driverNameShortConverter}}" Foreground="{Binding DriverNameColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock Width="70" Text="{Binding DriverName, Mode=OneWay, Converter={StaticResource driverNameShortConverter}}" Foreground="{Binding CarNumberColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="45" Text="{Binding Gap, Mode=OneWay}" Foreground="{Binding IntervalColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
                             <TextBlock TextAlignment="Right" Width="45" Text="{Binding Interval, Mode=OneWay}" Foreground="{Binding IntervalColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock TextAlignment="Right" Width="100" Text="{Binding LapTime, Mode=OneWay}" Foreground="{Binding LapTimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="90" Text="{Binding LapTime, Mode=OneWay}" Foreground="{Binding LapTimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
                             <TextBlock TextAlignment="Right" Width="60" Text="{Binding Sector1Time, Mode=OneWay}" Foreground="{Binding Sector1TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
                             <TextBlock TextAlignment="Right" Width="60" Text="{Binding Sector2Time, Mode=OneWay}" Foreground="{Binding Sector2TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
                             <TextBlock TextAlignment="Right" Width="60" Text="{Binding Sector3Time, Mode=OneWay}" Foreground="{Binding Sector3TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
@@ -128,12 +129,13 @@
 
             <StackPanel Margin="0,0,0,0" Grid.Row="0" Orientation="Horizontal">
                 <TextBlock Text="Pos" Width="40" Foreground="#CCCCCC"/>
-                <TextBlock TextAlignment="Center" Text="Name" Width="220" Foreground="#CCCCCC"/>                
-                <TextBlock TextAlignment="Right" Text="Interval" Width="100" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Center" Text="Name" Width="200" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Gap" Width="80" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="Interval" Width="80" Foreground="#CCCCCC"/>
                 <TextBlock TextAlignment="Right" Text="Time" Width="120" Foreground="#CCCCCC"/>
-                <TextBlock TextAlignment="Right" Text="S1" Width="100" Foreground="#CCCCCC"/>
-                <TextBlock TextAlignment="Right" Text="S2" Width="100" Foreground="#CCCCCC"/>
-                <TextBlock TextAlignment="Right" Text="S3" Width="100" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S1" Width="90" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S2" Width="90" Foreground="#CCCCCC"/>
+                <TextBlock TextAlignment="Right" Text="S3" Width="90" Foreground="#CCCCCC"/>
             </StackPanel>
 
             <ListBox Height="393" Name="listBoxLandscape" Width="auto" ItemsSource="{Binding Cars}" Background="Black" Grid.Row="1" Style="{StaticResource ListBoxStyleTiming}">
@@ -142,12 +144,13 @@
                         <StackPanel Margin="0"  Height="27" Orientation="Horizontal" Background="{Binding TablePosition, Mode=OneWay, Converter={StaticResource oddEvenColorConverter}}" Width="800">
                             <TextBlock TextAlignment="Right" Padding="0,0,10,0" Width="40" Text="{Binding Position, Mode=OneWay, Converter={StaticResource positionConverter}}" Foreground="{Binding PositionColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
                             <TextBlock TextAlignment="Right" Padding="0,0,5,0" Width="30" Text="{Binding CarNumber, Mode=OneWay}" Foreground="{Binding CarNumberColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock Width="190" Text="{Binding DriverName, Mode=OneWay}" Foreground="{Binding DriverNameColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock TextAlignment="Right" Width="100" Text="{Binding Interval, Mode=OneWay}" Foreground="{Binding IntervalColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock Width="170" Text="{Binding DriverName, Mode=OneWay}" Foreground="{Binding DriverNameColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="80" Text="{Binding Gap, Mode=OneWay}" Foreground="{Binding IntervalColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="80" Text="{Binding Interval, Mode=OneWay}" Foreground="{Binding IntervalColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
                             <TextBlock TextAlignment="Right" Width="120" Text="{Binding LapTime, Mode=OneWay}" Foreground="{Binding LapTimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock TextAlignment="Right" Width="100" Text="{Binding Sector1Time, Mode=OneWay}" Foreground="{Binding Sector1TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock TextAlignment="Right" Width="100" Text="{Binding Sector2Time, Mode=OneWay}" Foreground="{Binding Sector2TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
-                            <TextBlock TextAlignment="Right" Width="100" Text="{Binding Sector3Time, Mode=OneWay}" Foreground="{Binding Sector3TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>                            
+                            <TextBlock TextAlignment="Right" Width="90" Text="{Binding Sector1Time, Mode=OneWay}" Foreground="{Binding Sector1TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="90" Text="{Binding Sector2Time, Mode=OneWay}" Foreground="{Binding Sector2TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>
+                            <TextBlock TextAlignment="Right" Width="90" Text="{Binding Sector3Time, Mode=OneWay}" Foreground="{Binding Sector3TimeColor, Mode=OneWay, Converter={StaticResource colorConverter}}"></TextBlock>                            
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

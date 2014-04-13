@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{bcc4eea4-15e2-4ce5-8687-d93dec751017}" Title="LTLite" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Andrej" Description="Unofficial F1 Live Timing application." Publisher="Andrej">
+  <App xmlns="" ProductID="{bcc4eea4-15e2-4ce5-8687-d93dec751017}" Title="LTLite" RuntimeType="Silverlight" Version="1.2.0.0" Genre="apps.normal" Author="Andrej" Description="Unofficial F1 Live Timing application." Publisher="Andrej">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

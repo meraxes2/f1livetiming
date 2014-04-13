@@ -250,6 +250,7 @@
                     You need to have an account at <Hyperlink NavigateUri="http://www.formula1.com/reg/registration">formula1.com</Hyperlink> to be able to access live timing feed.
                 </Span>
             </TextBlock>
+            <ToggleSwitch Name="estimateData" Header="Estimate missing data" HorizontalAlignment="Stretch" Style="{StaticResource MyToggleSwitchStyle}"/>
 			<ToggleSwitch Name="preventFromLockScreen" Header="Prevent device from locking" HorizontalAlignment="Stretch" Style="{StaticResource MyToggleSwitchStyle}"/>
             <TextBlock TextWrapping="Wrap" Text="These features may cause higher battery consumption." Style="{StaticResource BodyTextBlockStyle}"/>
 

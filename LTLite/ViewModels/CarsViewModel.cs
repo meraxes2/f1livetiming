@@ -983,5 +983,76 @@ namespace LTLite.ViewModel
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public void UpdateGap(int tablePosition)
+        {
+            CarViewModel car = Cars[tablePosition - 1];
+            if (1 == tablePosition)
+            {
+                if (car.IntervalType != F1.Messages.Car.CarBaseMessage.TimeType.NoData)
+                {
+                    car.SetGap(0.0, F1.Messages.Car.CarBaseMessage.TimeType.Lapped);
+                }
+            }
+            else if (2 == tablePosition)
+            {
+                car.SetGap(car.IntervalRaw, car.IntervalType);
+            }
+            else if (tablePosition > 2)
+            {
+                CarViewModel carInFront = Cars[tablePosition - 2];
+                if (carInFront.GapType == F1.Messages.Car.CarBaseMessage.TimeType.NLaps)
+                {
+                    if (car.IntervalType == F1.Messages.Car.CarBaseMessage.TimeType.NLaps)
+                    {
+                        car.SetGap(car.IntervalRaw + carInFront.GapRaw, carInFront.GapType);
+                    }
+                    else if (car.IntervalType == F1.Messages.Car.CarBaseMessage.TimeType.Time)
+                    {
+                        car.SetGap(carInFront.GapRaw, carInFront.GapType);
+                    }
+                }
+                else if (carInFront.GapType == F1.Messages.Car.CarBaseMessage.TimeType.Time)
+                {
+                    if (car.IntervalType == F1.Messages.Car.CarBaseMessage.TimeType.Time)
+                    {
+                        car.SetGap(car.IntervalRaw + carInFront.GapRaw, carInFront.GapType);
+                    }
+                    else if (car.IntervalType == F1.Messages.Car.CarBaseMessage.TimeType.NLaps)
+                    {
+                        car.SetGap(car.IntervalRaw, car.IntervalType);
+                    }
+                }
+            }
+        }
+
+        public void UpdateGaps(int tablePosition)
+        {
+            for (int i = tablePosition - 1; i < Cars.Count; ++i)
+            {
+                UpdateGap(i + 1);
+            }
+        }
+
+        bool _isDataEstimationEnabled = false;
+        public bool IsDataEstimationEnabled
+        {
+            get
+            {
+                return _isDataEstimationEnabled;
+            }
+            set
+            {
+                if (_isDataEstimationEnabled != value)
+                {
+                    _isDataEstimationEnabled = value;
+
+                    foreach (var car in Cars)
+                    {
+                        car.IsDataEstimationEnabled = _isDataEstimationEnabled;
+                    }
+                }
+            }
+        }
     }
 }

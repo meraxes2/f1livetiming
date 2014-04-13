@@ -26,6 +26,11 @@ namespace LTLite.ViewModel
 {
     public class CarViewModel : INotifyPropertyChanged, IEquatable<CarViewModel>
     {
+        public CarViewModel()
+        {
+            IsDataEstimationEnabled = false;
+        }
+
         #region Car id
         int _carId;
         public int CarId
@@ -117,7 +122,7 @@ namespace LTLite.ViewModel
                         return "STOP";
 
                     case CarBaseMessage.TimeType.Time:
-                        return _gap.ToString("#0.000", CultureInfo.InvariantCulture);
+                        return _gap.ToString("#0.0", CultureInfo.InvariantCulture);
 
                     case CarBaseMessage.TimeType.NoData:
                     default:
@@ -236,6 +241,14 @@ namespace LTLite.ViewModel
         public double IntervalRaw
         {
             get { return _interval; }
+        }
+
+        public CarBaseMessage.TimeType IntervalType
+        {
+            get
+            {
+                return _intervalType;
+            }
         }
 
         #endregion
@@ -579,6 +592,8 @@ namespace LTLite.ViewModel
         #endregion
 
         #region Sector 1 time
+        DateTime _sector1Start = DateTime.MinValue;
+        DateTime _sector1End = DateTime.MinValue;
         double _sector1Time;
         CarBaseMessage.TimeType _sector1Type;
         public void SetSector1Time(double sector1Time, CarBaseMessage.TimeType type, Color color)
@@ -595,6 +610,12 @@ namespace LTLite.ViewModel
             }
             else
             {
+                if (_carNumberColor == Colors.Red)
+                {
+                    _sector1Start = _sector2Start = _sector3Start = DateTime.MinValue;
+                }
+
+                _sector2Start = _sector1End = DateTime.Now;
                 _sector1Time = sector1Time;
                 _sector1Type = type;
                 NotifyPropertyChanged("Sector1Time");
@@ -619,7 +640,16 @@ namespace LTLite.ViewModel
                         return "DNF";
 
                     case CarBaseMessage.TimeType.TextTime:
-                        return "●";
+                        if (IsDataEstimationEnabled && _sector1Start != DateTime.MinValue && _carNumberColor != Colors.Red
+                           && _sector1End > _sector1Start && (_sector1End - _sector1Start).TotalSeconds > 10.0
+                           && (_sector1End - _sector1Start).TotalSeconds < 90.0)
+                        {
+                            return (_sector1End - _sector1Start).TotalSeconds.ToString(@"##.0", CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            return "●";
+                        }
 
                     default:
                         return "";
@@ -651,6 +681,8 @@ namespace LTLite.ViewModel
         #endregion
 
         #region Sector 2 time
+        DateTime _sector2Start = DateTime.MinValue;
+        DateTime _sector2End = DateTime.MinValue;
         double _sector2Time;
         CarBaseMessage.TimeType _sector2Type;
         public void SetSector2Time(double sector2Time, CarBaseMessage.TimeType type, Color color)
@@ -667,6 +699,12 @@ namespace LTLite.ViewModel
             }
             else
             {
+                if (_carNumberColor == Colors.Red)
+                {
+                    _sector1Start = _sector2Start = _sector3Start = DateTime.MinValue;
+                }
+
+                _sector3Start = _sector2End = DateTime.Now;
                 _sector2Time = sector2Time;
                 _sector2Type = type;
                 NotifyPropertyChanged("Sector2Time");
@@ -691,7 +729,16 @@ namespace LTLite.ViewModel
                         return "DNF";
 
                     case CarBaseMessage.TimeType.TextTime:
-                        return "●";
+                        if (IsDataEstimationEnabled && _sector2Start != DateTime.MinValue && _carNumberColor != Colors.Red
+                            && _sector2End > _sector2Start && (_sector2End - _sector2Start).TotalSeconds > 10.0
+                            && (_sector2End - _sector2Start).TotalSeconds < 90.0)
+                        {
+                            return (_sector2End - _sector2Start).TotalSeconds.ToString(@"##.0", CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            return "●";
+                        }      
 
                     default:
                         return "";
@@ -723,6 +770,8 @@ namespace LTLite.ViewModel
         #endregion
 
         #region Sector 3 time
+        DateTime _sector3Start = DateTime.MinValue;
+        DateTime _sector3End = DateTime.MinValue;
         double _sector3Time;
         CarBaseMessage.TimeType _sector3Type;
         public void SetSector3Time(double sector3Time, CarBaseMessage.TimeType type, Color color)
@@ -739,6 +788,12 @@ namespace LTLite.ViewModel
             }
             else
             {
+                if (_carNumberColor == Colors.Red)
+                {
+                    _sector1Start = _sector2Start = _sector3Start = DateTime.MinValue;
+                }
+
+                _sector1Start = _sector3End = DateTime.Now;
                 _sector3Time = sector3Time;
                 _sector3Type = type;
                 NotifyPropertyChanged("Sector3Time");
@@ -763,7 +818,16 @@ namespace LTLite.ViewModel
                         return "DNF";
 
                     case CarBaseMessage.TimeType.TextTime:
-                        return "●";
+                        if (IsDataEstimationEnabled && _sector3Start != DateTime.MinValue && _carNumberColor != Colors.Red
+                            && _sector3End > _sector3Start && (_sector3End - _sector3Start).TotalSeconds > 10.0
+                            && (_sector3End - _sector3Start).TotalSeconds < 90.0)
+                        {
+                            return (_sector3End - _sector3Start).TotalSeconds.ToString(@"##.0", CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            return "●";
+                        }      
 
                     default:
                         return "";
@@ -1004,6 +1068,7 @@ namespace LTLite.ViewModel
         } 
         #endregion
 
+        #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {
@@ -1012,11 +1077,14 @@ namespace LTLite.ViewModel
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
+        } 
+        #endregion
 
         public bool Equals(CarViewModel other)
         {
             return _carId == other._carId;
         }
+
+        public bool IsDataEstimationEnabled { get; set; }
     }
 }

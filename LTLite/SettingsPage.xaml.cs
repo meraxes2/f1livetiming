@@ -49,6 +49,7 @@ namespace LTLite
                     user.Text = (string)State["username"];
                     preventLock.IsChecked = (bool)State["preventLock"];
                     runUnderLock.IsChecked = (bool)State["runUnderLock"];
+                    estimateData.IsChecked = (bool)State["estimateData"];
                 }
             }
             catch (InvalidOperationException)
@@ -78,6 +79,11 @@ namespace LTLite
                 {
                     runUnderLock.IsChecked = (bool)IsolatedStorageSettings.ApplicationSettings["runUnderLock"];
                 }
+
+                if (IsolatedStorageSettings.ApplicationSettings.Contains("estimateData"))
+                {
+                    estimateData.IsChecked = (bool)IsolatedStorageSettings.ApplicationSettings["estimateData"];
+                }
             }
         }
 
@@ -88,6 +94,8 @@ namespace LTLite
 
             IsolatedStorageSettings.ApplicationSettings["preventLock"] = preventLock.IsChecked;
             IsolatedStorageSettings.ApplicationSettings["runUnderLock"] = runUnderLock.IsChecked;
+
+            IsolatedStorageSettings.ApplicationSettings["estimateData"] = estimateData.IsChecked;
 
             IsolatedStorageSettings.ApplicationSettings.Save();
 
@@ -107,6 +115,7 @@ namespace LTLite
                 (App.Current as LTLite.App).TryConnect();
             }
 
+            App.MainViewModel.IsDataEstimationEnabled = (bool)estimateData.IsChecked;
             NavigationService.GoBack();
         }
 
@@ -122,6 +131,7 @@ namespace LTLite
                     State["username"] = user.Text;
                     State["preventLock"] = preventLock.IsChecked;
                     State["runUnderLock"] = runUnderLock.IsChecked;
+                    State["estimateData"] = estimateData.IsChecked;
                 }
                 catch (InvalidOperationException)
                 {

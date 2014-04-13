@@ -83,6 +83,17 @@ namespace LTStoreApp
                 settings.Containers["Settings"].Values.Add("preventLockScreen", preventFromLockScreen.IsOn);
             }
 
+            if (settings.Containers["Settings"].Values.ContainsKey("estimateData"))
+            {
+                settings.Containers["Settings"].Values["estimateData"] = estimateData.IsOn;
+            }
+            else
+            {
+                settings.Containers["Settings"].Values.Add("estimateData", estimateData.IsOn);
+            }
+
+            App.MainViewModel.IsDataEstimationEnabled = estimateData.IsOn;
+
             var app = App.Current as App;
             app.IsPreventDeviceFromLockScreenEnabled = preventFromLockScreen.IsOn;
             if(!app.IsPreventDeviceFromLockScreenEnabled)
@@ -116,6 +127,11 @@ namespace LTStoreApp
                 if (settings.Containers["Settings"].Values.ContainsKey("preventLockScreen"))
                 {
                     preventFromLockScreen.IsOn = (bool)settings.Containers["Settings"].Values["preventLockScreen"];
+                }
+
+                if (settings.Containers["Settings"].Values.ContainsKey("estimateData"))
+                {
+                    estimateData.IsOn = (bool)settings.Containers["Settings"].Values["estimateData"];
                 }
             }
         }

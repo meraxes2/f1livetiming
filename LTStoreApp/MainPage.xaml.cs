@@ -57,13 +57,16 @@ namespace LTStoreApp
 
         void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width < 1000 && e.NewSize.Height < 1000)
+            if (e.NewSize.Width < 1000)
             {
-                VisualStateManager.GoToState(this, "NarrowView", true);
-            }
-            else if(e.NewSize.Width < e.NewSize.Height)
-            {
-                VisualStateManager.GoToState(this, "PortraitView", true);
+                if (e.NewSize.Height > 800 && e.NewSize.Width > 750)
+                {
+                    VisualStateManager.GoToState(this, "PortraitView", true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, "NarrowView", true);
+                }
             }
             else
             {

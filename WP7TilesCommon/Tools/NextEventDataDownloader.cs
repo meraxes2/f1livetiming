@@ -17,6 +17,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -37,7 +38,8 @@ namespace WP7TilesCommon.Tools
             web.OpenReadCompleted += web_OpenReadCompleted;
             try
             {
-                web.OpenReadAsync(new Uri("http://mobile.formula1.com"));
+                //web.OpenReadAsync(new Uri("http://mobile.formula1.com"));
+                web.OpenReadAsync(new Uri("https://www.f1calendar.com/"));
             }
             catch (Exception)
             {
@@ -59,100 +61,146 @@ namespace WP7TilesCommon.Tools
                 e.Result.Close();
 
                 RacingEvent f1Event = new RacingEvent();
-                //<td class="circuit">Shanghai - 12, 13, 14 Apr </td>
-                //<td class="circuit">Las marina burn - 12, 13, 14 Apr </td>
-                Match m = Regex.Match(page, "<td class=\"circuit\">(.*?)-.*?</td>", RegexOptions.Singleline);
-                if (m.Groups.Count > 1)
-                {
-                    f1Event.Circuit = m.Groups[1].Value;
-                    f1Event.Circuit = f1Event.Circuit.Trim();
-                }
+                f1Event.Circuit = "";
+                f1Event.Country = "unknown";
 
-                //Search for country
-                //<A class="btn" onclick="return false" href="http://mobile.formula1.com/races/895">CHINA</A>
-                //<a class="btn" onclick="return false" href="/races/895">CHINA</a>
-                m = Regex.Match(page, "<a.+?href=\".*?/races/\\d+\">(.*?)</a>", RegexOptions.Singleline);
+                List<SessionInfo> sessions = new List<SessionInfo>();
+
+                Match m = Regex.Match(page, "<tbody .*? class=\".*?next-event.*?\">(.*?)</tbody>", RegexOptions.Singleline);
                 if (m.Groups.Count > 1)
                 {
-                    f1Event.Country = m.Groups[1].Value;
-                    f1Event.Country = f1Event.Country.Trim();
-                    f1Event.Country = f1Event.Country.ToLowerInvariant();
-                    if (f1Event.Country.Length > 0)
+                    string str;
+                    Match ms = Regex.Match(m.Groups[1].Value, "<tr class=\"first-practice.*?>(.*?)</tr>", RegexOptions.Singleline);
+                    if (ms.Groups.Count > 1)
                     {
-                        //capitalize
-                        var words = f1Event.Country.Split(' ');
-                        f1Event.Country = "";
-                        foreach (string word in words)
+                        SessionInfo practice1 = new SessionInfo();
+                        practice1.Type = "Practice 1";
+
+                        str = ms.Groups[1].Value;
+                        var date = Regex.Match(str, "<td class=\"date-column\">(.*?)</td>", RegexOptions.Singleline);
+                        if (date.Groups.Count > 1)
                         {
-                            if (word.Length > 0)
+                            var time = Regex.Match(date.Groups[1].Value, "<abbr .*? title=\"(.*?)\".*?</abbr>", RegexOptions.Singleline);
+                            if (time.Groups.Count > 1)
                             {
-                                string s = word.Substring(0, 1);
-                                s = s.ToUpperInvariant();
-                                f1Event.Country += " " + s + word.Substring(1);
+                                practice1.Start = DateTime.Parse(time.Groups[1].Value);
+                                practice1.Time = SessionTimeSpan.Practice1;
+                                sessions.Add(practice1);
                             }
                         }
                     }
 
-                    f1Event.Country = f1Event.Country.Trim();
-                }
-
-                m = Regex.Match(page, "<td class=\"event\">(.*?)</td>", RegexOptions.Singleline);
-                if (m.Groups.Count > 1)
-                {
-                    f1Event.Session = m.Groups[1].Value;
-                    f1Event.Session = f1Event.Session.Trim();
-                }
-
-                if (string.IsNullOrEmpty(f1Event.Session))
-                {
-                    //still not found so search for 
-                    //<div class="mainpad">Qualifying 1<br/>
-                    m = Regex.Match(page, "<div class=\"mainpad\">(\\w+\\s*\\d*)<br/>", RegexOptions.Singleline);
-                    if (m.Groups.Count > 1)
+                    ms = Regex.Match(m.Groups[1].Value, "<tr class=\"second-practice.*?>(.*?)</tr>", RegexOptions.Singleline);
+                    if (ms.Groups.Count > 1)
                     {
-                        f1Event.Session = m.Groups[1].Value;
-                        f1Event.Session = f1Event.Session.Trim();
-                    }
-                }
+                        SessionInfo practice2 = new SessionInfo();
+                        practice2.Type = "Practice 2";
 
-                if (string.IsNullOrEmpty(f1Event.Session))
-                {
-                    //no event block so its probably race time, search for race
-                    if (page.IndexOf("Race Result") != -1 || page.IndexOf("Race Winner") != -1)
-                    {
-                        f1Event.Session = "Race";
-                    }
-                }
-
-                //first try to find exact event time
-                m = Regex.Match(page, "var t_unixtime = (\\d+)", RegexOptions.Singleline);
-                if (m.Groups.Count > 1)
-                {
-                    ulong unixTime;
-                    if (ulong.TryParse(m.Groups[1].Value, out unixTime))
-                    {
-                        DateTime time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(unixTime);
-                        f1Event.SessionStartTime = time.ToLocalTime();
-                        f1Event.UpdateRemainingTime();
-                    }
-                }
-                else
-                {
-                    //next find remaining seconds
-                    m = Regex.Match(page, "var t_time = (\\d+);", RegexOptions.Singleline);
-                    if (m.Groups.Count > 1)
-                    {
-                        ulong seconds = 0;
-                        if (ulong.TryParse(m.Groups[1].Value, out seconds))
+                        str = ms.Groups[1].Value;
+                        var date = Regex.Match(str, "<td class=\"date-column\">(.*?)</td>", RegexOptions.Singleline);
+                        if (date.Groups.Count > 1)
                         {
-                            f1Event.RemainingTime = seconds;
+                            var time = Regex.Match(date.Groups[1].Value, "<abbr .*? title=\"(.*?)\".*?</abbr>", RegexOptions.Singleline);
+                            if (time.Groups.Count > 1)
+                            {
+                                practice2.Start = DateTime.Parse(time.Groups[1].Value);
+                                practice2.Time = SessionTimeSpan.Practice2;
+                                sessions.Add(practice2);
+                            }
+                        }
+
+                    }
+
+                    ms = Regex.Match(m.Groups[1].Value, "<tr class=\"third-practice.*?>(.*?)</tr>", RegexOptions.Singleline);
+                    if (ms.Groups.Count > 1)
+                    {
+                        SessionInfo practice3 = new SessionInfo();
+                        practice3.Type = "Practice 3";
+
+                        str = ms.Groups[1].Value;
+                        var date = Regex.Match(str, "<td class=\"date-column\">(.*?)</td>", RegexOptions.Singleline);
+                        if (date.Groups.Count > 1)
+                        {
+                            var time = Regex.Match(date.Groups[1].Value, "<abbr .*? title=\"(.*?)\".*?</abbr>", RegexOptions.Singleline);
+                            if (time.Groups.Count > 1)
+                            {
+                                practice3.Start = DateTime.Parse(time.Groups[1].Value);
+                                practice3.Time = SessionTimeSpan.Practice3;
+                                sessions.Add(practice3);
+                            }
+                        }
+
+                    }
+
+                    ms = Regex.Match(m.Groups[1].Value, "<tr class=\"qualifying.*?>(.*?)</tr>", RegexOptions.Singleline);
+                    if (ms.Groups.Count > 1)
+                    {
+                        SessionInfo quali = new SessionInfo();
+                        quali.Type = "Qualifying";
+
+                        str = ms.Groups[1].Value;
+                        var date = Regex.Match(str, "<td class=\"date-column\">(.*?)</td>", RegexOptions.Singleline);
+                        if (date.Groups.Count > 1)
+                        {
+                            var time = Regex.Match(date.Groups[1].Value, "<abbr .*? title=\"(.*?)\".*?</abbr>", RegexOptions.Singleline);
+                            if (time.Groups.Count > 1)
+                            {
+                                quali.Start = DateTime.Parse(time.Groups[1].Value);
+                                quali.Time = SessionTimeSpan.Qualifying;
+                                sessions.Add(quali);
+                            }
+                        }
+
+                    }
+
+                    ms = Regex.Match(m.Groups[1].Value, "<tr class=\"race.*?>(.*?)</tr>", RegexOptions.Singleline);
+                    if (ms.Groups.Count > 1)
+                    {
+                        SessionInfo race = new SessionInfo();
+                        race.Type = "Race";
+
+                        str = ms.Groups[1].Value;
+                        var date = Regex.Match(str, "<td class=\"date-column\">(.*?)</td>", RegexOptions.Singleline);
+                        if (date.Groups.Count > 1)
+                        {
+                            var time = Regex.Match(date.Groups[1].Value, "<abbr.*?title=\"(.*?)\".*?</abbr>", RegexOptions.Singleline);
+                            if (time.Groups.Count > 1)
+                            {
+                                race.Start = DateTime.Parse(time.Groups[1].Value);
+                                race.Time = SessionTimeSpan.Race;
+                                sessions.Add(race);
+                            }
                         }
                     }
+
+                    ms = Regex.Match(m.Groups[1].Value, "<span class=\"location\">(.*?)</span>", RegexOptions.Singleline);
+                    if (ms.Groups.Count > 1)
+                    {
+                        f1Event.Country = ms.Groups[1].Value.Trim();
+                    }
                 }
 
-                if (page.IndexOf("SESSION NOW ON") != -1)
+                SessionInfo selectedSession = null;
+
+                var now = DateTime.Now;
+                foreach (var session in sessions)
                 {
-                    f1Event.IsSessionLive = true;
+                    selectedSession = session;
+                    if (now < session.Start)
+                    {
+                        break;
+                    }
+                    else if (now <= session.Start + session.Time)
+                    {
+                        break;
+                    }
+                }
+
+                if (selectedSession != null)
+                {
+                    f1Event.Session = selectedSession.Type;
+                    f1Event.SessionStartTime = selectedSession.Start;
+                    f1Event.UpdateRemainingTime();
                 }
 
                 f1Event.DownloadTimestamp = DateTime.Now;

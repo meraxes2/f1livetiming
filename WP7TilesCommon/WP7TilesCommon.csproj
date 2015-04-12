@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="BackgroundTileUpdater.cs" />
     <Compile Include="Data\RacingEvent.cs" />
+    <Compile Include="Data\SessionInfo.cs" />
     <Compile Include="Enums\CompletionStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileUpdater.cs" />

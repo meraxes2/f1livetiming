@@ -78,30 +78,32 @@ namespace F1.Protocol
         #region Static Helpers
         private static string Login(string user, string pass)
         {
-            string ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login"); 
+            return "";
 
-            if ("0" == ret || String.IsNullOrEmpty(ret))
-            {
-                ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login?redirect_url=%2flive_timing%2f");
-            }
+            //string ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login"); 
 
-            if ("0" == ret || String.IsNullOrEmpty(ret))
-            {
-                ret = TryGetCookie(user, pass, "http://live-timing.formula1.com/reg/getkey/login.asp");
-            }
+            //if ("0" == ret || String.IsNullOrEmpty(ret))
+            //{
+            //    ret = TryGetCookie(user, pass, "http://www.formula1.com/reg/login?redirect_url=%2flive_timing%2f");
+            //}
 
-            if( String.IsNullOrEmpty(ret) )
-            {
-                ret = TryGetCookie(user, pass, "http://secure.formula1.com/reg/getkey/login.asp");
-            }
+            //if ("0" == ret || String.IsNullOrEmpty(ret))
+            //{
+            //    ret = TryGetCookie(user, pass, "http://live-timing.formula1.com/reg/getkey/login.asp");
+            //}
 
-            if (string.IsNullOrEmpty(ret))
-            {
-                throw new AuthorizationException("Incorrect login credentials", null);
-            }
+            //if( String.IsNullOrEmpty(ret) )
+            //{
+            //    ret = TryGetCookie(user, pass, "http://secure.formula1.com/reg/getkey/login.asp");
+            //}
+
+            //if (string.IsNullOrEmpty(ret))
+            //{
+            //    throw new AuthorizationException("Incorrect login credentials", null);
+            //}
         
 
-            return ret;
+            //return ret;
         }
 
 
@@ -138,8 +140,10 @@ namespace F1.Protocol
             HttpWebAdaptor req = new HttpWebAdaptor(WebRequest.Create(baseurl) as HttpWebRequest);
 
             req.Request.AllowAutoRedirect = false;
-            req.Request.Method = "Post";
+            //req.Request.CookieContainer = new CookieContainer();
+            req.Request.Method = "POST";
             req.Request.ContentType = "application/x-www-form-urlencoded";
+            req.Request.Headers[HttpRequestHeader.ContentLength] = bodyData.Length.ToString();  
     #else
             HttpWebRequest req = WebRequest.Create(baseurl) as HttpWebRequest;
 
@@ -183,7 +187,7 @@ namespace F1.Protocol
             }
 #endif
 
-            return "";            
+            return "";
         }
 
         private static uint TryGetKey( string cookie, string sessionName )
